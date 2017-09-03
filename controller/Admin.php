@@ -9,11 +9,11 @@ class Admin {
        $this->container = $container;
    }
    
-   public function home($request, $response, $args) {
+   public function index($request, $response, $args) {
         // your code
         // to access items in the container... $this->container->get('');
-		$this->container->get('view')->render($response, 'profile.html', [
-	'name' => $args['name']
+	$this->container->get('view')->render($response, 'admin_index.html', [
+		'name' => $args['name']
 	]);
         return $response;
    }
@@ -23,4 +23,13 @@ class Admin {
         // to access items in the container... $this->container->get('');
         return $response;
    }
+
+   public function install($request, $response, $args) {
+	$this->container->get('view')->render($response, 'install.html');
+
+
+	return $response;
+   }
+
+   
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% block head %}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="China FreeBSD">
+	<meta name="keywords" content="China FreeBSD nBLOG nWIKI nCMS" />
+	<meta name="author" content="China FreeBSD">
+	<title>{% block title %}China FreeBSD{% endblock %}</title>
+ 	<link rel="stylesheet" href="http://at.alicdn.com/t/font_stnj9i7gtbc07ldi.css">
+	<link rel="stylesheet" href="{{ baseURL }}/stylesheet/nblog.css">
+	<link rel="stylesheet" href="{{ baseURL }}/stylesheet/r.css?v=1.0.0">
+{% endblock %}
+</head>
+<body>
+
+
+<header class="flex b-p-0 c-p-5 d-p-100 e-p-120">
+{% block header %}
+	<div class="header" style="background-image:url('{{ baseURL }}/image/hdr_fill.png');">
+		<img src="{{ baseURL }}/image/logo-red.png" alt="China FreeBSD">
+		<ul>
+			<li><a href="{{ baseURL }}/">首页</a></li>
+			<li><a href="{{ baseURL }}/admin">管理</a></li>
+			<li><a href="{{ baseURL }}/admin/install">安装</a></li>
+			<li><a href="{{ baseURL }}/wiki">WIKI</a></li>
+		</ul>
+	</div>
+{% endblock %}
+</header>
+
+
+
+<div id="content">{% block body %}{% endblock %}</div>
+
+
+<!--尾部模板-->
+<!-- div class="back-to-top" id="gotop">
+	<i class="iconfont icon-top-copy"></i>
+</div -->
+
+<footer class="flex b-p-0 c-p-5 d-p-100 e-p-120 text-center">
+{% block footer %}
+	<div class="a-1-1 footer">
+		<span>This Site's Copyright (c) to China FreeBSD 2017-2030. All Rights Reserved.</span>
+	</div>
+{% endblock %}
+</footer>
+
+<script src="/javascripts/nCMS.js"></script>
+</body>
+</html>
