@@ -9,17 +9,18 @@ DROP SEQUENCE IF EXISTS nblog_article_seq;
 CREATE SEQUENCE nblog_article_seq;
 CREATE TABLE IF NOT EXISTS nblog_article (
 	articleid 	integer NOT NULL DEFAULT nextval('nblog_article_seq'),
-	columnid 	integer NOT NULL default 0, -- 栏目id
+	columnid 		integer NOT NULL default 0, 	-- 栏目id
 	categoryid 	integer NOT NULL default 0,	-- 自定义类别id
-	title 		varchar(255) NOT NULL default '',
-	caption 	varchar(255) NOT NULL default '',
+	title 			varchar(255) NOT NULL default '',
+	alias			varchar(255) NOT NULL default '',
+	caption 		varchar(255) NOT NULL default '',
 	userid 		integer NOT NULL default 0,
-	publish 	boolean NOT NULL default true,
-	counter 	integer NOT NULL default 0,
+	publish 		boolean NOT NULL default true,
+	counter 		integer NOT NULL default 0,
 	comment 		integer NOT NULL default 0,
-	posttime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
-	content 	text,
-	thumb		varchar(255),
+	posttime 		timestamp(0) without time zone NOT NULL DEFAULT now(),
+	content 		text,
+	thumb			varchar(255),
 	format		integer NOT NULL default 1, --1:text, 2:markdown, 3:html
 	CONSTRAINT nblog_article_pkey PRIMARY KEY (articleid)
 );

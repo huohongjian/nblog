@@ -49,6 +49,8 @@ $app->get('/',  Index::class .':index');
 $app->get('/admin', Admin::class .':index');
 $app->get('/admin/install', 'Admin:install');
 
+$app->get('/user/edit', User::class .':edit');
+
 
 
 
