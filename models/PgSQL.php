@@ -25,10 +25,10 @@ class PgSQL {
     
     
     private function connect() {
-        $conn = 'host     = 127.0.0.1
-                 port     = 5432
-                 dbname   = nblog
-                 user     = postgres
+        $conn = 'host = 127.0.0.1
+                 port = 5432
+                 dbname = nblog
+                 user = postgres
                  password = ';
         try {
             $this->linkid = @pg_connect($conn);

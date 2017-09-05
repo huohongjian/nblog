@@ -19,14 +19,17 @@ class Admin {
 	}
 
 	public function userlist($request, $response, $args) {
-		$user = new UserModel();
-		$rs = $user->list();
+	//	$user = new UserModel();
+	//	$rs = $user->list();
 
 
-		$user1 = new UserModel();
+	//	$user1 = new UserModel();
 
-		$admin = new AdminModel;
-		
+	//	$admin = new AdminModel;
+
+	//	$rs = DB::fetchAll("select * from nblog_user");
+
+		$rs = DB::get('nblog_user')::all();
 		echo ('<br>---------------------------------');
 		print_r($rs);
 		return $response;
@@ -42,6 +45,7 @@ class Admin {
 		}
 		fclose($handle);
 		$content = str_replace("\r", "\n", $content);
+		
 		$pgsql = PgSQL::getInstance();
 		$pgsql->query($content);
 		echo '数据库初始化完毕<br>';
