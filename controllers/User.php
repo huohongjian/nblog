@@ -25,5 +25,12 @@ class User {
 		return $response;
 	}
 
+	public function save($request, $response, $args) {
+
+		$parsedBody = $request->getParsedBody();
+
+		return $response->withJson($parsedBody);
+	}
+
    
 }

@@ -1,0 +1,13 @@
+{% extends "section/layout.html" %}
+
+{% block body %}
+<h1>Article List</h1>
+<ul>
+
+{% for article in articles %}
+	<li><a href='{{ baseURL }}/detail/{{ article.articleid }}'>{{ article.title }}</a></li>
+{% endfor %}
+
+
+</ul>
+{% endblock %}

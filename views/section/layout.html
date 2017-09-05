@@ -10,22 +10,26 @@
 	<meta name="author" content="China FreeBSD">
 	<title>{% block title %}China FreeBSD{% endblock %}</title>
  	<link rel="stylesheet" href="http://at.alicdn.com/t/font_stnj9i7gtbc07ldi.css">
-	<link rel="stylesheet" href="{{ baseURL }}/stylesheet/nblog.css">
-	<link rel="stylesheet" href="{{ baseURL }}/stylesheet/r.css?v=1.0.0">
+	<link rel="stylesheet" href="{{ baseURL }}/css/nblog.css">
+	<link rel="stylesheet" href="{{ baseURL }}/own/R.css?v=1.0.0">
 {% endblock %}
 </head>
 <body>
 
 
-<header class="flex b-p-0 c-p-5 d-p-100 e-p-120">
+<header class="flex b-p-0 c-p-5 d-p-100 e-p-120" style="background-image:url('{{ baseURL }}/images/hdr_fill.png');">
 {% block header %}
-	<div class="header" style="background-image:url('{{ baseURL }}/image/hdr_fill.png');">
-		<img src="{{ baseURL }}/image/logo-red.png" alt="China FreeBSD">
+	<div>
+		<img src="{{ baseURL }}/images/logo-red.png" alt="China FreeBSD">
 		<ul>
 			<li><a href="{{ baseURL }}/">首页</a></li>
 			<li><a href="{{ baseURL }}/admin">管理</a></li>
 			<li><a href="{{ baseURL }}/admin/install">安装</a></li>
-			<li><a href="{{ baseURL }}/user/edit">编辑</a></li>
+			<li><a href="{{ baseURL }}/admin/userlist">用户列表</a></li>
+
+			<li><a href="{{ baseURL }}/article/list">文章列表</a></li>
+			<li><a href="{{ baseURL }}/article/edit">文章编辑</a></li>
+
 		</ul>
 	</div>
 {% endblock %}
@@ -49,6 +53,5 @@
 {% endblock %}
 </footer>
 
-<script src="/javascripts/nCMS.js"></script>
 </body>
 </html>

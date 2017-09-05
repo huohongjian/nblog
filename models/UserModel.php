@@ -1,8 +1,17 @@
 <?php
 
-class Task extends __Init {
 
-	function add(){
+
+class UserModel extends __InitModel {
+
+
+
+	public function list() {
+		$sql = "SELECT * FROM nblog_user";
+		return $this->pgsql->fetchAll($sql);
+	}
+
+/*	function add(){
 		$this->escape_string();
 		$sql = "INSERT INTO task(name, title, taskcatid, subjectid, 
 		          periodid, rangeid, remark, deleted) VALUES
@@ -57,6 +66,5 @@ class Task extends __Init {
 	    return $this->pgsql->fetchDF2($sql);
 	}
 	
-	
+	*/
 }
-?>

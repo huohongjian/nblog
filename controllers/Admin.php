@@ -18,9 +18,17 @@ class Admin {
 		return $response;
 	}
 
-	public function contact($request, $response, $args) {
-		// your code
-		// to access items in the container... $this->container->get('');
+	public function userlist($request, $response, $args) {
+		$user = new UserModel();
+		$rs = $user->list();
+
+
+		$user1 = new UserModel();
+
+		$admin = new AdminModel;
+		
+		echo ('<br>---------------------------------');
+		print_r($rs);
 		return $response;
 	}
 

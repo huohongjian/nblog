@@ -20,7 +20,7 @@ $app = new \Slim\App();
 
 $container = $app->getContainer();
 $container['view'] = function($c) {
-	    $view = new \Slim\Views\Twig('../template', [
+	    $view = new \Slim\Views\Twig('../views', [
         'cache' => false
     ]);
     // Instantiate and add Slim specific extension
@@ -44,25 +44,15 @@ $container['view'] = function($c) {
 
 
 
-$app->get('/',  Index::class .':index');
+$app->get('/',  Index::class.':index');
 
-$app->get('/admin', Admin::class .':index');
+$app->get('/admin', Admin::class.':index');
 $app->get('/admin/install', 'Admin:install');
+$app->get('/admin/userlist', Admin::class.':userlist');
 
-$app->get('/user/edit', User::class .':edit');
-
-
-
-
-$app->get('/hello/{name}', function($request, $response, $args) {
-//	print_r($this);
-	$a = \Slim\Container::get('view');
-	print_r($a instanceof \Slim\Container);
-	
-	return $a->render($response, 'profile.html', [
-	'name' => $args['name']
-	]);
-})->setName('profile');
+$app->get ('/article/list', 				Article::class.':list');
+$app->get ('/article/edit[/{articleid}]', 	Article::class.':edit');
+$app->post('/article/save', 				Article::class.':save');
 
 
 

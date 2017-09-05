@@ -1,9 +1,10 @@
 <?php
 
-class __Init {
+
+class __InitModel {
     
-    public $pgsql;
-	public $pps = Array();
+    protected $pgsql;
+	protected $pps = Array();
 	
 	function __construct() {
 		$this->pgsql = PgSQL::getInstance();

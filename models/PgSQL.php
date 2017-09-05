@@ -14,6 +14,8 @@ class PgSQL {
     private $result;
     private $querycount = 0;
     static private $instance;
+
+    public $n = 0;
     
     private function __construct() {
         $this->connect();
@@ -32,6 +34,8 @@ class PgSQL {
             $this->linkid = @pg_connect($conn);
             if (!$this->linkid) { throw new Exception("Could not connect to database server!"); }
         } catch (Exception $e) { die ($e->getMessage()); }
+
+        $this->n ++;
     }
     
 
@@ -47,7 +51,7 @@ class PgSQL {
         try {
             $this->result = pg_query($this->linkid, $sql);
             if (!$this->result) {
-                throw new Exception("The database query failed! SQL:  <br />");
+                throw new Exception("The database query failed! SQL: <p> $sql </p>");
             }
         } catch (Exception $e) {
             die($e->getMessage());
@@ -57,25 +61,25 @@ class PgSQL {
     }
 
 
-    function all($sql) {
+    function fetchAll($sql) {
         $this->query($sql);
         return @pg_fetch_all($this->result);
     }
 
 
     //PGSQL_NUM:以编号为键值; PGSQL_ASSOC:以字段名为键值; PGSQL_BOTH:同时用两者为键值;
-    function one($sql, $row=0, $type=PGSQL_ASSOC) {
+    function fetchOne($sql, $row=0, $type=PGSQL_ASSOC) {
         $this->query($sql);
         return @pg_fetch_array($this->result, $row, $type);
     }
 
 
-    function row($sql, $row=0, $type=PGSQL_ASSOC) {
+    function fetchRow($sql, $row=0, $type=PGSQL_ASSOC) {
         return $this->one($sql, $row, $type);
     }
     
 
-    function col($sql, $col=0){
+    function fetchCol($sql, $col=0){
         $this->query($sql);
         $ds=null;
         while($row = @pg_fetch_row($this->result)){
@@ -85,13 +89,13 @@ class PgSQL {
     }
     
    
-    function val($sql, $row=0, $col=0) {
+    function fetchVal($sql, $row=0, $col=0) {
         $this->query($sql);
         return @pg_fetch_result($this->result, $row, $col);
     }
 
 
-    function obj($sql, $row=0, $type=PGSQL_ASSOC) {
+    function fetchObj($sql, $row=0, $type=PGSQL_ASSOC) {
         $this->query($sql);
         return @pg_fetch_object($this->result, $row, $type);
     }
