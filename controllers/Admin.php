@@ -19,17 +19,8 @@ class Admin {
 	}
 
 	public function userlist($request, $response, $args) {
-	//	$user = new UserModel();
-	//	$rs = $user->list();
 
-
-	//	$user1 = new UserModel();
-
-	//	$admin = new AdminModel;
-
-	//	$rs = DB::fetchAll("select * from nblog_user");
-
-		$rs = DB::get('nblog_user')::all();
+		$rs = DB::get('nb_user')->select();
 		echo ('<br>---------------------------------');
 		print_r($rs);
 		return $response;

@@ -1,13 +1,14 @@
 {% extends "section/layout.html" %}
 
 {% block body %}
-
+{% autoescape false %}
 <p><a href="{{ baseURL }}/article/edit/{{ article.articleid }}">编辑</a></p>
 <h1>{{ article.title }}</h1>
 <div>
-	<textarea>{{ article.content }}</textarea>
+	
+    {{ article.content }}
 
-	<span>{{ article.content }}</span>
 
 </div>
+{% endautoescape %}
 {% endblock %}

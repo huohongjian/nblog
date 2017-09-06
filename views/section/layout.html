@@ -10,6 +10,7 @@
 	<meta name="author" content="China FreeBSD">
 	<title>{% block title %}China FreeBSD{% endblock %}</title>
  	<link rel="stylesheet" href="http://at.alicdn.com/t/font_stnj9i7gtbc07ldi.css">
+ 	<link rel="stylesheet" href="{{ baseURL }}/css/font-awesome-4.7.min.css">
 	<link rel="stylesheet" href="{{ baseURL }}/css/nblog.css">
 	<link rel="stylesheet" href="{{ baseURL }}/own/R.css?v=1.0.0">
 {% endblock %}
@@ -28,7 +29,10 @@
 			<li><a href="{{ baseURL }}/admin/userlist">用户列表</a></li>
 
 			<li><a href="{{ baseURL }}/article/list">文章列表</a></li>
-			<li><a href="{{ baseURL }}/article/edit">文章编辑</a></li>
+			<li><a href="{{ baseURL }}/article/edit/">文章编辑</a></li>
+
+			<li><a href="{{ baseURL }}/regist">注册</a></li>
+			<li><a href="{{ baseURL }}/login">登录</a></li>
 
 		</ul>
 	</div>

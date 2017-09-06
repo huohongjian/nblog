@@ -44,6 +44,7 @@ $container['view'] = function($c) {
 
 
 $app->get('/',  Index::class.':index');
+$app->get('/regist',		'Index::regist');
 
 $app->get('/admin', Admin::class.':index');
 $app->get('/admin/install', 'Admin:install');

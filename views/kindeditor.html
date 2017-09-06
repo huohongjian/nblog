@@ -8,6 +8,7 @@
 	<meta name="keywords" content="China FreeBSD nBLOG nWIKI nCMS" />
 	<meta name="author" content="China FreeBSD">
 	<title>KindEditor</title>
+	<link rel="stylesheet" href="{{ baseURL }}/css/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="{{ baseURL }}/own/R.css">
 	<link rel="stylesheet" href="{{ baseURL }}/js/kindeditor/themes/default/default.css">
 	<script src="{{ baseURL }}/js/kindeditor/kindeditor-all-min.js"></script>
@@ -25,6 +26,8 @@
 		.banner {min-height: 45px; background: #438eb9;}
 		.banner .title {font-weight: bolder; color:white; display: inline-block; text-align: center; margin-top:10px;}
 		input[name=save] {float: right;}
+
+		select {width:80px;}
 	</style>
 	
 		
@@ -44,6 +47,7 @@
 <body>
 	<div class="banner">
 		<span class="a-1-1 d-1-4 f-1-5 title">添加文章</span>
+		<span><a href="{{ baseURL }}/"><i class="fa fa-home">首页</i></a></span>
 	</div>
 	
 	<div class="flex">
@@ -56,11 +60,15 @@
 				
 				<label>微缩图：</label>
 				<textarea name="caption"></textarea>
-				
+
+				<label>类别：</label>
+				<select name="categoryid">
+					<option>综合</option>
+				</select>
+
 				<label>发表：</label>
 				<label><input type="radio" name="publish" value="1" checked="{{ article.publish }}">是</label>
 				<label><input type="radio" name="publish" value="0">否</label>
-				
 				
 				<input type="button" name="save" value="保存" />
 
