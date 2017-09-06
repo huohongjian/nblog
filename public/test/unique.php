@@ -1,0 +1,5 @@
+<?php
+
+
+
+echo strlen(uniqid());

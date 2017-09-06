@@ -20,24 +20,23 @@ $app = new \Slim\App();
 
 $container = $app->getContainer();
 $container['view'] = function($c) {
-	    $view = new \Slim\Views\Twig('../views', [
-        'cache' => false
-    ]);
-    // Instantiate and add Slim specific extension
-    $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
-    $view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
+	$view = new \Slim\Views\Twig('../views', [
+		'cache' => false
+	]);
+	// Instantiate and add Slim specific extension
+	$basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
+	$view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
 
 	$request = $c->request;
-	$uri = $request->getUri();
-	$scheme= $uri->getScheme();
-	$host = $uri->getHost();
-	$port = $uri->getPort() ;
-	if($port) $port = ':'.$port;
-	$path = $uri->getBasePath();
+	$uri 	 = $request->getUri();
+	$scheme  = $uri->getScheme();
+	$host 	 = $uri->getHost();
+	$path 	 = $uri->getBasePath();
+	$port 	 = $uri->getPort() ;
+	if ($port) $port = ':'.$port;
 	$baseUrl = $scheme."://".$host.$port.$path;
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
-
-    return $view;
+	return $view;
 };
 
 
@@ -50,8 +49,9 @@ $app->get('/admin', Admin::class.':index');
 $app->get('/admin/install', 'Admin:install');
 $app->get('/admin/userlist', Admin::class.':userlist');
 
+$app->get ('/detail/{articleid}',			Article::class.':display');
 $app->get ('/article/list', 				Article::class.':list');
-$app->get ('/article/edit[/{articleid}]', 	Article::class.':edit');
+$app->get ('/article/edit/[{articleid}]', 	Article::class.':edit');
 $app->post('/article/save', 				Article::class.':save');
 
 

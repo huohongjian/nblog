@@ -75,7 +75,7 @@ class PgSQL {
 
 
     function fetchRow($sql, $row=0, $type=PGSQL_ASSOC) {
-        return $this->one($sql, $row, $type);
+        return $this->fetchOne($sql, $row, $type);
     }
     
 

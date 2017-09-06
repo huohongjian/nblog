@@ -9,37 +9,51 @@ class Article {
 		
 	}
 
+	private function getArticleById($id) {
+		return DB::get("nb_article")->where(array('articleid'=>$id))->selectOne();
+	}
+
+	function display($request, $response, $args) {
+		$id = $args['articleid'];
+		$article = DB::get("nb_article")->where(array('articleid'=>$id))->selectOne();
+		$this->container->get('view')->render($response, 'detail.html',
+			array('article'=>$article)
+		);
+		return $response;
+	}
+
+
 	public function list($request, $response, $args) {
 
-		$articleModel = new ArticleModel;
-		$rs = $articleModel->list();
+		$rs = DB::get('nb_article')->select();
 		
 		$this->container->get('view')->render($response, 'article_list.html',
 			array('articles'=>$rs)
 		);
-
-
 		return $response;
 	}
 
 
 	public function edit($request, $response, $args) {
-		$this->container->get('view')->render($response, 'kindeditor.html');
+		$id = $args['articleid'];
+		$article = empty($id) ? array() : $this->getArticleById($id);
+
+		$this->container->get('view')->render($response, 'kindeditor.html',
+			array('article' => $article)
+		);
 		return $response;
 	}
+
 
 	public function save($request, $response, $args) {
 
 		$p = $request->getParsedBody();
-		$article = new ArticleModel();
-		foreach ($p as $key => $value) {
-			$article->$key = $value;
+		if (empty($p['articleid'])) {
+			$p['articleid'] = uniqid();
 		}
+		$id = DB::get('nb_article')->returning('articleid')->conflict('articleid')->upsert($p);
 
-
-		$id = $article->add();
-
-		return $response->withJson(['articleid' => $id]);
+		return $response->withJson(['status'=>200, 'articleid'=>$id]);
 	}
 
    
