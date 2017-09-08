@@ -35,6 +35,7 @@ $container['view'] = function($c) {
 	$port 	 = $uri->getPort() ;
 	if ($port) $port = ':'.$port;
 	$baseUrl = $scheme."://".$host.$port.$path;
+//	$baseUrl = "http://".$host.$port.$path;
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
 	return $view;
 };

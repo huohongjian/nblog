@@ -8,9 +8,10 @@
 	<meta name="description" content="China FreeBSD">
 	<meta name="keywords" content="China FreeBSD nBLOG nWIKI nCMS" />
 	<meta name="author" content="China FreeBSD">
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 	<title>{% block title %}China FreeBSD{% endblock %}</title>
- 	<link rel="stylesheet" href="http://at.alicdn.com/t/font_stnj9i7gtbc07ldi.css">
- 	<link rel="stylesheet" href="{{ baseURL }}/css/font/font-awesome-4.7.0/css/font-awesome.min.css">
+ 	<!-- link rel="stylesheet" href="http://at.alicdn.com/t/font_stnj9i7gtbc07ldi.css" -->
+ 	<link rel="stylesheet" href="{{ baseURL }}/css/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="{{ baseURL }}/css/nblog.css">
 	<link rel="stylesheet" href="{{ baseURL }}/own/R.css?v=1.0.0">
 {% endblock %}
@@ -22,7 +23,7 @@
 {% block header %}
 	<div>
 		<img src="{{ baseURL }}/images/logo-red.png" alt="China FreeBSD">
-		<ul>
+		<ul class="navigation">
 			<li><a href="{{ baseURL }}/">首页</a></li>
 			<li><a href="{{ baseURL }}/admin">管理</a></li>
 			<li><a href="{{ baseURL }}/admin/install">安装</a></li>

@@ -4,23 +4,18 @@ html, body {
 	padding:0;
 }
 
-header {
-	background-image_:url("../image/hdr_fill.png");
-	background-repeat_: repeat-x;
-}
-
-header ul {
+ul.navigation {
 	margin:0;
 	list-style: none;
 }
 
-header ul li {
+ul.navigation li {
     margin: 1px 10px 2px 10px;
     display: inline-block;
     list-style-type: circle;
 }
 
-header ul li a {
+ul.navigation li a {
 	font-weight: bold;
 	display: block;
 	padding_: 0px 8px;
