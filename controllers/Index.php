@@ -39,7 +39,9 @@ class Index {
 
 
 	function login($request, $response, $args) {
+		$this->container->get('view')->render($response, 'login.html', [
 
+		]);
 		return $response;
 	}
 

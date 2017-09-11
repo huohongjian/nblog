@@ -41,14 +41,12 @@ $container['view'] = function($c) {
 };
 
 
+$app->get('/',  		'Index:index');
+$app->get('/regist',	'Index:regist');
+$app->get('/login',		'Index:login');
 
-
-
-$app->get('/',  Index::class.':index');
-$app->get('/regist',		'Index::regist');
-
-$app->get('/admin', Admin::class.':index');
-$app->get('/admin/install', 'Admin:install');
+$app->get('/admin', 		 Admin::class.':index');
+$app->get('/admin/install',  Admin::class.':install');
 $app->get('/admin/userlist', Admin::class.':userlist');
 
 $app->get ('/detail/{articleid}',			Article::class.':display');

@@ -4,6 +4,10 @@ html, body {
 	padding:0;
 }
 
+.bodyer {
+	min-height: 500px;
+}
+
 ul.navigation {
 	margin:0;
 	list-style: none;
@@ -18,11 +22,33 @@ ul.navigation li {
 ul.navigation li a {
 	font-weight: bold;
 	display: block;
-	padding_: 0px 8px;
 	color: #666;
 	text-decoration: none;
 }
 
+#login {
+	margin: auto;
+	width: 360px;
+}
+
+#regist {
+	margin: auto;
+	width: 550px;
+}
+
+#regist i {
+	display: inline-block;
+}
+
+#regist label,
+#login  label {
+	display: inline-block;
+	width: 100px;
+	text-align: right;
+}
+#regist input[name=email] {
+	width: 300px;
+}
 
 
 
