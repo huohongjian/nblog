@@ -19,7 +19,9 @@
 <body>
 
 
-<header class="flex b-p-0 c-p-5 d-p-100 e-p-120" style="background-image:url('{{ baseURL }}/images/hdr_fill.png');">
+<header>
+
+
 {% block header %}
 	<div>
 		<img src="{{ baseURL }}/images/logo-red.png" alt="China FreeBSD">
@@ -40,7 +42,7 @@
 {% endblock %}
 </header>
 
-
+<div class="jianbian"></div>
 
 <div class="bodyer">{% block body %}{% endblock %}</div>
 

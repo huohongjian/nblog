@@ -22,10 +22,10 @@ class Index {
 		$this->container->get('view')->render($response, 'regist.html', [
 
 		]);
-		return $response;
 
+		$this->container->get('flash')->addMessage('Test', 'This is a message');
 
-		return $response->withStatus(302)->withHeader('Location', '/');
+		return $response->withStatus(302)->withHeader('Location', '/login');
 
 	}
 
@@ -39,10 +39,20 @@ class Index {
 
 
 	function login($request, $response, $args) {
-		$this->container->get('view')->render($response, 'login.html', [
+		if ($request->isPost()) {
+			$postDatas = $request->getParsedBody();
+			print_r($postDatas);
 
-		]);
+
+
+		} else {
+			$this->container->get('view')->render($response, 'login.html', []);
+			$message = $this->container->get('flash');
+			print_r($message);
+		}
 		return $response;
 	}
+
+
 
 }

@@ -4,17 +4,26 @@ html, body {
 	padding:0;
 }
 
+header {
+	background-image: -webkit-linear-gradient(to bottom, #660000, #990000);
+	background-image: linear-gradient(to bottom, #660000, #990000);
+}
+
+
+
 .bodyer {
-	min-height: 500px;
+	min-height: 460px;
 }
 
 ul.navigation {
 	margin:0;
-	list-style: none;
+	padding: 5px 20px;
+	background-image: -webkit-linear-gradient(to bottom, #F7F7F7, #DFDFDF);
+	background-image: linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 }
 
 ul.navigation li {
-    margin: 1px 10px 2px 10px;
+    margin: 1px 10px;
     display: inline-block;
     list-style-type: circle;
 }

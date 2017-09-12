@@ -64,21 +64,17 @@ CREATE INDEX nb_comment_artid ON nb_comment (artid);
 
 
 DROP TABLE IF EXISTS nb_session CASCADE;
-DROP SEQUENCE IF EXISTS nb_session_seq;
-CREATE SEQUENCE nb_session_seq;
 CREATE TABLE nb_session
 (
-	sid 		bigint NOT NULL DEFAULT nextval('nb_session_seq'),
 	sessionid 	varchar(255) NOT NULL DEFAULT '',
 	logintime 	timestamp(0) NOT NULL DEFAULT current_timestamp,
 	data jsonb,
-	CONSTRAINT nb_session_pkey PRIMARY KEY (sid)	
+	CONSTRAINT nb_session_pkey PRIMARY KEY (sessionid)	
 );
-CREATE INDEX nb_session_sessionid ON nb_session(sessionid);
 CREATE INDEX nb_session_logintime ON nb_session(logintime);
 
-/*
-CREATE OR REPLACE FUNCTION nb_session_update(varchar, jsonb) RETURNS boolean AS $body$
+
+CREATE OR REPLACE FUNCTION nb_session_upsert(varchar, jsonb) RETURNS boolean AS $body$
 BEGIN
 	UPDATE nb_session SET logintime=now(), data=data || $2 WHERE sessionid=$1;
 	IF found THEN
@@ -93,7 +89,7 @@ BEGIN
 	RETURN false;
 END;
 $body$ LANGUAGE 'plpgsql';
-*/
+
 
 
 DROP TABLE IF EXISTS nb_role CASCADE;

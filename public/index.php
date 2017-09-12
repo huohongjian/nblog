@@ -19,6 +19,9 @@ require_once('../vendor/autoload.php');
 $app = new \Slim\App();
 
 $container = $app->getContainer();
+
+
+
 $container['view'] = function($c) {
 	$view = new \Slim\Views\Twig('../views', [
 		'cache' => false
@@ -35,15 +38,17 @@ $container['view'] = function($c) {
 	$port 	 = $uri->getPort() ;
 	if ($port) $port = ':'.$port;
 	$baseUrl = $scheme."://".$host.$port.$path;
-//	$baseUrl = "http://".$host.$port.$path;
+//	$baseUrl = "https://".$host.$port.$path;
+	echo $scheme, $port;
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
 	return $view;
 };
 
 
+
 $app->get('/',  		'Index:index');
 $app->get('/regist',	'Index:regist');
-$app->get('/login',		'Index:login');
+$app->any('/login',		'Index:login');
 
 $app->get('/admin', 		 Admin::class.':index');
 $app->get('/admin/install',  Admin::class.':install');
@@ -53,6 +58,29 @@ $app->get ('/detail/{articleid}',			Article::class.':display');
 $app->get ('/article/list', 				Article::class.':list');
 $app->get ('/article/edit/[{articleid}]', 	Article::class.':edit');
 $app->post('/article/save', 				Article::class.':save');
+
+
+
+
+//session_start();
+
+// $container['flash'] = function () {
+//     return new \Slim\Flash\Messages();
+// };
+
+// $app->get('/foo', function ($req, $res, $args) {
+//     // Set flash message for next request
+//     $this->flash->addMessage('Test', 'This is a message');
+
+//     // Redirect
+//     return $res->withStatus(302)->withHeader('Location', '/bar');
+// });
+
+// $app->get('/bar', function ($req, $res, $args) {
+//     // Get flash messages from previous request
+//     $messages = $this->flash->getMessages();
+//     print_r($messages);
+// });
 
 
 

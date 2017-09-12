@@ -1,7 +1,7 @@
 {% extends "section/layout.html" %}
 
 {% block body %}
-<form id="login">
+<form id="login" method="post" action="{{ baseURL }}/login">
 	<p>
 		<label>登录名：</label>
 		<input type="text" name="login">
