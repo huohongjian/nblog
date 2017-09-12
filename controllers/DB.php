@@ -76,7 +76,7 @@ class DB {
 				}
 				array_push($a, "$k = $v");
 			}
-			$this->where = implode($addor, $a);
+			$this->where = implode(" {$andor} ", $a);
 		} else {
 			$this->where = $where;
 		}

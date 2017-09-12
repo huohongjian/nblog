@@ -9,10 +9,8 @@ class Index {
 	}
 
 	function index($request, $response, $args) {
-		// your code
-		// to access items in the container... $this->container->get('');
 		$this->container->get('view')->render($response, 'index.html', [
-		'name' => 'huohongjian'
+			'name' => 'huohongjian'
 		]);
 		return $response;
 	}
@@ -23,7 +21,6 @@ class Index {
 
 		]);
 
-		$this->container->get('flash')->addMessage('Test', 'This is a message');
 
 		return $response->withStatus(302)->withHeader('Location', '/login');
 
@@ -40,15 +37,28 @@ class Index {
 
 	function login($request, $response, $args) {
 		if ($request->isPost()) {
-			$postDatas = $request->getParsedBody();
-			print_r($postDatas);
+			$ds = $request->getParsedBody();
 
+			$user = DB::get('nb_user')->where([
+				"login"		=> $ds['login'],
+				"password"  => md5($ds['password'])
+			])->selectOne(["userid", "roleid", "name"]);
 
+			if ($user) {
+				Session::set($user);
+
+			} else {
+				return $response->withStatus(302)
+								->withHeader('Location', '/login/用户名或密码不正确！');
+			}
+
+			
+
+			echo Session::get('name');
 
 		} else {
 			$this->container->get('view')->render($response, 'login.html', []);
-			$message = $this->container->get('flash');
-			print_r($message);
+			echo strlen(Session::get('name')).'hhj';
 		}
 		return $response;
 	}

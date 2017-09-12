@@ -76,7 +76,7 @@ CREATE INDEX nb_session_logintime ON nb_session(logintime);
 
 CREATE OR REPLACE FUNCTION nb_session_upsert(varchar, jsonb) RETURNS boolean AS $body$
 BEGIN
-	UPDATE nb_session SET logintime=now(), data=data || $2 WHERE sessionid=$1;
+	UPDATE nb_session SET logintime=now(), data=data || ($2)::jsonb WHERE sessionid='$1';
 	IF found THEN
 		RETURN true;
 	END IF;
@@ -117,28 +117,29 @@ INSERT INTO nb_role VALUES
 
 -- TABLE: nb_user  用户表
 DROP TABLE IF EXISTS nb_user CASCADE;
-DROP SEQUENCE IF EXISTS nb_user_seq;	CREATE SEQUENCE nb_user_seq;
+DROP SEQUENCE IF EXISTS nb_user_seq;
+CREATE SEQUENCE nb_user_seq;
 CREATE TABLE IF NOT EXISTS nb_user (
 	userid 		integer NOT NULL DEFAULT nextval('nb_user_seq'),
-	realname 	character varying(32) NOT NULL default '',
-	username 	character varying(32),
-	password 	character varying(32) NOT NULL default '',
-	roleid 		integer default 0,
+	name 		character varying(32),
+	login 		character varying(32),
+	password 	character varying(32),
+	roleid 		integer default 90,
 	score 		integer NOT NULL default 0,
 	jointime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
-	telephone 	character varying(16) default NULL,
-	email 		character varying(64) default NULL,
-	homepage 	character varying(64) default NULL,
-	qq 			character varying(32) default NULL,
-	intro 		character varying(255) default NULL,
-	photo 		character varying(255) default NULL,
+	telephone 	character varying(16),
+	email 		character varying(64),
+	homepage 	character varying(64),
+	qq 			character varying(32),
+	intro 		character varying(255),
+	photo 		character varying(255),
   	CONSTRAINT nb_user_pkey PRIMARY KEY (userid),
-  	UNIQUE (username)
+  	UNIQUE (login)
 );
-CREATE INDEX nb_user_username ON nb_user (username);
-CREATE INDEX nb_user_score 	 ON nb_user (score);
+CREATE INDEX nb_user_login 	ON nb_user (login);
+CREATE INDEX nb_user_score 	ON nb_user (score);
 
-INSERT INTO nb_user(realname, username, password, roleid)  VALUES
+INSERT INTO nb_user(name, login, password, roleid)  VALUES
 ('root', 		   	'root', 		'202cb962ac59075b964b07152d234b70', 	10),
 ('administrator',  	'admin', 		'202cb962ac59075b964b07152d234b70', 	20),
 ('HuoHongJian', 	'huohongjian',	'202cb962ac59075b964b07152d234b70', 	20),

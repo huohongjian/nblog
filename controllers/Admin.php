@@ -36,9 +36,9 @@ class Admin {
 		}
 		fclose($handle);
 		$content = str_replace("\r", "\n", $content);
-		
-		$pgsql = PgSQL::getInstance();
-		$pgsql->query($content);
+
+		DB::getInstance()->query($content);
+
 		echo '数据库初始化完毕<br>';
 
 
