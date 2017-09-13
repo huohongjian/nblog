@@ -5,8 +5,8 @@
     },
     "autoload": {
         "classmap":[
-	    "controllers",
-	    "models"
+	        "libs",
+            "controllers"
 	]
     }
 }
