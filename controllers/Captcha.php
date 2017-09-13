@@ -21,20 +21,20 @@
 20.*/  
 class Captcha  
 {  
-private $width=80,$height=20,$codenum=4;  
-public $checkcode;     //产生的验证码  
+private $width=80, $height=25, $codenum=4;  
+public  $checkcode;     //产生的验证码  
 private $checkimage;    //验证码图片   
 private $disturbColor = ''; //干扰像素  
-private $session_flag='captcha_code';//存到session中的索引  
+private $session_flag='captcha';//存到session中的索引  
   
 //尝试开始session  
 function __construct(){  
-    @session_start();  
+//    @session_start();  
 }  
 /* 
 34.* 参数：（宽度，高度，字符个数） 
 35.*/  
-function config($width='80',$height='20',$codenum='4',$session_flag='captcha_code')  
+function config($width='80',$height='25',$codenum='4',$session_flag='captcha_code')  
 {    
    $this->width=$width;  
    $this->height=$height;  
@@ -55,8 +55,8 @@ function create()
    //往图片上写验证码  
    $this->writeCheckCodeToImage();  
    imagepng($this->checkimage);  
-   imagedestroy($this->checkimage);  
-   $_SESSION[$this->session_flag]=$this->checkcode;  
+   imagedestroy($this->checkimage);
+//   $_SESSION[$this->session_flag]=$this->checkcode;  
 }  
 /* 
   * @brief 输出头 

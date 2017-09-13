@@ -122,8 +122,8 @@ class DB {
 		return $this->fetchAll($sql);
 	}
 
-	function selectAll($fields) {
-		return $this->select($fields);
+	function selectAll($fields, $emptyReturn=null) {
+		return $this->select($fields, $emptyReturn);
 	}
 
 	function selectOne($fields=array('*'), $row=0, $type=PGSQL_ASSOC) {
@@ -131,8 +131,8 @@ class DB {
 		return $this->fetchOne($sql, $row, $type);
 	}
 
-	function selectRow($fields, $row=0, $type=PGSQL_ASSOC) {
-		return $this->selectOne($fields, $row, $type);
+	function selectRow($fields, $row=0, $type=PGSQL_ASSOC, $emptyReturn=null) {
+		return $this->selectOne($fields, $row, $type, $emptyReturn);
 	}
 
 	function selectCol($fields, $col=0) {

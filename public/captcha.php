@@ -1,7 +1,10 @@
 <?php
 
 //session_start();
-require_once '../controllers/ValidateCode.php';  //先把类包含进来，实际路径根据实际情况进行修改。
+require_once '../controllers/Captcha.php';  //先把类包含进来，实际路径根据实际情况进行修改。
+require_once '../controllers/Session.php';
+
+
 //$_vc = new ValidateCode();  //实例化一个对象
 //$_vc->doimg();  
 //$_SESSION['authnum_session'] = $_vc->getCode();//验证码保存到SESSION中
@@ -10,3 +13,7 @@ require_once '../controllers/ValidateCode.php';  //先把类包含进来，实�
 
 $image=new Captcha(); 
 $image->create();
+
+Session::set(['captcha'=>$image->checkcode]);
+
+echo "captcha";

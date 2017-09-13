@@ -10,7 +10,13 @@ class User {
 	}
 
 	public function index($request, $response, $args) {
-
+		$articles = DB::get('nb_article')
+	//				  ->where(['userid' => 2])
+					  ->order('artid DESC')
+					  ->select();
+		$this->container->get('view')->render($response, 'user/articles.html', [
+			'articles' => $articles
+		]);
 		return $response;
 	}
 

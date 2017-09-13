@@ -34,8 +34,11 @@
 			<li><a href="{{ baseURL }}/article/list">文章列表</a></li>
 			<li><a href="{{ baseURL }}/article/edit/">文章编辑</a></li>
 
+			|
+			<li><a href="{{ baseURL }}/user/">用户主页</a></li>
+
 			<li><a href="{{ baseURL }}/regist">注册</a></li>
-			<li><a href="{{ baseURL }}/login">登录</a></li>
+			<li><a href="{{ baseURL }}/login/">登录</a></li>
 
 		</ul>
 	</div>
@@ -44,7 +47,15 @@
 
 <div class="jianbian"></div>
 
-<div class="bodyer">{% block body %}{% endblock %}</div>
+
+<div class="flex main-frame">
+{% block main %}
+	
+	<div class="left-frame a-1-1 c-1-3 d-1-4 e-1-5 f-1-6">{% block left %}{% endblock %}</div>
+	<div class="right-frame a-1-1 c-2-3 c-3-4 e-4-5 f-5-6">{% block right %}{% endblock %}</div>
+	
+{% endblock %}
+</div>
 
 
 <!--尾部模板-->

@@ -48,11 +48,15 @@ $container['view'] = function($c) {
 
 $app->get('/',  		'Index:index');
 $app->get('/regist',	'Index:regist');
-$app->any('/login',		'Index:login');
+$app->any('/login/[{msg}]',		'Index:login');
 
 $app->get('/admin', 		 Admin::class.':index');
 $app->get('/admin/install',  Admin::class.':install');
 $app->get('/admin/userlist', Admin::class.':userlist');
+
+$app->get('/user/',	User::class.':index');
+
+
 
 $app->get ('/detail/{articleid}',			Article::class.':display');
 $app->get ('/article/list', 				Article::class.':list');

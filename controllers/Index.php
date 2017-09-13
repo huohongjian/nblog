@@ -21,7 +21,7 @@ class Index {
 
 		]);
 
-
+		return $respose;
 		return $response->withStatus(302)->withHeader('Location', '/login');
 
 	}
@@ -40,13 +40,13 @@ class Index {
 			$ds = $request->getParsedBody();
 
 			$user = DB::get('nb_user')->where([
-				"login"		=> $ds['login'],
-				"password"  => md5($ds['password'])
-			])->selectOne(["userid", "roleid", "name"]);
+				"login"		=> $ds['login']
+			])->selectOne(["userid", "password", "roleid", "name"]);
 
 			if ($user) {
 				Session::set($user);
-
+				return $response->withStatus(302)
+								->withHeader('Location', '/user/');
 			} else {
 				return $response->withStatus(302)
 								->withHeader('Location', '/login/用户名或密码不正确！');
