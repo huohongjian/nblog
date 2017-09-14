@@ -76,12 +76,12 @@ CREATE INDEX nb_session_logintime ON nb_session(logintime);
 
 CREATE OR REPLACE FUNCTION nb_session_upsert(varchar, jsonb) RETURNS boolean AS $body$
 BEGIN
-	UPDATE nb_session SET logintime=now(), data=data || ($2)::jsonb WHERE sessionid='$1';
+	UPDATE nb_session SET logintime=now(), data=data||($2) WHERE sessionid=$1;
 	IF found THEN
 		RETURN true;
 	END IF;
 	
-	INSERT INTO nb_session(sessionid, data) VALUES ($1, $2);
+	INSERT INTO nb_session(sessionid, data) VALUES ($1, ($2));
 	IF found THEN
 		RETURN true;
 	END IF;

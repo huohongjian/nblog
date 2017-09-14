@@ -213,7 +213,7 @@ class DB {
 
 	function query($sql) {
 		try {
-			$this->result = pg_query($this->linkid, $sql);
+			$this->result = @pg_query($this->linkid, $sql);
 			if (!$this->result) {
 				throw new Exception("The database query failed! SQL: <p> $sql </p>");
 			}

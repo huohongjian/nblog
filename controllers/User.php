@@ -27,7 +27,7 @@ class User {
 	}
 
 	public function edit($request, $response, $args) {
-		$this->container->get('view')->render($response, 'kindeditor.html');
+		$this->container->get('view')->render($response, 'user/kindeditor.html');
 		return $response;
 	}
 

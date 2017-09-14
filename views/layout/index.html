@@ -24,6 +24,16 @@
 
 {% block header %}
 	<div>
+		<ul class="login-info">
+			{% if (login) %}
+				<li><a href="{{ baseURL }}/user"><i class="fa fa-user"> </i> {{ login }}</a></li>
+				<li><a href="{{ baseURL }}/user/setup">参数设置</a></li>
+				<li><a href="">退出</a></li>
+			{% else %}
+			<li><a href="{{ baseURL }}/regist">注册</a></li>
+			<li><a href="{{ baseURL }}/login/">登录</a></li>
+			{% endif %}
+		</ul>
 		<img src="{{ baseURL }}/images/logo-red.png" alt="China FreeBSD">
 		<ul class="navigation">
 			<li><a href="{{ baseURL }}/">首页</a></li>
@@ -32,10 +42,10 @@
 			<li><a href="{{ baseURL }}/admin/userlist">用户列表</a></li>
 
 			<li><a href="{{ baseURL }}/article/list">文章列表</a></li>
-			<li><a href="{{ baseURL }}/article/edit/">文章编辑</a></li>
+			<li><a href="{{ baseURL }}/article/edit">文章编辑</a></li>
 
 			|
-			<li><a href="{{ baseURL }}/user/">用户主页</a></li>
+			<li><a href="{{ baseURL }}/user">用户主页</a></li>
 
 			<li><a href="{{ baseURL }}/regist">注册</a></li>
 			<li><a href="{{ baseURL }}/login/">登录</a></li>

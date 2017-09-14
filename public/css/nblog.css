@@ -9,7 +9,23 @@ header {
 	background-image: linear-gradient(to bottom, #660000, #990000);
 }
 
+header .login-info {
+	margin: 5px;
+	float: right;
+}
+header .login-info li {
+	display: inline-block;
+	margin-right: 8px;
+	font-size: 13px;
+	font-weight: bolder;
+}
+header .login-info li a {
+	color: #FFFFFF;
+}
 
+header .login-info li i {
+	color: yellow;
+}
 
 .main-frame {
 	min-height: 460px;

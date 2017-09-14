@@ -2,24 +2,11 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-/*
-define('SITE_NAME','China FreeBSD');
-$the_file_path = $_SERVER['PHP_SELF'];
-$findme   = '/index.php';
-$pos = strpos($the_file_path, $findme);
-$target_path = substr($the_file_path, 0,$pos);
-$site_url = "http://".$_SERVER['HTTP_HOST'].$target_path;
-define('SITE_URL',$site_url);
-*/
-
-
-
 require_once('../vendor/autoload.php');
 
+
 $app = new \Slim\App();
-
 $container = $app->getContainer();
-
 
 
 $container['view'] = function($c) {
@@ -41,12 +28,15 @@ $container['view'] = function($c) {
 //	$baseUrl = "https://".$host.$port.$path;
 	echo $scheme, $port;
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
+
+	$login = Session::get('login');
+	$view->getEnvironment()->addGlobal('login', $login);
 	return $view;
 };
 
 
-
 $app->get('/',  		'Index:index');
+$app->get('/captcha',	'Index:captcha');
 $app->get('/regist',	'Index:regist');
 $app->any('/login/[{msg}]',		'Index:login');
 
@@ -54,37 +44,14 @@ $app->get('/admin', 		 Admin::class.':index');
 $app->get('/admin/install',  Admin::class.':install');
 $app->get('/admin/userlist', Admin::class.':userlist');
 
-$app->get('/user/',	User::class.':index');
+$app->get('/user',	User::class.':index');
 
 
 
-$app->get ('/detail/{articleid}',			Article::class.':display');
-$app->get ('/article/list', 				Article::class.':list');
-$app->get ('/article/edit/[{articleid}]', 	Article::class.':edit');
 $app->post('/article/save', 				Article::class.':save');
-
-
-
-
-//session_start();
-
-// $container['flash'] = function () {
-//     return new \Slim\Flash\Messages();
-// };
-
-// $app->get('/foo', function ($req, $res, $args) {
-//     // Set flash message for next request
-//     $this->flash->addMessage('Test', 'This is a message');
-
-//     // Redirect
-//     return $res->withStatus(302)->withHeader('Location', '/bar');
-// });
-
-// $app->get('/bar', function ($req, $res, $args) {
-//     // Get flash messages from previous request
-//     $messages = $this->flash->getMessages();
-//     print_r($messages);
-// });
+$app->get ('/article/list',					Article::class.':list');
+$app->get ('/article/{articleid}',			Article::class.':index');
+$app->get ('/article/edit/[{articleid}]', 	Article::class.':edit');
 
 
 

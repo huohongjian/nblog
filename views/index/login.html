@@ -1,4 +1,4 @@
-{% extends "section/layout.html" %}
+{% extends "layout/index.html" %}
 
 {% block main %}
 <form id="login" method="post" action="{{ baseURL }}/login/">
@@ -14,7 +14,7 @@
 	<p>
 		<label>验证码：</label>
 		<input type="text" name="validate">
-		<img  title="点击刷新" src="{{ baseURL }}/captcha.php" align="absbottom" onclick="this.src='{{ baseURL }}/captcha.php?'+Math.random();"></img>
+		<img  title="点击刷新" src="{{ baseURL }}/captcha" align="absbottom" onclick="this.src='{{ baseURL }}/captcha?'+Math.random();"></img>
 	</p>
 
 	<p style="text-align: center;">

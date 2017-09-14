@@ -10,9 +10,7 @@ class Admin {
 	}
 
 	public function index($request, $response, $args) {
-		// your code
-		// to access items in the container... $this->container->get('');
-		$this->container->get('view')->render($response, 'admin_index.html', [
+		$this->container->get('view')->render($response, 'admin/index.html', [
 			'name' => $args['name']
 			]);
 		return $response;

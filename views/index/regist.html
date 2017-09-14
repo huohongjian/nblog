@@ -1,4 +1,4 @@
-{% extends "section/layout.html" %}
+{% extends "layout/index.html" %}
 
 {% block main %}
 <form id="regist">
@@ -21,7 +21,7 @@
 	<p>
 		<label>用户名：</label>
 		<input type="text" name="name">
-		<i><i class="red">*</i>文章浏览时，显示的用户名称</i>
+		<i><i class="red">*</i>文章浏览时，显示的用户名</i>
 	</p>
 
 	<p>
@@ -38,6 +38,7 @@
 		<label>验证码：</label>
 		<input type="text" name="validate">
 		<i class="red">*</i>
+		<img  title="点击刷新" src="{{ baseURL }}/captcha" align="absbottom" onclick="this.src='{{ baseURL }}/captcha?'+Math.random();"></img>
 	</p>
 
 	<p style="text-align: center;">

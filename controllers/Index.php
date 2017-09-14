@@ -9,15 +9,23 @@ class Index {
 	}
 
 	function index($request, $response, $args) {
-		$this->container->get('view')->render($response, 'index.html', [
+		$this->container->get('view')->render($response, 'index/index.html', [
 			'name' => 'huohongjian'
 		]);
 		return $response;
 	}
 
 
+	function captcha($request, $response, $args) {
+		$cap = new Captcha();
+		$cap->create();
+		Session::set(['vc' => $cap->checkcode]);
+		return $response;
+	}
+
+
 	function regist($request, $response, $args) {
-		$this->container->get('view')->render($response, 'regist.html', [
+		$this->container->get('view')->render($response, 'index/regist.html', [
 
 		]);
 
@@ -28,7 +36,7 @@ class Index {
 
 
 	function doRegist($request, $response, $args) {
-		$this->container->get('view')->render($response, 'regist.html', [
+		$this->container->get('view')->render($response, 'index/regist.html', [
 		'name' => 'huohongjian'
 		]);
 		return $response;
@@ -41,7 +49,7 @@ class Index {
 
 			$user = DB::get('nb_user')->where([
 				"login"		=> $ds['login']
-			])->selectOne(["userid", "password", "roleid", "name"]);
+			])->selectOne(["userid", "login", "password", "roleid", "name"]);
 
 			if ($user) {
 				Session::set($user);
@@ -57,7 +65,7 @@ class Index {
 			echo Session::get('name');
 
 		} else {
-			$this->container->get('view')->render($response, 'login.html', []);
+			$this->container->get('view')->render($response, 'index/login.html', []);
 			echo strlen(Session::get('name')).'hhj';
 		}
 		return $response;
