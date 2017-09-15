@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JS->PHP RSA加解密实现</title>
+	<script type="text/javascript" src="RSA.js"></script>
+	<script type="text/javascript" src="BigInt.js"></script>
+	<script type="text/javascript" src="Barrett.js"></script>
+</head>
+<body>
+<form action="./openssl.php" method="post" name="rsa_form" id="rsa_form">
+用户名:<input type="text" name="username" />
+密码:<input type="password" name="password" id="password"/>
+<input type="button" value="提交" onclick="rsa()" />
+</form>
+<script type="text/javascript">
+var rsa =function(){
+	//十六进制公钥  
+	var rsa_n = 'D42E861C04CFB9EBB1368A682EC22BDCA364A35E1C5DF1D43FC4F24197D4B798BCB7FD0192774749C4DED8B659002B4ABEA2F11F7896BCEE5CD615D31EF8936823ED6760CA01D91F677F1459019383679D78BE72FE67E7C1C3FDA1A514B5FE35879A9A9DC90EAE059948CD222F4C69F37F23F0864112CD4A8AE2B4FD9EC36297';
+	var pw = document.getElementById("password");
+	setMaxDigits(131); //131 => n的十六进制位数/2+3
+	var key  = new RSAKeyPair("10001", '', rsa_n); //10001 => e的十六进制
+	pw.value = encryptedString(key, pw.value+'\x01'); //不支持汉字
+	document.rsa_form.submit();
+}
+</script>
+</body>
+</html>

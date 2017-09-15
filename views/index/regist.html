@@ -38,12 +38,65 @@
 		<label>验证码：</label>
 		<input type="text" name="validate">
 		<i class="red">*</i>
-		<img  title="点击刷新" src="{{ baseURL }}/captcha" align="absbottom" onclick="this.src='{{ baseURL }}/captcha?'+Math.random();"></img>
+		<img  title="点击刷新" src="{{ baseURL }}/captcha" align="absbottom" onclick="this.src='{{ baseURL }}/captcha?'+Math.random();"/>
 	</p>
 
 	<p style="text-align: center;">
 		<button>确认</button>
+		<input type="button" name="ceshi" id='cs' value="测试">
 	</p>
 
 </form>
+
+{% endblock %}
+
+
+
+{% block script %}
+<script type="text/javascript" src="{{ baseURL }}/js/md5.min.js"></script>
+<script type="text/javascript" src="{{ baseURL }}/js/aes.min.js?v=3.12"></script>
+<script type="text/javascript" src="{{ baseURL }}/js/pad-zeropadding.js?v=3.12"></script>
+
+<script type="text/javascript">
+	R('#cs').addEventListener('click', function(e) {
+		var md5v = md5('abc', '123', true);
+		console.log(md5v);
+	});
+
+	// from http://blog.csdn.net/fenglailea/article/details/52755694
+	// function encrypt(str, key) {
+	//     key = CryptoJS.enc.Utf8.parse(key ? key : "chinafreebsd");	//秘钥
+	//     var iv = CryptoJS.enc.Utf8.parse('chinafreebsd');			//向量
+	//     var encrypted = CryptoJS.AES.encrypt(str, key, {iv:iv, mode:CryptoJS.mode.CBC, padding: CryptoJS.pad.ZeroPadding});
+	//     return encrypted.toString();
+	// }
+
+	// console.log(encrypt('abc', '123'));
+
+
+	text = 'T10515';
+
+var key = '123454536f667445454d537973576562';
+
+    key = CryptoJS.enc.Utf8.parse(key);
+
+var iv = "1234577290ABCDEF1264147890ACAE45";
+
+    iv = CryptoJS.enc.Utf8.parse(iv);
+
+var encrypted = CryptoJS.AES.encrypt(text, key, {
+
+      iv: iv,
+
+      mode:CryptoJS.mode.CBC,
+
+      padding:CryptoJS.pad.ZeroPadding
+
+    }).toString();
+
+colsole.log(encrypted);
+
+
+</script>
+
 {% endblock %}

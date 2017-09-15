@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MD5加密</title>
+	<script type="text/javascript" src="md5.js"></script>
+</head>
+<body>
+<!--腾讯的WEB密码加密模式为MD5(MD5_3(password)+大写验证码)对明文密码进行三次32位MD5加密再把验证码转成大写连接起来，再对连接后的字符串进行一次MD5加密就是腾讯WEB登陆的密码-->
+原文:<input type="text" id="pw" value=""/><br/>
+混淆:<input type="text" id="vf" value=""/><br/>
+<input type="button" value="加密" onclick="am()" /><sapn id="txt"></sapn>
+</body>
+<script type="text/javascript">
+var am=function(){
+	var pw = document.getElementById("pw").value;
+	var vf = document.getElementById("vf").value;
+	var str = hex_md5(hex_md5(hex_md5(hex_md5(pw)))+vf.toUpperCase());
+	document.getElementById("txt").innerHTML = str;
+}
+</script>
+</html>

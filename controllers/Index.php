@@ -29,6 +29,8 @@ class Index {
 
 		]);
 
+		echo  AesJs::encrypt('abc', '123');
+
 		return $respose;
 		return $response->withStatus(302)->withHeader('Location', '/login');
 

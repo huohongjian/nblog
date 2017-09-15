@@ -37,8 +37,8 @@ $container['view'] = function($c) {
 
 $app->get('/',  		'Index:index');
 $app->get('/captcha',	'Index:captcha');
-$app->get('/regist',	'Index:regist');
 $app->any('/login/[{msg}]',		'Index:login');
+$app->any('/regist',	'Index:regist');
 
 $app->get('/admin', 		 Admin::class.':index');
 $app->get('/admin/install',  Admin::class.':install');
