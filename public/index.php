@@ -37,8 +37,10 @@ $container['view'] = function($c) {
 
 $app->get('/',  					'Index:index');
 $app->get('/captcha',				'Index:captcha');
-$app->any('/login/[{msg}]',			'Index:login');
-$app->any('/regist/[{msg}]',		'Index:regist');
+$app->get('/logout',		'Index:logout');
+$app->any('/login',			'Index:login');
+
+$app->any('/regist',		'Index:regist');
 $app->get('/hasSameUser/[{login}]',	'Index:hasSameUser');
 
 $app->get('/admin', 		 Admin::class.':index');

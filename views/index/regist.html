@@ -1,7 +1,22 @@
 {% extends "layout/index.html" %}
 
+
+{% block head %}
+	<style type="text/css">
+		form { margin: auto; width: 550px; }
+		form i { display: inline-block; }
+		form label { display: inline-block; width: 100px; text-align: right; }
+		input[name=email] { width: 300px; }
+		form h2 { width:100%; text-align:center; color:#990000; margin-top:30px; font-weight:bold; }
+
+	</style>
+{% endblock %}
+
 {% block main %}
 <form name="regist" method="post">
+	<p>
+		<h2>用户注册</h2>
+	</p>
 	<p class="message">
 		{% if (errorMessage) %}
 		<label class="red">错误信息：</label>

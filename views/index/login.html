@@ -1,14 +1,28 @@
 {% extends "layout/index.html" %}
 
+{% block head %}
+	<style type="text/css">
+		form { margin:auto; width:360px; }
+		form label { display:inline-block; width:100px; text-align:right; }
+		form h2 { width:100%; text-align:center; color:#990000; margin-top:30px; font-weight:bold; }
+
+	</style>
+{% endblock %}
+
 {% block main %}
+
+
 <form name="loginForm" method="post">
+	<p>
+		<h2>用户登录</h2>
+	</p>
 	<p>
 		<label>登录名：</label>
 		<input type="text" name="login">
 	</p>
 	<p>
 		<label>登录密码：</label>
-		<input type="text" name="password">
+		<input type="password" name="password">
 	</p>
 	<p>
 	<p>
@@ -38,10 +52,10 @@ R.enterMove();
 function panelMsg(msg) {
 	if (window.panel) {
 		panel.show();
-		panel.setHTML('<p><br>' + msg + '</p>');
+		panel.setHTML('<p><br><br>' + msg + '</p>');
 	} else {
 		window.panel = new Panel({
-			html: '<p><br>' + msg + '</p>',
+			html: '<p><br><br>' + msg + '</p>',
 			style: '.panel > header * {color:#ffffff;}',
 		});
 	}
@@ -72,8 +86,6 @@ function doLogin() {
 		pwd.value = encryptedString(key, md5(md5(password)+captcha));
 		document.loginForm.submit();
 	}
-
-	
 }
 	
 </script>

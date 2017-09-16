@@ -23,6 +23,12 @@ class Session {
 	    $sql  = "SELECT nb_session_upsert('$SID', '$json')";
 	    return DB::getInstance()->fetchVal($sql);
 	}
+
+
+	static function unset($key) {
+		$sql = "UPDATE nb_session SET data=data-'$key'";
+		return DB::getInstance()->query($sql);
+	}
 	
 	
 	static function gc() {

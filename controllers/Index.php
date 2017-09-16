@@ -45,7 +45,7 @@ function regist($request, $response, $args) {
 			$ds['password'] = Rsa::privDecrypt($key, true);
 			unset($ds['captcha'], $ds['password2']);
 			DB::get('nb_user')->insert($ds);
-			return $response->withStatus(302)->withHeader('Location', '/login/');
+			return $response->withStatus(302)->withHeader('Location', '/login');
 		}
 	}
 	return $this->container->get('view')->render($response, 'index/regist.html', [
@@ -58,19 +58,18 @@ function login($request, $response, $args) {
 	if ($request->isPost()) {
 		$ds = $request->getParsedBody();
 
-		if ($ds['captcha'] == Session::get('ca')) {
-
+		if (strtoupper($ds['captcha']) == strtoupper(Session::get('ca'))) {
 			$user = DB::get('nb_user')->where(["login" => $ds['login']])
 					->selectOne(["userid", "login", "password", "roleid", "name"]);
-
 			if ($user) {
 				$key = base64_encode(pack("H*", $ds['password']));
 				$ds['password'] = Rsa::privDecrypt($key, true);
-				if ($ds['password'] == md5($user['password'] . $ds['captcha']))
+				if ($ds['password'] == md5($user['password'] . $ds['captcha'])) {
 					Session::set([
 						'userid' => $user['userid'],
+						'login'	 => $user['login'],
 					]);
-					return $response->withStatus(302)->withHeader('Location', '/user/');
+					return $response->withStatus(302)->withHeader('Location', '/user');
 				} else {
 					$message = '登录密码不正确!';
 				}
@@ -80,14 +79,17 @@ function login($request, $response, $args) {
 		} else {
 			$message = '验证码错误!';
 		}
-
-		
 	}
 	return $this->container->get('view')->render($response, 'index/login.html', [
 		'errorMessage' => $message
 	]);
 }
 
+
+function login($request, $response, $args) {
+	Session::unset('login');
+	return $response->withStatus(302)->withHeader('Location', '/');
+}
 
 
 }
