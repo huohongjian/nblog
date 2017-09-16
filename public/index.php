@@ -26,7 +26,7 @@ $container['view'] = function($c) {
 	if ($port) $port = ':'.$port;
 	$baseUrl = $scheme."://".$host.$port.$path;
 //	$baseUrl = "https://".$host.$port.$path;
-	echo $scheme, $port;
+//	echo $scheme, $port;
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
 
 	$login = Session::get('login');
@@ -35,10 +35,11 @@ $container['view'] = function($c) {
 };
 
 
-$app->get('/',  		'Index:index');
-$app->get('/captcha',	'Index:captcha');
-$app->any('/login/[{msg}]',		'Index:login');
-$app->any('/regist',	'Index:regist');
+$app->get('/',  					'Index:index');
+$app->get('/captcha',				'Index:captcha');
+$app->any('/login/[{msg}]',			'Index:login');
+$app->any('/regist/[{msg}]',		'Index:regist');
+$app->get('/hasSameUser/[{login}]',	'Index:hasSameUser');
 
 $app->get('/admin', 		 Admin::class.':index');
 $app->get('/admin/install',  Admin::class.':install');

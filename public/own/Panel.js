@@ -19,6 +19,7 @@ Panel = function(params) {
 	this.html = '<p>this is a panel.</p>';
 	this.movable = true;
 	this.display = 'block';
+	this.style   = '';
 
 	for(var k in params){if(params[k]!==undefined)this[k]=params[k]}
 	this.index = Panel.LEN++;
@@ -37,6 +38,7 @@ Panel.prototype = {
 	twinkle: function(t){this.show();if(t>0)this.hide(t)},
 	destory: function(){var p=this;p.panel.parentNode.removeChild(p.panel);p.panel=undefined;if(p.ondestory)p.ondestory()},
 	setHtml: function(html){this.R('._panel_content_', this.panel).innerHTML=html},
+	setHTML: function(html){this.setHtml(html)},
 	getRect: function(){return this.panel.getBoundingClientRect()},
 
 	writeCSS: function(p){
@@ -50,7 +52,7 @@ Panel.prototype = {
 			.panel > header li {cursor:pointer; margin-left:10px; display:inline-block; list-style-type:none;}\
 			.panel > div._panel_content_ {cursor:' + 'cur2' + '; display:table; width:100%; text-align:' + p.textAlign + ';}\
 			.panel > div._panel_content_ > m,\
-			.panel > div._panel_content_ > .middle {display:table-cell; vertical-align:middle;}\
+			.panel > div._panel_content_ > .middle {display:table-cell; vertical-align:middle;}' + p.style + '\
 		'}));
 	},
 

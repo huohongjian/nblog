@@ -23,7 +23,7 @@
 	_.parent  = function(q,tag){var o=_(q),p=o.parentNode,t=p.tagName;
 		if(t=='HTML'){return null}else if(t==tag.toUpperCase()){return p}else{return _.parent(p,tag)}
 	}
-	_.isDC 	  = function(s){return /^[a-zA-Z0-9\.-_]+/.test(s)}
+	_.isDC 	  = function(s){return /^[a-zA-Z0-9\.-_]+$/.test(s)}
 	_.isDom   = function(o){return !!(o&&window&&o.nodeType)}
 	_.isJSON  = function(o){return typeof(o)==='object'&&Object.prototype.toString.call(o).toLowerCase()==='[object object]'&&!o.length} 
 	_.isFunc  = function(o){return typeof(o)==='function'}
@@ -41,6 +41,9 @@
 		var k,r='',s=[],u=params,url=url||L.href;s[0]=url;
 		if (/\?/.test(url)){s=url.split('?');u=_.concat(_.url(s[1]),u||{})}
 		for(k in u){if(u[k])r+='&'+k+'='+u[k]}return s[0]+'?'+r.substr(1);
+	}
+	_.baseURL = function(search, start) {
+		return L.href.substr(start||0, L.href.indexOf(search));
 	}
 	_.fd=_.formData=function(fm,j){
 		var k,fd;if(_.isJSON(fm)){fd=new FormData();j=fm}else{fd=new FormData(_(fm))}

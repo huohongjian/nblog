@@ -51,27 +51,27 @@ ul.navigation li a {
 	text-decoration: none;
 }
 
-#login {
+[name=loginForm] {
 	margin: auto;
 	width: 360px;
 }
 
-#regist {
+[name=regist] {
 	margin: auto;
 	width: 550px;
 }
 
-#regist i {
+[name=regist] i {
 	display: inline-block;
 }
 
-#regist label,
-#login  label {
+[name=regist] label,
+[name=loginForm]  label {
 	display: inline-block;
 	width: 100px;
 	text-align: right;
 }
-#regist input[name=email] {
+[name=regist] input[name=email] {
 	width: 300px;
 }
 

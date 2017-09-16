@@ -1,26 +1,32 @@
 {% extends "layout/index.html" %}
 
 {% block main %}
-<form id="regist">
+<form name="regist" method="post">
+	<p class="message">
+		{% if (errorMessage) %}
+		<label class="red">错误信息：</label>
+		<span class="red">{{ errorMessage }}</span>
+		{% endif %}
+	</p>
 	<p>
 		<label>登录名：</label>
-		<input type="text" name="login">
+		<input type="text" name="login" required="required">
 		<i><i class="red">*</i>由3-16位英文、数字、下划线组成</i>
 	</p>
 	<p>
 		<label>登录密码：</label>
-		<input type="text" name="password">
+		<input type="password" name="password" required="required">
 		<i><i class="red">*</i>由3-16位英文、数字、下划线组成</i>
 	</p>
 	<p>
 		<label>密码确认：</label>
-		<input type="text" name="password2">
+		<input type="password" name="password2" required="required">
 		<i class="red">*</i>
 	</p>
 
 	<p>
 		<label>用户名：</label>
-		<input type="text" name="name">
+		<input type="text" name="name" required="required">
 		<i><i class="red">*</i>文章浏览时，显示的用户名</i>
 	</p>
 
@@ -30,20 +36,14 @@
 	</p>
 
 	<p>
-		<label>QQ号：</label>
-		<input type="text" name="qq">
-	</p>
-
-	<p>
 		<label>验证码：</label>
-		<input type="text" name="validate">
+		<input type="text" name="captcha" required="required">
 		<i class="red">*</i>
 		<img  title="点击刷新" src="{{ baseURL }}/captcha" align="absbottom" onclick="this.src='{{ baseURL }}/captcha?'+Math.random();"/>
 	</p>
 
-	<p style="text-align: center;">
-		<button>确认</button>
-		<input type="button" name="ceshi" id='cs' value="测试">
+	<p class="text-center">
+		<input type="button" onclick="rsa()" value="确认">
 	</p>
 
 </form>
@@ -53,50 +53,11 @@
 
 
 {% block script %}
+<script type="text/javascript" src="{{ baseURL }}/js/rsa/RSA.js"></script>
+<script type="text/javascript" src="{{ baseURL }}/js/rsa/BigInt.js"></script>
+<script type="text/javascript" src="{{ baseURL }}/js/rsa/Barrett.js"></script>
 <script type="text/javascript" src="{{ baseURL }}/js/md5.min.js"></script>
-<script type="text/javascript" src="{{ baseURL }}/js/aes.min.js?v=3.12"></script>
-<script type="text/javascript" src="{{ baseURL }}/js/pad-zeropadding.js?v=3.12"></script>
 
-<script type="text/javascript">
-	R('#cs').addEventListener('click', function(e) {
-		var md5v = md5('abc', '123', true);
-		console.log(md5v);
-	});
-
-	// from http://blog.csdn.net/fenglailea/article/details/52755694
-	// function encrypt(str, key) {
-	//     key = CryptoJS.enc.Utf8.parse(key ? key : "chinafreebsd");	//秘钥
-	//     var iv = CryptoJS.enc.Utf8.parse('chinafreebsd');			//向量
-	//     var encrypted = CryptoJS.AES.encrypt(str, key, {iv:iv, mode:CryptoJS.mode.CBC, padding: CryptoJS.pad.ZeroPadding});
-	//     return encrypted.toString();
-	// }
-
-	// console.log(encrypt('abc', '123'));
-
-
-	text = 'T10515';
-
-var key = '123454536f667445454d537973576562';
-
-    key = CryptoJS.enc.Utf8.parse(key);
-
-var iv = "1234577290ABCDEF1264147890ACAE45";
-
-    iv = CryptoJS.enc.Utf8.parse(iv);
-
-var encrypted = CryptoJS.AES.encrypt(text, key, {
-
-      iv: iv,
-
-      mode:CryptoJS.mode.CBC,
-
-      padding:CryptoJS.pad.ZeroPadding
-
-    }).toString();
-
-colsole.log(encrypted);
-
-
-</script>
-
+<script type="text/javascript" src="{{ baseURL }}/js/public_key.js"></script>
+<script type="text/javascript" src="{{ baseURL }}/js/regist.js"></script>
 {% endblock %}
