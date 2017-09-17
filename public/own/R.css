@@ -8,11 +8,11 @@ h6{font-size:16px;margin:6px 0;}
 a{color:#575757;text-decoration:none;transition:all 0.1s ease-in 0s;}
 a:hover{color:#575757;text-decoration:none;}
 input, textarea{border:1px solid #ddd;padding:3px;resize:vertical;}
-input[type=button],input[type=submit],input[type=reset],button{
+[type=button],[type=submit],[type=reset],button{
 	color:#fff;border:0;cursor:pointer;background-color:#337ab7;
 	padding:5px 25px;margin:5px;font-weight:bold;width:auto;border-radius: 3px
 }
-input[type=radio], input[type=checkbox]{-moz-margin-end:5px;}
+[type=radio],[type=checkbox]{-moz-margin-end:5px;}
 select{border:1px solid #ddd;}
 .blod{font-weight:bold;}.bloder{font-weight:bolder;}
 .scroll-y{overflow-y:scroll;}.scroll-x{overflow-x:scroll;}

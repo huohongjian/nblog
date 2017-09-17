@@ -10,7 +10,7 @@ function __construct(Interop\Container\ContainerInterface $container) {
 
 function index($request, $response, $args) {
 	$this->container->get('view')->render($response, 'index/index.html', [
-		'name' => 'huohongjian'
+		'articles' => DB::get('nb_article')->order('articleid DESC')->select(['articleid', 'title']),
 	]);
 	return $response;
 }
@@ -86,7 +86,7 @@ function login($request, $response, $args) {
 }
 
 
-function login($request, $response, $args) {
+function logout($request, $response, $args) {
 	Session::unset('login');
 	return $response->withStatus(302)->withHeader('Location', '/');
 }

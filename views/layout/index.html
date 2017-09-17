@@ -19,10 +19,8 @@
 
 
 <header>
-
-
 {% block header %}
-	<div>
+	<div class="banner">
 		<ul class="login-info">
 			{% if (login) %}
 				<li><a href="{{ baseURL }}/user"><i class="fa fa-user"> </i> {{ login }}</a></li>
@@ -38,16 +36,13 @@
 			<li><a href="{{ baseURL }}/">首页</a></li>
 			<li><a href="{{ baseURL }}/admin">管理</a></li>
 			<li><a href="{{ baseURL }}/admin/install">安装</a></li>
-			<li><a href="{{ baseURL }}/admin/userlist">用户列表</a></li>
+			|
 
 			<li><a href="{{ baseURL }}/article/list">文章列表</a></li>
-			<li><a href="{{ baseURL }}/article/edit">文章编辑</a></li>
+			<li><a href="{{ baseURL }}/article/edit/">文章编辑</a></li>
 
 			|
 			<li><a href="{{ baseURL }}/user">用户主页</a></li>
-
-			<li><a href="{{ baseURL }}/regist">注册</a></li>
-			<li><a href="{{ baseURL }}/login">登录</a></li>
 
 		</ul>
 	</div>
@@ -55,7 +50,7 @@
 </header>
 
 
-<div class="flex main-frame">
+<div class="flex b-p-0 c-p-5 d-p-50 e-p-80 main-frame">
 {% block main %}
 	
 	<div class="left-frame a-1-1 c-1-3 d-1-4 e-1-5 f-1-6">{% block left %}{% endblock %}</div>
@@ -70,7 +65,7 @@
 	<i class="iconfont icon-top-copy"></i>
 </div -->
 
-<footer class="flex b-p-0 c-p-5 d-p-100 e-p-120 text-center">
+<footer class="flex b-p-0 c-p-5 d-p-50 e-p-80 text-center">
 {% block footer %}
 	<div class="a-1-1 footer">
 		<span>This Site's Copyright (c) to China FreeBSD 2017-2030. All Rights Reserved.</span>

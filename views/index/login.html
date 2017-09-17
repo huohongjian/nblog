@@ -51,15 +51,15 @@ R.enterMove();
 
 function panelMsg(msg) {
 	if (window.panel) {
-		panel.show();
 		panel.setHTML('<p><br><br>' + msg + '</p>');
 	} else {
 		window.panel = new Panel({
 			html: '<p><br><br>' + msg + '</p>',
 			style: '.panel > header * {color:#ffffff;}',
+			ondestory: function(){ window.panel=undefined },
 		});
 	}
-	panel.hide(2000);
+	panel.twinkle(2000);
 }
 
 var error = R('[name="error"]').value;

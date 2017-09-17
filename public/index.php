@@ -27,6 +27,8 @@ $container['view'] = function($c) {
 	$baseUrl = $scheme."://".$host.$port.$path;
 //	$baseUrl = "https://".$host.$port.$path;
 //	echo $scheme, $port;
+
+//	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
 
 	$login = Session::get('login');
@@ -35,8 +37,8 @@ $container['view'] = function($c) {
 };
 
 
-$app->get('/',  					'Index:index');
-$app->get('/captcha',				'Index:captcha');
+$app->get('/',  			'Index:index');
+$app->get('/captcha',		'Index:captcha');
 $app->get('/logout',		'Index:logout');
 $app->any('/login',			'Index:login');
 

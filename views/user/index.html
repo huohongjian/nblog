@@ -1,0 +1,13 @@
+{% extends "layout/index.html" %}
+
+{% block right %}
+
+<h2>My Articles (登录成功)</h2>
+
+{% for article in articles %}
+	<li><a href='{{ baseURL }}/article/{{ article.articleid }}'>{{ article.title }}</a></li>
+{% endfor %}
+
+
+
+{% endblock %}

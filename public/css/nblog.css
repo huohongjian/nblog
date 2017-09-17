@@ -4,26 +4,34 @@ html, body {
 	padding:0;
 }
 
-header {
+h1,h2,h3,h4,h5,h6 {
+	font-weight: bold;
+	line-height: 1.3;
+	margin-top: 1em;
+	margin-left: 0;
+	color: #990000;
+}
+
+.banner {
 	background-image: -webkit-linear-gradient(to bottom, #660000, #990000);
 	background-image: linear-gradient(to bottom, #660000, #990000);
 }
 
-header .login-info {
+.banner .login-info {
 	margin: 5px;
 	float: right;
 }
-header .login-info li {
+.banner .login-info li {
 	display: inline-block;
 	margin-right: 8px;
 	font-size: 13px;
 	font-weight: bolder;
 }
-header .login-info li a {
+.banner .login-info li a {
 	color: #FFFFFF;
 }
 
-header .login-info li i {
+.banner .login-info li i {
 	color: yellow;
 }
 
@@ -34,6 +42,7 @@ header .login-info li i {
 ul.navigation {
 	margin:0;
 	padding: 5px 20px;
+	border-bottom: 1px solid #BBBBBB;
 	background-image: -webkit-linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 	background-image: linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 }

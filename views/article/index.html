@@ -1,14 +1,18 @@
 {% extends "layout/index.html" %}
 
-{% block body %}
+{% block right %}
 {% autoescape false %}
-<p><a href="{{ baseURL }}/article/edit/{{ article.articleid }}">编辑</a></p>
-<h1>{{ article.title }}</h1>
-<div>
-	
-    {{ article.content }}
+
+<article>
+	<header>
+		<p><a href="{{ baseURL }}/article/edit/{{ article.articleid }}">编辑</a></p>
+		<h1>{{ article.title }}</h1>
+	</header>
+	<section>
+		{{ article.content }}
+	</section>
+</article>
 
 
-</div>
 {% endautoescape %}
 {% endblock %}

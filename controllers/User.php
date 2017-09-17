@@ -14,7 +14,7 @@ class User {
 	//				  ->where(['userid' => 2])
 					  ->order('artid DESC')
 					  ->select();
-		$this->container->get('view')->render($response, 'user/articles.html', [
+		$this->container->get('view')->render($response, 'user/index.html', [
 			'articles' => $articles
 		]);
 		return $response;

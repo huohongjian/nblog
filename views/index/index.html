@@ -1,8 +1,27 @@
 {% extends "layout/index.html" %}
 
-{% block main %}
-<h1>User List</h1>
+{% block left %}
+
+<h3>下载</h3>
+<a href="https://www.freebsd.org/where.html" target="_blank">FreeBSD 11.1-RELEASE</a>
+
+<br><br><br>
+
+<h3>推荐资源</h3>
 <ul>
-    <li><a href="{{ name }}"> {{name}}</a></li>
+    <li><a href="http://pubs.vmware.com/vsphere-50/index.jsp" target="_blank">
+vSphere 5 文档中心</a></li>
+	<li><a href="http://wiki.ubuntu.org.cn" target="_blank">ubuntu</a></li>
+</ul>
+{% endblock %}
+
+
+{% block right %}
+
+<h3>文章列表</h3>
+<ul>
+	{% for article in articles %}
+	<li><a href='{{ baseURL }}/article/{{ article.articleid }}'>{{ article.title }}</a></li>
+	{% endfor %}
 </ul>
 {% endblock %}

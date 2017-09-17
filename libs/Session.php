@@ -17,7 +17,6 @@ class Session {
 	
 	
 	static function set(array $arr) {
-		self::gc();
 		$json = json_encode($arr);
 		$SID  = session_id();
 	    $sql  = "SELECT nb_session_upsert('$SID', '$json')";
@@ -26,7 +25,9 @@ class Session {
 
 
 	static function unset($key) {
-		$sql = "UPDATE nb_session SET data=data-'$key'";
+		self::gc();
+		$SID  = session_id();
+		$sql = "UPDATE nb_session SET data=data-'$key' WHERE sessionid='$SID'";
 		return DB::getInstance()->query($sql);
 	}
 	

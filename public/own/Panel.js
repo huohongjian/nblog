@@ -39,7 +39,6 @@ Panel.prototype = {
 	destory: function(){var p=this;p.panel.parentNode.removeChild(p.panel);p.panel=undefined;if(p.ondestory)p.ondestory()},
 	setHtml: function(html){this.R('._panel_content_', this.panel).innerHTML=html},
 	setHTML: function(html){this.setHtml(html)},
-	getRect: function(){return this.panel.getBoundingClientRect()},
 
 	writeCSS: function(p){
 		var cur1 = p.movable && p.titleHeight!=0 ? 'move' : 'default',
@@ -135,5 +134,17 @@ Panel.prototype = {
 }
 
 
-
+//创建一个实例应用
+function panelMsg(msg) {
+	if (window.__panel) {
+		__panel.setHTML('<p><br><br>' + msg + '</p>');
+	} else {
+		window.__panel = new Panel({
+			html: '<p><br><br>' + msg + '</p>',
+			style: '.panel > header * {color:#ffffff;}',
+			ondestory: function(){ window.__panel=undefined },
+		});
+	}
+	__panel.twinkle(2000);
+}
 
