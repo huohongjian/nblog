@@ -14,7 +14,7 @@ class User {
 	//				  ->where(['userid' => 2])
 					  ->order('artid DESC')
 					  ->select();
-		$this->container->get('view')->render($response, 'user/index.html', [
+		$this->container->get('view')->render($response, TEMPLATE.'/user/index.html', [
 			'articles' => $articles
 		]);
 		return $response;
@@ -27,7 +27,7 @@ class User {
 	}
 
 	public function edit($request, $response, $args) {
-		$this->container->get('view')->render($response, 'user/kindeditor.html');
+		$this->container->get('view')->render($response, TEMPLATE.'/user/kindeditor.html');
 		return $response;
 	}
 

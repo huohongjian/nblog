@@ -21,6 +21,7 @@ select{border:1px solid #ddd;}
 .hide{display:none;}.show,.block{display:block;}.inline-block{display:inline-block;}
 .red{color:red;}.green{color:green;}.blue{color:blue;}.white{color:white;}.yellow{color:#eeaa66;}
 .ellipsis{text-overflow:ellipsis;display:block;overflow:hidden;white-space:nowrap;}
+.float-left{float:left;}.float-right{float:right;}
 .inherit{width:inherit;height:inherit;}
 .inline-group *{display:inline-block;}
 .relative {position:relative;}

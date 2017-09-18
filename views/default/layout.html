@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="China FreeBSD">
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="China FreeBSD" />
 	<meta name="keywords" content="China FreeBSD nBLOG nWIKI nCMS" />
-	<meta name="author" content="China FreeBSD">
-	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<meta name="author" content="China FreeBSD" />
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 	<title>{% block title %}China FreeBSD{% endblock %}</title>
- 	<!-- link rel="stylesheet" href="http://at.alicdn.com/t/font_stnj9i7gtbc07ldi.css" -->
- 	<link rel="stylesheet" href="{{ baseURL }}/css/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="{{ baseURL }}/css/nblog.css">
-	<link rel="stylesheet" href="{{ baseURL }}/own/R.css?v=1.0.0">
+ 	<link rel="stylesheet" href="{{ baseURL }}/css/font-awesome/css/font-awesome.min.css?v=4.7.0" />
+	<link rel="stylesheet" href="{{ baseURL }}/css/nblog.css?v=1.0.0" />
+	<link rel="stylesheet" href="{{ baseURL }}/own/R.css?v=1.0.0" />
 	{% block head %}{% endblock %}
 </head>
 <body>
 
-
+{% block header %}	
 <header>
-{% block header %}
 	<div class="banner">
 		<ul class="login-info">
+			<li><input type="text" name="search" placeholder="全站搜索" /><i class="fa fa-search"></i></li>
 			{% if (login) %}
 				<li><a href="{{ baseURL }}/user"><i class="fa fa-user"> </i> {{ login }}</a></li>
 				<li><a href="{{ baseURL }}/user/setup">参数设置</a></li>
@@ -31,9 +30,15 @@
 			<li><a href="{{ baseURL }}/login">登录</a></li>
 			{% endif %}
 		</ul>
-		<img src="{{ baseURL }}/images/logo-red.png" alt="China FreeBSD">
+		
+		<a href="{{ baseURL }}" class="b-m-0 c-m-5 d-m-30 e-m-50">
+			<img src="{{ baseURL }}/images/logo1.png" alt="China FreeBSD">
+			<b>China FreeBSD</b>
+		</a>
+
 		<ul class="navigation">
 			<li><a href="{{ baseURL }}/">首页</a></li>
+			<li><a href="https://www.freebsd.org/docs.html">文档</a></li>
 			<li><a href="{{ baseURL }}/admin">管理</a></li>
 			<li><a href="{{ baseURL }}/admin/install">安装</a></li>
 			|
@@ -46,37 +51,34 @@
 
 		</ul>
 	</div>
-{% endblock %}
 </header>
+{% endblock %}
 
 
-<div class="flex b-p-0 c-p-5 d-p-50 e-p-80 main-frame">
 {% block main %}
-	
+<div class="flex b-p-0 c-p-5 d-p-50 e-p-80 main-frame">
 	<div class="left-frame a-1-1 c-1-3 d-1-4 e-1-5 f-1-6">{% block left %}{% endblock %}</div>
 	<div class="right-frame a-1-1 c-2-3 c-3-4 e-4-5 f-5-6">{% block right %}{% endblock %}</div>
-	
-{% endblock %}
 </div>
-
+{% endblock %}
 
 <!--尾部模板-->
 <!-- div class="back-to-top" id="gotop">
 	<i class="iconfont icon-top-copy"></i>
 </div -->
 
-<footer class="flex b-p-0 c-p-5 d-p-50 e-p-80 text-center">
 {% block footer %}
+<footer class="flex b-p-0 c-p-5 d-p-50 e-p-80 text-center">
 	<div class="a-1-1 footer">
 		<span>This Site's Copyright (c) to China FreeBSD 2017-2030. All Rights Reserved.</span>
 	</div>
-{% endblock %}
 </footer>
+{% endblock %}
 
 
-</body>
-
-<script type="text/javascript" src="{{ baseURL }}/own/R.js"></script>
-<script type="text/javascript" src="{{ baseURL }}/js/nblog.js"></script>
+<script type="text/javascript" src="{{ baseURL }}/own/R.js?v=1.0.0"></script>
+<script type="text/javascript" src="{{ baseURL }}/own/Panel.js?v=1.0.0"></script>
+<script type="text/javascript" src="{{ baseURL }}/js/nblog.js?v=1.0.0"></script>
 {% block script %}{% endblock %}
+</body>
 </html>

@@ -18,7 +18,7 @@ class Article {
 	function index($request, $response, $args) {
 		$id = $args['articleid'];
 		$article = DB::get("nb_article")->where(array('articleid'=>$id))->selectOne();
-		$this->container->get('view')->render($response, 'article/index.html',
+		$this->container->get('view')->render($response, TEMPLATE.'/article/index.html',
 			array('article'=>$article)
 		);
 		return $response;
@@ -29,7 +29,7 @@ class Article {
 
 		$rs = DB::get('nb_article')->select();
 		
-		$this->container->get('view')->render($response, 'article/list.html',
+		$this->container->get('view')->render($response, TEMPLATE.'/article/list.html',
 			array('articles'=>$rs)
 		);
 		return $response;
@@ -40,7 +40,7 @@ class Article {
 		$id = $args['articleid'];
 		$article = empty($id) ? array() : $this->getArticleById($id);
 
-		$this->container->get('view')->render($response, 'article/kindeditor.html',
+		$this->container->get('view')->render($response, TEMPLATE.'/article/kindeditor.html',
 			array('article' => $article)
 		);
 		return $response;

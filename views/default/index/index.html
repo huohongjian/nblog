@@ -1,0 +1,65 @@
+{% extends "default/layout.html" %}
+
+{% block left %}
+
+<h3>栏目</h3>
+<ul>
+	{% for column in columns%}
+	<li><a href="#">{{ column.name }}</a></li>
+	{% endfor %}
+</ul>
+
+<h3>下载</h3>
+<a href="https://www.freebsd.org/where.html" target="_blank">FreeBSD 11.1-RELEASE</a>
+
+<br><br><br>
+
+
+{% endblock %}
+
+
+{% block right %}
+
+<div class="flex" style="border-bottom: 1px solid #ddd;">
+	<div class="a-1-1 d-1-2">
+		<article style="padding: 18px;">
+			<img src="{{ baseURL }}/images/freebsd.png" align="left" width="120px" style="margin-top:8px;" />
+			<section><h3 style="display: inline;">FreeBSD</h3>　是一个使用于现代服务器、桌面与嵌入式平台的先进作业系统。由一群庞大的社群持续超过三十年的开发。由于它先进的网路、安全性与储存方面的特色，使得FreeBSD成为许多大型网站以及最普遍的嵌入式网路与储存装置的平台选择。</section>
+		</article>
+	</div>
+	<div class="a-1-1 d-1-2">
+		<article style="padding: 18px;">
+			<section>
+				<h3 style="display: inline;">China FreeBSD</h3>　致力于FreeBSD在中国的推广。我们的计划是：(1)建立China FreeBSD四类源镜像服务器，免费提供下载和更新服务；(2)建立China FreeBSD Wiki；(3)建立DDNS系统；(4)建立中文man查询系统等。本站遵从开源精神，不定期更新和发布 FreeBSD的最新消息和技术资料。我们热切期盼您的参与和贡献！
+			</section>
+		</article>
+	</div>
+</div>
+
+<div class="flex">
+	<div class="a-1-1 d-1-2">
+		<article style="padding: 18px;">
+			<h3>文章列表</h3>
+			<ul>
+				{% for article in articles %}
+				<li><a href='{{ baseURL }}/article/{{ article.articleid }}'>{{ article.title }}</a></li>
+				{% endfor %}
+			</ul>
+		</article>
+	</div>
+	<div class="a-1-1 d-1-2">
+		<article style="padding: 18px;">
+			<section>
+				<h3>推荐资源</h3>
+				<ul>
+					<li><a href="http://pubs.vmware.com/vsphere-50/index.jsp" target="_blank">
+					vSphere 5 文档中心</a></li>
+					<li><a href="http://wiki.ubuntu.org.cn" target="_blank">ubuntu</a></li>
+				</ul>
+			</section>
+		</article>
+	</div>
+</div>
+
+
+{% endblock %}

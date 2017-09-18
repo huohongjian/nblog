@@ -9,8 +9,10 @@ function __construct(Interop\Container\ContainerInterface $container) {
 }
 
 function index($request, $response, $args) {
-	$this->container->get('view')->render($response, 'index/index.html', [
+	$this->container->get('view')->render($response, TEMPLATE.'/index/index.html', [
 		'articles' => DB::get('nb_article')->order('articleid DESC')->select(['articleid', 'title']),
+		'columns'  => DB::get('nb_category')->where(['parentid'=>2])->order('odr, categoryid')
+											->select(),
 	]);
 	return $response;
 }
@@ -48,7 +50,7 @@ function regist($request, $response, $args) {
 			return $response->withStatus(302)->withHeader('Location', '/login');
 		}
 	}
-	return $this->container->get('view')->render($response, 'index/regist.html', [
+	return $this->container->get('view')->render($response, TEMPLATE.'/index/regist.html', [
 		'errorMessage' => $message
 	]);
 }
@@ -80,7 +82,7 @@ function login($request, $response, $args) {
 			$message = '验证码错误!';
 		}
 	}
-	return $this->container->get('view')->render($response, 'index/login.html', [
+	return $this->container->get('view')->render($response, TEMPLATE.'/index/login.html', [
 		'errorMessage' => $message
 	]);
 }

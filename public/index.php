@@ -4,6 +4,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require_once('../vendor/autoload.php');
 
+const TEMPLATE = 'default';
+
 
 $app = new \Slim\App();
 $container = $app->getContainer();
@@ -30,9 +32,7 @@ $container['view'] = function($c) {
 
 //	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
-
-	$login = Session::get('login');
-	$view->getEnvironment()->addGlobal('login', $login);
+	$view->getEnvironment()->addGlobal('login', Session::get('login'));
 	return $view;
 };
 

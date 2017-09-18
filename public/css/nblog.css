@@ -16,8 +16,20 @@ h1,h2,h3,h4,h5,h6 {
 	background-image: -webkit-linear-gradient(to bottom, #660000, #990000);
 	background-image: linear-gradient(to bottom, #660000, #990000);
 }
+.banner > a {display: inline-block;}
+.banner > a > img { width: 60px; margin: 10px 0 5px; float: left;}
+.banner > a > b  { color: #ffffff; font-size: 26px; margin: 25px 10px 0; display: inline-block;}
+
+.banner [name=search] {
+	height: 12px;
+	width: 85px;
+	font-size: 14px;
+	padding-right: 18px;
+}
+.banner .fa-search { position: absolute; left: 130px; top: 3px; }
 
 .banner .login-info {
+	position: relative;
 	margin: 5px;
 	float: right;
 }
@@ -31,7 +43,7 @@ h1,h2,h3,h4,h5,h6 {
 	color: #FFFFFF;
 }
 
-.banner .login-info li i {
+.banner .fa-user {
 	color: yellow;
 }
 
