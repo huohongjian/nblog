@@ -7,8 +7,8 @@
 	_.all = function(q,o){return (o||D).querySelectorAll(q)}
 	_.ALL = function(q,o){var a=o===true||typeof q!='string'?q:_.all(q,o);
 		return {
-			each:function(fn){var i=0,I=a.length;for(;i<I;i++){fn(a[i],i,I)}},
-			map:function(fn){var r=[],i=0,I=a.length;for(;i<I;I++){r.push(fn(a[i],i,I))}return r},
+			each:function(fn){var i=0,I=a.length;for(;i<I;i++){fn(a[i],i,I,a)}},
+			map:function(fn){var r=[],i=0,I=a.length;for(;i<I;I++){r.push(fn(a[i],i,I,a))}return r},
 		}
 	}
 	_.ce  = function(t,j){var k,l,e=D.createElement(t);
@@ -23,10 +23,20 @@
 	_.parent  = function(q,tag){var o=_(q),p=o.parentNode,t=p.tagName;
 		if(t=='HTML'){return null}else if(t==tag.toUpperCase()){return p}else{return _.parent(p,tag)}
 	}
+
+	_.isLast=_.isEnd=function(o,a){return o===a[a.length-1]?true:false}
+	_.inArray=function(search,array){
+		for(var i in array){
+			if(array[i]==search){return true}
+		}
+		return false;
+	}
+
+// return value "Arguments", "Array", "Boolean", "Date", "Error", "Function", "JSON", "Math", "Number", "Object", "RegExp", "String", FormData
+	_.type    = function(o){return Object.prototype.toString.call(o).slice(8,-1)}
 	_.isDC 	  = function(s){return /^[a-zA-Z0-9\.-_]+$/.test(s)}
 	_.isDom   = function(o){return !!(o&&window&&o.nodeType)}
-	_.isJSON  = function(o){return typeof(o)==='object'&&Object.prototype.toString.call(o).toLowerCase()==='[object object]'&&!o.length} 
-	_.isFunc  = function(o){return typeof(o)==='function'}
+	_.isJSON  = function(o){return _.type(o)=='Object'&&!o.length}
 	_.isChar  = function(s){return /^[a-zA-Z]+$/.test(s)}
 	_.isDigit = function(s){return /^[0-9\.-]+$/.test(s)}
 	_.isEmpty = function(s){return s==null||s==undefined||s==''||s==0||s==[]||s=={}}
@@ -42,12 +52,22 @@
 		if (/\?/.test(url)){s=url.split('?');u=_.concat(_.url(s[1]),u||{})}
 		for(k in u){if(u[k])r+='&'+k+'='+u[k]}return s[0]+'?'+r.substr(1);
 	}
-	_.baseURL = function(search, start) {
-		return L.href.substr(start||0, L.href.indexOf(search));
-	}
-	_.fd=_.formData=function(fm,j){
-		var k,fd;if(_.isJSON(fm)){fd=new FormData();j=fm}else{fd=new FormData(_(fm))}
-		if(j){for(k in j)fd.append(k,j[k])}return fd;
+	_.baseURL = function(search, start){return L.href.substr(start||0, L.href.indexOf(search))}
+	
+
+	_.fd=_.formData=function(f,j,a){
+		var i,k,d,t,F=new FormData(),J={},A=[],s=function(o){
+			if(!_.isEmpty(o)){
+				t=_.type(o);
+				if(t=='Array'){A=o}
+				else if(t=='Object'){J=o}
+				else{o=_(o);if(_.type(o)=='HTMLFormElement'){F=new FormData(o)}}
+			}
+		};
+		s(a);s(j);s(f);
+		for(k in J){F.set(k,J[k])}
+		for(i=0;i<A.length;i++){if(F.has(A[i]))F.delete(A[i])}
+		return F;
 	}
 	_.load = function(file,cb){
 		var e = /\.js$/.test(file) ? _.ce('script',{src:file})
@@ -65,17 +85,19 @@
 	_.getScrollTop=function(){return D.documentElement.scrollTop||W.pageYOffset||D.body.scrollTop}
 	_.setScrollTop=function(n){D.documentElement.scrollTop=W.pageYOffset=D.body.scrollTop=n}
 	
-	_.enterEvent=function(q,f,b){_(q).addEventListener('keyup',function(e){var e=e||W.e;e.preventDefault();if(e.keyCode==13)f(e)},b||false)}
-	_.enterMove =function(fm){fm=_(fm||'form');
-		if(fm){
-			var	os = _.all('input[type=text],input[type=number],input[type=email],input[type=password],'
-				   + 'input[type=url],input[submit],input[type=button],button,textarea',fm);
-			_.enterEvent(fm, function(e){
-				var o=e.srcElement||e.target;
-					for(var i=0;i<os.length-1;i++){
-						if(o===os[i]&&o.tagName=='INPUT'){os[i+1].select();break}
-		}})}os[0].select();return fm;
+	_.focus =function(q,o){_(q,o).focus()}
+	_.select=function(q,o){_(q,o).select()}
+	_.enter =function(q,f,b){_(q).addEventListener('keyup',function(e){var e=e||W.e;e.preventDefault();if(e.keyCode==13)f(e)},b||false)}
+	_.move  =function(qs,ex){
+		ex=_.all(ex);
+		_.ALL(qs||'form input').each(function(e,i,s,E){
+			_.enter(e,function(){
+				while(_.inArray(E[i+1],ex)&&i<s){i++;}
+				if(i>s-2)i=-1;E[i+1].select();
+			});
+		});
 	}
+	_.setSelectValue=function(q,v){_.ALL('option',_(q)).each(function(o){if(o.value==v)return o.selected='true'})}
 
 
 	var xhr={

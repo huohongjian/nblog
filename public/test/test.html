@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+	<script type="text/javascript" src="../own/R.js"></script>
+</head>
+<body>
+	<input type="text" id="pwd" value="123">
+	<input type="text" id="pwd2" value="abc" style="display: none;">
+	<input type="button" onclick="t()">
+</body>
+
+<script type="text/javascript">
+
+	var a = [1,2,3];
+	alert(R.all('input').indexOf())
+
+	var e = document.getElementById('pwd');
+
+	var e2 = document.getElementById('pwd2');
+
+	
+	
+
+	function t(){
+		e2.value = e.value;
+		alert(e2.value);
+	}
+
+</script>
+</html>

@@ -7,11 +7,26 @@ require_once('../vendor/autoload.php');
 const TEMPLATE = 'default';
 
 
-$app = new \Slim\App();
+$configuration = [
+ 'settings' => [
+ 'displayErrorDetails' => true,
+ ],
+];
+$c = new \Slim\Container($configuration);
+$app = new \Slim\App($c);
+
+
+
+
+//$app = new \Slim\App();
 $container = $app->getContainer();
 
+$session_login = Session::get('login');
 
-$container['view'] = function($c) {
+
+
+
+$container['view'] = function($c) use ($session_login) {
 	$view = new \Slim\Views\Twig('../views', [
 		'cache' => false
 	]);
@@ -32,7 +47,7 @@ $container['view'] = function($c) {
 
 //	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
-	$view->getEnvironment()->addGlobal('login', Session::get('login'));
+	$view->getEnvironment()->addGlobal('login', $session_login);
 	return $view;
 };
 
@@ -42,14 +57,12 @@ $app->get('/captcha',		'Index:captcha');
 $app->get('/logout',		'Index:logout');
 $app->any('/login',			'Index:login');
 
-$app->any('/regist',		'Index:regist');
-$app->get('/hasSameUser/[{login}]',	'Index:hasSameUser');
+$app->any('/regist',			'Index:regist');
+$app->post('/checkLoginName',	'Index:hasSameUser');
 
 $app->get('/admin', 		 Admin::class.':index');
 $app->get('/admin/install',  Admin::class.':install');
 $app->get('/admin/userlist', Admin::class.':userlist');
-
-$app->get('/user',	User::class.':index');
 
 
 
@@ -57,6 +70,37 @@ $app->post('/article/save', 				Article::class.':save');
 $app->get ('/article/list',					Article::class.':list');
 $app->get ('/article/{articleid}',			Article::class.':index');
 $app->get ('/article/edit/[{articleid}]', 	Article::class.':edit');
+
+
+
+$app->group('/user', function() use ($app) {
+	$app->get ('/',								User::class.':index');
+	$app->get ('/article/edit/[{articleid}]', 	User::class.':editArticle');
+	$app->post('/article/save', 				User::class.':saveArticle');
+
+})->add(function($request, $response, $next) use ($session_login) {
+	if ($session_login) {
+		return $next($request, $response);
+	} else {
+		return $response->withStatus(302)->withHeader('Location', '/login');
+	}
+});
+
+
+// $app->group('/utils', function () use ($app) {
+//     $app->get('/date', function ($request, $response) {
+//         return $response->getBody()->write(date('Y-m-d H:i:s'));
+//     });
+//     $app->get('/time', function ($request, $response) {
+//         return $response->getBody()->write(time());
+//     });
+// })->add(function ($request, $response, $next) {
+//     $response->getBody()->write('It is now ');
+//     $response = $next($request, $response);
+//     $response->getBody()->write('. Enjoy!');
+
+//     return $response;
+// });
 
 
 

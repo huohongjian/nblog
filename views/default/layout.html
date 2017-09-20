@@ -8,8 +8,9 @@
 	<meta name="keywords" content="China FreeBSD nBLOG nWIKI nCMS" />
 	<meta name="author" content="China FreeBSD" />
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">  
 	<title>{% block title %}China FreeBSD{% endblock %}</title>
- 	<link rel="stylesheet" href="{{ baseURL }}/css/font-awesome/css/font-awesome.min.css?v=4.7.0" />
+ 	<link rel="stylesheet" href="//at.alicdn.com/t/font_418836_42k8vtq2myflmcxr.css" />
 	<link rel="stylesheet" href="{{ baseURL }}/css/nblog.css?v=1.0.0" />
 	<link rel="stylesheet" href="{{ baseURL }}/own/R.css?v=1.0.0" />
 	{% block head %}{% endblock %}
@@ -20,10 +21,11 @@
 <header>
 	<div class="banner">
 		<ul class="login-info">
-			<li><input type="text" name="search" placeholder="全站搜索" /><i class="fa fa-search"></i></li>
+			<li><input type="text" name="search" placeholder="全站搜索" /><i class="iconfont icon-search gray"></i></li>
 			{% if (login) %}
-				<li><a href="{{ baseURL }}/user"><i class="fa fa-user"> </i> {{ login }}</a></li>
-				<li><a href="{{ baseURL }}/user/setup">参数设置</a></li>
+				<li><a href="{{ baseURL }}/user/"><i class="iconfont icon-seeuser"> </i> {{ login }}</a></li>
+				<li><a href="{{ baseURL }}/user/article/edit/">编辑</a></li>
+				<li><a href="{{ baseURL }}/user/manage">管理</a></li>
 				<li><a href="{{ baseURL }}/logout">退出</a></li>
 			{% else %}
 			<li><a href="{{ baseURL }}/regist">注册</a></li>
@@ -44,10 +46,11 @@
 			|
 
 			<li><a href="{{ baseURL }}/article/list">文章列表</a></li>
-			<li><a href="{{ baseURL }}/article/edit/">文章编辑</a></li>
+			<li><a href="{{ baseURL }}/user/article/edit/">文章编辑</a></li>
 
 			|
-			<li><a href="{{ baseURL }}/user">用户主页</a></li>
+			<li><a href="{{ baseURL }}/">帮助</a></li>
+			<li><a href="{{ baseURL }}/">捐赠</a></li>
 
 		</ul>
 	</div>

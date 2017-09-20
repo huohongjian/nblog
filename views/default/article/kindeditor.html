@@ -8,23 +8,21 @@
 	<style>
 		html, body {margin: 0;}
 
-		#editForm > p { margin: 8px 0;}
-		#editForm img { width: 200px; height: 150px; }
 		input[name=title],
 		input[name=alias],
 		input[name=caption],
-		input[name=thumb],
-		textarea {width:100%;}
-		textarea[name=caption] {height: 60px;}
-		select {width:90px;}
-		
-		.left-frame > form,
-		.right-frame > div {margin: 10px;}
+		input[name=thumb], 
+		textarea[name=caption] { width: 100%; box-sizing: border-box;}
+		textarea[name=caption] { height: 90px; }
+		select,
+		input[name=category] { width: 120px; }
+		 
+		form[name=editForm] { padding: 10px; overflow: hidden;}
+		form[name=editForm] > p { margin: 6px 0;}
+		form[name=editForm] > p:first-child { margin: 0; }
+		form[name=editForm] img { width: 200px; height: 150px; cursor: pointer; }
 
-		.banner {padding: 10px; background: #990000; #438eb9;}
-		.banner * { color: #ffffff; }
-		.banner .title {font-weight: bolder; display: inline-block; text-align: center;}
-
+		.panel ul.text-left li { margin: 5px; }
 
 	</style>
 {% endblock %}
@@ -32,41 +30,48 @@
 {% block header %}{% endblock %}
 
 {% block main %}
-	<div class="banner">
-		<span class="a-1-1 d-1-4 f-1-5 title">添加/修改文章</span>
-		<span><a href="{{ baseURL }}/"><i class="fa fa-home"> 首页</i></a></span>
-	</div>
-	
-	<div class="flex">
+	<div class="flex admin-page">
 		<div class="a-1-1 d-1-4 f-1-5 left-frame">
-			<form id="editForm">
+			<header>
+				<ul>
+					<li>添加 / 修改文章</li>
+				</ul>
+			</header>
+			<form name="editForm">
 				<p>
 					<label>
 						状态：
-						<select name="status">
+						<select name="status" data-val="{{ article.status ?: 2 }}">
 							<option value="1">推荐</option>
-							<option value="2" selected="selected">发表</option>
+							<option value="2">公开</option>
 							<option value="3">隐藏</option>
 							<option value="4">删除</option>
 						</select>
 					</label>
-					<label class="float-right">
-						类别：
-						<select name="categoryid">
-							<option value="1">综合</option>
-						</select>
-					</label>
+					<select name="category" class="float-right" data-val="{{ article.category }}">
+						<option value="">--选择类别--</option>
+						{% for category in categories %}
+						<option value="{{ category }}">{{ category }}</option>
+						{% endfor %}
+					</select>
 				</p>
-				<p><label>标题：<input name="title" type="text" value="{{ article.title }}"></label></p>
+				<p>
+
+					<label>标题：</label>
+					<input name="title" type="text" value="{{ article.title }}" required="required" placeholder="必填" />
+				</p>
 				<p><label>别名：<input name="alias" type="text" value="{{ article.alias }}"></label></p>
 				<p><label>摘要：<textarea name="caption">{{ article.abstract }}</textarea></label></p>
 				<p>
-					<label>微缩图：</label>
-					<label class="float-right">电子书格式：<input type="checkbox" name="isbook" /></label>
-					<input type="text" name="thumb" placeholder="单击上传，尺寸200x150" readonly="true" />
+					<input type="text" name="keywords" class="float-right" placeholder="关键字" />
+					<label>电子书格式：<input type="checkbox" name="isbook" /></label>
 				</p>
-				<p class="text-center">
-					<img id="thumbimg" src="{{ baseURL }}/images/freebsd.png" data-baseurl="{{ baseURL }}"  data-src="{{ baseURL }}/images/freebsd.png" />
+				<p>
+					<label>微缩图：</label>
+					<input type="text" name="thumb" data-maxnum="{{ maxnum }}" data-baseurl="{{ baseURL }}" readonly="true" title="双击此框，上传或更换微缩图，尺寸200x150" />
+				</p>
+				<p class="text-center" style="height: 150px;">
+					<img id="thumbimg" title="双击图片随机更换微缩图" />
 				</p>
 				<p>
 					<input type="button" name="save" value="保存" class="float-right" />
@@ -76,13 +81,28 @@
 			</form>
 		</div>
 
+
+
 		<div class="a-1-1 d-3-4 f-4-5 right-frame">
-			<div>
-				<textarea name="content" style="width:100%; height:550px; visibility:hidden;">
+			<header>
+				<span class="float-right">
+					<a href="{{ baseURL }}/user"><i class="iconfont icon-seeuser"></i> {{ login }}</a>
+				</span>
+				<ul>
+					<li><a href="{{ baseURL }}/"><i class="iconfont icon-home"></i> 首页</a></li>
+					<li><a href="{{ baseURL }}/article/edit/"><i class="iconfont icon-home"></i> 新建</a></li>
+					<li><a href="javascript:panelHelp()"><i class="iconfont icon-home"></i> 帮助</a></li>
+				</ul>
+				
+			</header>
+			<form name="editForm">
+				<textarea name="content" style="width:100%; height:550px; box-sizing:border-box; visibility:hidden;">
 					{{ article.content }}
 				</textarea>
-			</div>
+			</form>
 		</div>
+
+
 	</div>
 {% endblock %}
 
@@ -92,6 +112,12 @@
 <script src="{{ baseURL }}/js/kindeditor/kindeditor-all-min.js"></script>
 <script src="{{ baseURL }}/js/kindeditor/plugins/code/prettify.js"></script>
 <script type="text/javascript">
+	var oStatus = R('select[name="status"]');
+	var oCategory = R('select[name="category"]');
+	R.setSelectValue(oStatus, oStatus.dataset.val);
+	R.setSelectValue(oCategory, oCategory.dataset.val);
+
+
 	var editor;
 	KindEditor.ready(function(K) {
 		editor = K.create('textarea[name="content"]', {
@@ -103,7 +129,6 @@
 		});
 		prettyPrint();
 
-//		K('#image1').click(function() {
 		K('input[name=thumb]').click(function() {
 			editor.loadPlugin('image', function() {
 				editor.plugin.imageDialog({
@@ -113,24 +138,53 @@
 						editor.hideDialog();
 
 						var img = R.id('thumbimg');
-						img.src = img.dataset.baseurl + url;
+						img.src = url;
 					}
 				});
 			});
 		});
 
+		K('#thumbimg').dblclick(setThumbImg);
 		K('input[name=save]').click(save);
 	});
 
 
+	function setThumbImg() {
+		var oThumb = R('input[name="thumb"]');
+		var max = parseInt(oThumb.dataset.maxnum);
+		var rnd = Math.ceil(Math.random()*max);
+		var src = '/upload/image/thumb/' + rnd + '.jpg';
+		oThumb.value = src;
+		R('#thumbimg').src = oThumb.dataset.baseurl + src;
+	}
+	setThumbImg();
 
 
-	R.enterMove();
+	function panelHelp() {
+		if (window._panelHelp && window._panelHelp.panel) {
+			window._panelHelp.show();
+		} else {
+			window._panelHelp = new Panel({
+				title: '帮助',
+				width: 500,
+				height: 300,
+				html: '<ul class="text-left">\
+					<li>列表显示文章时，别名优先标题显示。</li>\
+					<li>单击微缩图文本框，上传或选择更换微缩图。</li>\
+					<li>双击微缩图，可在微缩图库中随机更换。</li>\
+				',
+			});
+		}
+	}
+
+
+
+	
 	var articleid = R('[name="articleid"]').value;
 
 	function save() {
 
-		R.post("../save", R.fd('#editForm',{
+		R.post("../save", R.fd('form[name="editForm"]', {
 	//		image: R.id('thumb').src.match(/\/images.*/),
 			content: editor.html(),
 			articleid: articleid,
@@ -145,5 +199,7 @@
 
 
 	}
+	R.enterMove();
+	R('input[name="title"]').focus();
 </script>
 {% endblock %}

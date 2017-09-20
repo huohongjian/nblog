@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block main %}
-<form name="regist" method="post">
+<form name="registForm" method="post">
 	<p>
 		<h2>用户注册</h2>
 	</p>
@@ -29,12 +29,13 @@
 	</p>
 	<p>
 		<label>登录密码：</label>
-		<input type="password" name="password" required="required">
+		<input type="password" name="password" style="display: none;">
+		<input type="password" id="pwd" required="required">
 		<i><i class="red">*</i>由3-16位英文、数字、下划线组成</i>
 	</p>
 	<p>
 		<label>密码确认：</label>
-		<input type="password" name="password2" required="required">
+		<input type="password" id="pwd2" required="required">
 		<i class="red">*</i>
 	</p>
 
@@ -57,7 +58,7 @@
 	</p>
 
 	<p class="text-center">
-		<input type="button" onclick="rsa()" value="确认">
+		<input type="button" onclick="doRegist()" value="提交">
 	</p>
 
 </form>

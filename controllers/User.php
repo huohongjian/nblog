@@ -13,7 +13,7 @@ class User {
 		$articles = DB::get('nb_article')
 	//				  ->where(['userid' => 2])
 					  ->order('artid DESC')
-					  ->select();
+					  ->selectAll();
 		$this->container->get('view')->render($response, TEMPLATE.'/user/index.html', [
 			'articles' => $articles
 		]);
@@ -26,16 +26,27 @@ class User {
 		return $response;
 	}
 
-	public function edit($request, $response, $args) {
-		$this->container->get('view')->render($response, TEMPLATE.'/user/kindeditor.html');
-		return $response;
+	public function editArticle($request, $response, $args) {
+		$userid = Session::get('userid');
+		$id = $args['articleid'];
+		$article = empty($id) ? array() : DB::get('nb_article')->where(['articleid'=>$id])->selectOne();
+		$cats = DB::get('nb_user')->where(['userid'=>$userid])->selectVal(['categories']);
+		return $this->container->get('view')->render($response, TEMPLATE.'/article/kindeditor.html', [
+			'categories' => explode(',', $cats),
+			'article' => $article,
+			'maxnum'  => 12,
+		]);
 	}
 
-	public function save($request, $response, $args) {
+	public function saveArticle($request, $response, $args) {
 
-		$parsedBody = $request->getParsedBody();
+		$p = $request->getParsedBody();
+		if (empty($p['articleid'])) {
+			$p['articleid'] = uniqid();
+		}
+		$id = DB::get('nb_article')->returning('articleid')->conflict('articleid')->upsert($p);
 
-		return $response->withJson($parsedBody);
+		return $response->withJson(['status'=>200, 'articleid'=>$id, 'msg'=>'保存文章成功!']);
 	}
 
    

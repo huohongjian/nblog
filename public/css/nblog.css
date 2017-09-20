@@ -12,13 +12,17 @@ h1,h2,h3,h4,h5,h6 {
 	color: #990000;
 }
 
-.banner {
+header {
 	background-image: -webkit-linear-gradient(to bottom, #660000, #990000);
 	background-image: linear-gradient(to bottom, #660000, #990000);
 }
+header *,
+header a,
+header a:hover { color: #fff; font-weight: bolder; }
+
 .banner > a {display: inline-block;}
 .banner > a > img { width: 60px; margin: 10px 0 5px; float: left;}
-.banner > a > b  { color: #ffffff; font-size: 26px; margin: 25px 10px 0; display: inline-block;}
+.banner > a > b  { font-size: 26px; margin: 25px 10px 0; display: inline-block;}
 
 .banner [name=search] {
 	height: 12px;
@@ -26,7 +30,7 @@ h1,h2,h3,h4,h5,h6 {
 	font-size: 14px;
 	padding-right: 18px;
 }
-.banner .fa-search { position: absolute; left: 130px; top: 3px; }
+.banner .icon-search { position: absolute; left: 130px; top: 3px; }
 
 .banner .login-info {
 	position: relative;
@@ -74,12 +78,18 @@ ul.navigation li a {
 
 
 
-
-
-
-
-
 div.footer {
 	text-align: center;
 	color: blue;
 }
+
+
+
+
+/* for admin-page edit-page */
+.admin-page header { padding: 10px; }
+.admin-page .left-frame header { text-align: center; }
+.admin-page header ul { margin: 0; padding: 0; }
+.admin-page header ul li { display: inline; text-align: center; padding: 0 10px;}
+
+

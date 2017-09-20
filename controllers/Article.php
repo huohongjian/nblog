@@ -16,11 +16,20 @@ class Article {
 
 	// 显示文章内容
 	function index($request, $response, $args) {
+//		$sql = "SELECT * from nb_user WHERE login= $1 ";
+
+		
+$where = ['name'=>'hhj', 'id'=>2, 'ord'=>'www'];
+
+echo DB::getInstance()->where($where,[], ['or']);
+
+
+		return;
 		$id = $args['articleid'];
 		$article = DB::get("nb_article")->where(array('articleid'=>$id))->selectOne();
-		$this->container->get('view')->render($response, TEMPLATE.'/article/index.html',
-			array('article'=>$article)
-		);
+		// $this->container->get('view')->render($response, TEMPLATE.'/article/index.html',
+		// 	array('article'=>$article)
+		// );
 		return $response;
 	}
 
@@ -37,13 +46,19 @@ class Article {
 
 
 	public function edit($request, $response, $args) {
-		$id = $args['articleid'];
-		$article = empty($id) ? array() : $this->getArticleById($id);
-
-		$this->container->get('view')->render($response, TEMPLATE.'/article/kindeditor.html',
-			array('article' => $article)
-		);
-		return $response;
+		$userid = Session::get('userid');
+		if ($userid) {
+			$id = $args['articleid'];
+			$article = empty($id) ? array() : $this->getArticleById($id);
+			$cats = DB::get('nb_user')->where(['userid'=>$userid])->selectVal(['categories']);
+			return $this->container->get('view')->render($response, TEMPLATE.'/article/kindeditor.html', [
+				'categories' => explode(',', $cats),
+				'article' => $article,
+				'maxnum'  => 12,
+			]);
+		} else {
+			return $response->withStatus(302)->withHeader('Location', '/login');
+		}
 	}
 
 

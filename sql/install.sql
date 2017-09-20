@@ -6,20 +6,23 @@
 
 DROP TABLE IF EXISTS nb_article CASCADE;
 DROP SEQUENCE IF EXISTS nb_article_seq;
+DROP TYPE IF EXISTS nb_article_parrern_enum;
 CREATE SEQUENCE nb_article_seq;
+CREATE TYPE nb_article_parrern_enum AS ENUM ('html', 'markdown', 'text');
 CREATE TABLE IF NOT EXISTS nb_article (
 	artid		integer NOT NULL DEFAULT nextval('nb_article_seq'),
 	articleid 	varchar(32) UNIQUE,
+	category 	varchar(32) NOT NULL default '',
 	columnid 	integer NOT NULL default 0, 	-- 栏目id
-	categoryid 	integer NOT NULL default 0,		-- 类别id
 	userid 		integer NOT NULL default 0,
-	pattern		integer NOT NULL default 1, 	-- 1:html, 2:markdown, 3:text
-	status		integer NOT NULL default 2,		-- 1:推荐, 2:发表, 3:隐藏, 4:删除
+	status		integer NOT NULL default 2,		-- 1:推荐, 2:公开, 3:隐藏, 4:删除
 	counter 	integer NOT NULL default 0,
 	comment 	integer NOT NULL default 0,
 	isbook		boolean NOT NULL default false,	-- 电子书格式
+	pattern		nb_article_parrern_enum NOT NULL default 'html',
 	title 		varchar(255) NOT NULL default '',
 	alias		varchar(255) NOT NULL default '',
+	keywords	varchar(255) NOT NULL default '',
 	thumb		varchar(255) NOT NULL default '',
 	caption 	text NOT NULL default '',
 	content 	text NOT NULL default '',
@@ -27,10 +30,10 @@ CREATE TABLE IF NOT EXISTS nb_article (
 	newtime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
 	CONSTRAINT nb_article_pkey PRIMARY KEY (artid)
 );
-CREATE INDEX nb_article_articleid 	ON nb_article (articleid);
-CREATE INDEX nb_article_columnid 	ON nb_article (columnid);
-CREATE INDEX nb_article_categoryid 	ON nb_article (categoryid);
-CREATE INDEX nb_article_userid 		ON nb_article (userid);
+CREATE INDEX nb_article_articleid 		ON nb_article (articleid);
+CREATE INDEX nb_article_columnid 		ON nb_article (columnid);
+CREATE INDEX nb_article_userid_category	ON nb_article (userid, category);
+CREATE INDEX nb_article_status 			ON nb_article (status);
 
 
 /*
@@ -63,7 +66,7 @@ CREATE TABLE IF NOT EXISTS nb_status (
 
 INSERT INTO nb_status (name, remark) VALUES
 ('推荐', '向管理员推荐此文，并在用户推荐栏中显示。'),
-('发表', '任何人都可浏览、可搜索。'),
+('公开', '任何人都可浏览、可搜索。'),
 ('隐藏', '只有用户可浏览、可搜索，其他人不可浏览、不可搜索。'),
 ('删除', '用户也不可浏览、不可搜索，但可通过文章管理更改状态。');
 
@@ -149,7 +152,7 @@ CREATE TABLE IF NOT EXISTS nb_user (
 	password 	character varying(32) NOT NULL default '',
 	roleid 		integer NOT NULL default 5,
 	score 		integer NOT NULL default 0,
-	categories	integer[] NOT NULL default '{100,101}',
+	categories	text NOT NULL default 'FreeBSD,系统管理,网络服务,桌面应用,数据库,编程',
 	jointime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
 	telephone 	character varying(16),
 	email 		character varying(64),
@@ -163,32 +166,34 @@ CREATE INDEX nb_user_login 	ON nb_user (login);
 CREATE INDEX nb_user_score 	ON nb_user (score);
 
 INSERT INTO nb_user(name, login, password, roleid)  VALUES
-('root', 		   	'root', 		'202cb962ac59075b964b07152d234b70', 	1),
-('administrator',  	'admin', 		'202cb962ac59075b964b07152d234b70', 	2),
-('HuoHongJian', 	'huohongjian',	'202cb962ac59075b964b07152d234b70', 	2),
-('HHJ',			 	'hhj', 			'202cb962ac59075b964b07152d234b70', 	5),
-('anonymous', 		'anon', 		'202cb962ac59075b964b07152d234b70', 	6);
+('root', 		   	'root', 		'202cb962ac59075b964b07152d234b70', 1),
+('administrator',  	'administrator','202cb962ac59075b964b07152d234b70', 2),
+('administrator',  	'admin', 		'202cb962ac59075b964b07152d234b70', 2),
+('anonymous', 		'anon', 		'202cb962ac59075b964b07152d234b70', 6),
+('iceage',			'iceage',		'202cb962ac59075b964b07152d234b70',	2),
+('HuoHongJian', 	'huohongjian',	'202cb962ac59075b964b07152d234b70', 2),
+('HHJ',			 	'hhj', 			'202cb962ac59075b964b07152d234b70', 5);
 
 
 
 
-DROP TABLE IF EXISTS nb_category CASCADE;
-DROP SEQUENCE IF EXISTS nb_category_seq;
-CREATE SEQUENCE nb_category_seq;
-CREATE TABLE IF NOT EXISTS nb_category (
-	categoryid 	integer NOT NULL DEFAULT nextval('nb_category_seq'),
+DROP TABLE IF EXISTS nb_column CASCADE;
+DROP SEQUENCE IF EXISTS nb_column_seq;
+CREATE SEQUENCE nb_column_seq;
+CREATE TABLE IF NOT EXISTS nb_column (
+	columnid 	integer NOT NULL DEFAULT nextval('nb_column_seq'),
 	parentid 	integer NOT NULL default 0,
 	name 		varchar(64) NOT NULL default '',
 	leaf		boolean NOT NULL default true,
 	path 		varchar(64) NOT NULL default '0,',
 	odr 		integer NOT NULL default 0,
-	CONSTRAINT nb_category_pkey PRIMARY KEY (categoryid)
+	CONSTRAINT nb_column_pkey PRIMARY KEY (columnid)
 );
-CREATE INDEX nb_category_parentid 	ON nb_category (parentid);
-CREATE INDEX nb_category_path		ON nb_category (path);
-CREATE INDEX nb_category_odr		ON nb_category (odr);
+CREATE INDEX nb_column_parentid 	ON nb_column (parentid);
+CREATE INDEX nb_column_path		ON nb_column (path);
+CREATE INDEX nb_column_odr		ON nb_column (odr);
 
-INSERT INTO nb_category VALUES
+INSERT INTO nb_column VALUES
 (1,    0, '全部类别', false, '0,', 0),
 (2,    1, 'FreeBSD',  false, '0,1,', 0),
 (100,  2, '系统手册', true,  '0,1,2,', 0),
@@ -199,8 +204,7 @@ INSERT INTO nb_category VALUES
 (105,  2, '内核模块', true,  '0,1,2,', 0),
 (106,  2, '存储安全', true,  '0,1,2,', 0),
 (107,  2, '脚本工具', true,  '0,1,2,', 0),
-(108,  2, '实用案例', true,  '0,1,2,', 0),
-(1000, 1, '用户类别', false, '0,1,', 0);
+(108,  2, '源码实例', true,  '0,1,2,', 0);
 
 
 

@@ -136,15 +136,14 @@ Panel.prototype = {
 
 //创建一个实例应用
 function panelMsg(msg) {
-	if (window.__panel) {
-		__panel.setHTML('<p><br><br>' + msg + '</p>');
+	if (window.__panelMsg && window.__panelMsg.panel) {
+		__panelMsg.setHTML('<p><br><br>' + msg + '</p>');
 	} else {
-		window.__panel = new Panel({
+		window.__panelMsg = new Panel({
 			html: '<p><br><br>' + msg + '</p>',
 			style: '.panel > header * {color:#ffffff;}',
-			ondestory: function(){ window.__panel=undefined },
 		});
 	}
-	__panel.twinkle(2000);
+	__panelMsg.twinkle(2000);
 }
 
