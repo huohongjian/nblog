@@ -1,8 +1,9 @@
 
 
 R.move('[name=registForm] input', '[name=password]');
-R.focus('[name=login]');
 R.enter('[name=captcha]', doRegist);
+
+R('[name=login]').focus();
 R('[name=login]').addEventListener('change', function(){
 	if (authLogin()) {
 		R.post('./checkLoginName', R.fd({login: R('[name=login]').value}), function(data) {

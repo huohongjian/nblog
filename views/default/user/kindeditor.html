@@ -1,4 +1,4 @@
-{% extends "default/layout.html" %}
+{% extends "layout.html" %}
 
 {% block title %} KindEditor {% endblock%}
 
@@ -90,7 +90,7 @@
 				</span>
 				<ul>
 					<li><a href="{{ baseURL }}/"><i class="iconfont icon-home"></i> 首页</a></li>
-					<li><a href="{{ baseURL }}/article/edit/"><i class="iconfont icon-home"></i> 新建</a></li>
+					<li><a href="{{ baseURL }}/user/article/edit/"><i class="iconfont icon-home"></i> 新建</a></li>
 					<li><a href="javascript:panelHelp()"><i class="iconfont icon-home"></i> 帮助</a></li>
 				</ul>
 				
@@ -114,13 +114,13 @@
 <script type="text/javascript">
 	var oStatus = R('select[name="status"]');
 	var oCategory = R('select[name="category"]');
-	R.setSelectValue(oStatus, oStatus.dataset.val);
-	R.setSelectValue(oCategory, oCategory.dataset.val);
+	R.ONE(oStatus).setSelect(oStatus.dataset.val);
+	R.ONE(oCategory).setSelect(oCategory.dataset.val);
 
 
 	var editor;
 	KindEditor.ready(function(K) {
-		editor = K.create('textarea[name="content"]', {
+		editor = K.create('textarea[name=content]', {
 			cssPath : 			'../../../js/kindeditor/plugins/code/prettify.css',
 			uploadJson : 		'../../../js/kindeditor/php/upload_json.php',
 			fileManagerJson : 	'../../../js/kindeditor/php/file_manager_json.php',
@@ -179,27 +179,17 @@
 
 
 
-	
-	var articleid = R('[name="articleid"]').value;
 
 	function save() {
-
-		R.post("../save", R.fd('form[name="editForm"]', {
-	//		image: R.id('thumb').src.match(/\/images.*/),
-			content: editor.html(),
-			articleid: articleid,
-		}), function(r){
-			if (r.status == 200) {
-				articleid = r.articleid;
-				panelMsg(articleid);
-				
+		R.post('../save', R.FD('form[name=editForm]').app({content: editor.html()}).fd, function(data){
+			if (data.status == 200) {
+				R('[name=articleid]').value = data.articleid;
+				panelMsg(data.msg);
 			}
-	//		message(r.msg, 1000);
-		}, 'JSON');
-
-
+		},'JSON');
 	}
-	R.enterMove();
+
+	R.move();
 	R('input[name="title"]').focus();
 </script>
 {% endblock %}

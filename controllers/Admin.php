@@ -10,7 +10,7 @@ class Admin {
 	}
 
 	public function index($request, $response, $args) {
-		$this->container->get('view')->render($response, TEMPLATE.'/admin/index.html', [
+		$this->container->get('view')->render($response, 'admin/index.html', [
 			'name' => $args['name']
 			]);
 		return $response;

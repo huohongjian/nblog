@@ -1,30 +1,40 @@
-body,input, textarea, select{font-size:16px;font-family:"Droid Sans";color:#575757;background-color: #fff;}
+@import url(http://fonts.googleapis.com/css?family=Quicksand:300,400,700);
+* {
+	font-family: Quicksand, sans-serif;
+	font-size:16px;
+	color:#575757;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
 h1{font-size:26px;margin:16px 0;}
 h2{font-size:24px;margin:14px 0;}
 h3{font-size:22px;margin:12px 0;}
 h4{font-size:20px;margin:10px 0;}
 h5{font-size:18px;margin:8px 0;}
 h6{font-size:16px;margin:6px 0;}
-a{color:#575757;text-decoration:none;transition:all 0.1s ease-in 0s;}
-a:hover{color:#575757;text-decoration:none;}
+a{text-decoration:none;transition:all 0.1s ease-in 0s;}
+a:hover{text-decoration:none;}
 input, textarea{border:1px solid #ddd;padding:3px;resize:vertical;}
+select{border:1px solid #ddd;}
 [type=button],[type=submit],[type=reset],button{
 	color:#fff;border:0;cursor:pointer;background-color:#337ab7;
 	padding:5px 25px;margin:5px;font-weight:bold;width:auto;border-radius: 3px
 }
 [type=radio],[type=checkbox]{-moz-margin-end:5px;}
-select{border:1px solid #ddd;}
+
 .blod{font-weight:bold;}.bloder{font-weight:bolder;}
 .scroll-y{overflow-y:scroll;}.scroll-x{overflow-x:scroll;}
 .lh10{line-height:1.0;}.lh11{line-height:1.1;}.lh12{line-height:1.2;}.lh13{line-height:1.3;}.lh14{line-height:1.4;}.lh15{line-height:1.5;}.lh16{line-height:1.6;}.lh17{line-height:1.7;}.lh18{line-height:1.8;}.lh19{line-height:1.9;}.lh20{line-height:2.0;}
 .text-left{text-align:left;}.text-center{text-align:center;}.text-right{text-align:right;}
+.float-left{float:left;}.float-right{float:right;}
+
 .hide{display:none;}.show,.block{display:block;}.inline-block{display:inline-block;}
 .gray{color:#555;}.red{color:red;}.green{color:green;}.blue{color:blue;}.white{color:white;}.yellow{color:#eeaa66;}
 .ellipsis{text-overflow:ellipsis;display:block;overflow:hidden;white-space:nowrap;}
-.float-left{float:left;}.float-right{float:right;}
 .inherit{width:inherit;height:inherit;}
 .inline-group *{display:inline-block;}
-.relative {position:relative;}
+.relative {position:relative;}.absolute{position: absolute;}
 .fixed{position:fixed;}
 
 .flex{

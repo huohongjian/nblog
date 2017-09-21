@@ -4,7 +4,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require_once('../vendor/autoload.php');
 
-const TEMPLATE = 'default';
+
 
 
 $configuration = [
@@ -23,11 +23,11 @@ $container = $app->getContainer();
 
 $session_login = Session::get('login');
 
-
+//$session = Session::get();
 
 
 $container['view'] = function($c) use ($session_login) {
-	$view = new \Slim\Views\Twig('../views', [
+	$view = new \Slim\Views\Twig('../views/default', [
 		'cache' => false
 	]);
 	// Instantiate and add Slim specific extension
@@ -41,10 +41,10 @@ $container['view'] = function($c) use ($session_login) {
 	$path 	 = $uri->getBasePath();
 	$port 	 = $uri->getPort() ;
 	if ($port) $port = ':'.$port;
-	$baseUrl = $scheme."://".$host.$port.$path;
-//	$baseUrl = "https://".$host.$port.$path;
-//	echo $scheme, $port;
 
+	$scheme = 'https';
+	$baseUrl = $scheme."://".$host.$port.$path;
+	
 //	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
 	$view->getEnvironment()->addGlobal('login', $session_login);
@@ -75,15 +75,17 @@ $app->get ('/article/edit/[{articleid}]', 	Article::class.':edit');
 
 $app->group('/user', function() use ($app) {
 	$app->get ('/',								User::class.':index');
+	$app->get ('/manage',						User::class.':manage');
 	$app->get ('/article/edit/[{articleid}]', 	User::class.':editArticle');
 	$app->post('/article/save', 				User::class.':saveArticle');
 
 })->add(function($request, $response, $next) use ($session_login) {
-	if ($session_login) {
-		return $next($request, $response);
-	} else {
-		return $response->withStatus(302)->withHeader('Location', '/login');
+	if (!$session_login) {
+		return	$response->withStatus(302)->withHeader('Location', '/login');
 	}
+	$response = $next($request, $response);
+
+	return $response;
 });
 
 

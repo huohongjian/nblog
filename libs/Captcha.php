@@ -22,7 +22,7 @@
 
 class Captcha  
 {  
-private $width=80, $height=24, $codenum=4;  
+private $width=70, $height=20, $codenum=4;  
 public  $checkcode;     		//产生的验证码  
 private $checkimage;    		//验证码图片   
 private $disturbColor = ''; 	//干扰像素

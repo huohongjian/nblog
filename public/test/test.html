@@ -12,20 +12,26 @@
 
 <script type="text/javascript">
 
-	var a = [1,2,3];
-	alert(R.all('input').indexOf())
+var formData = new FormData();
+formData.append("k1", "v1");
+formData.append("k1", "v2");
+formData.append("k2", "v1");
 
-	var e = document.getElementById('pwd');
+var f=new FormData();
+f.append('name', 'hhj');
 
-	var e2 = document.getElementById('pwd2');
 
-	
-	
+var t = R.FD(f).concat(formData).fd;
 
-	function t(){
-		e2.value = e.value;
-		alert(e2.value);
-	}
+
+var i = t.entries();
+var r=i.next();
+while(!r.done){
+	console.log(r)
+	r=i.next();
+}
+
+
 
 </script>
 </html>

@@ -20,11 +20,11 @@
 {% block header %}	
 <header>
 	<div class="banner">
-		<ul class="login-info">
-			<li><input type="text" name="search" placeholder="全站搜索" /><i class="iconfont icon-search gray"></i></li>
+		<ul class="login-info relative">
+			<li><i class="iconfont icon-search gray"></i><input type="text" name="search" placeholder="search"></li>
 			{% if (login) %}
 				<li><a href="{{ baseURL }}/user/"><i class="iconfont icon-seeuser"> </i> {{ login }}</a></li>
-				<li><a href="{{ baseURL }}/user/article/edit/">编辑</a></li>
+				<li><a href="{{ baseURL }}/user/article/edit/">添加</a></li>
 				<li><a href="{{ baseURL }}/user/manage">管理</a></li>
 				<li><a href="{{ baseURL }}/logout">退出</a></li>
 			{% else %}
@@ -42,7 +42,6 @@
 			<li><a href="{{ baseURL }}/">首页</a></li>
 			<li><a href="https://www.freebsd.org/docs.html">文档</a></li>
 			<li><a href="{{ baseURL }}/admin">管理</a></li>
-			<li><a href="{{ baseURL }}/admin/install">安装</a></li>
 			|
 
 			<li><a href="{{ baseURL }}/article/list">文章列表</a></li>
@@ -51,6 +50,8 @@
 			|
 			<li><a href="{{ baseURL }}/">帮助</a></li>
 			<li><a href="{{ baseURL }}/">捐赠</a></li>
+			|
+			<li><a href="https://www.chinafreebsd.cn/index.php?title=WiKi%E8%AF%AD%E6%B3%95">freebsd样式</a></li>
 
 		</ul>
 	</div>
@@ -73,7 +74,7 @@
 {% block footer %}
 <footer class="flex b-p-0 c-p-5 d-p-50 e-p-80 text-center">
 	<div class="a-1-1 footer">
-		<span>This Site's Copyright (c) to China FreeBSD 2017-2030. All Rights Reserved.</span>
+		<h5>The site's copyright (c) belong to China FreeBSD 2017-2030. All rights reserved.</h5>
 	</div>
 </footer>
 {% endblock %}

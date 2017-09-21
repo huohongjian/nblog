@@ -1,0 +1,82 @@
+
+.accordion { /*主面板*/
+  width: 100%;
+  border-right: solid 1px #363636;
+  overflow-x: hidden;
+}
+
+
+/*面板内容*/
+.accordion .section {width: 100%; background: #fff;}
+.accordion .section ul {padding: 0; margin: 0; list-style: none;}
+.accordion .section ul li {padding: 10px;}
+.accordion .section ul li:hover {cursor: pointer;}
+.accordion .section ul li:hover * {color: #990000; font-weight: bold;}
+.accordion .section input[type=radio] {display: none;}
+
+/*当前栏目标题框*/
+.accordion .section input[type=radio]:checked + label {
+	color:#fff; font-weight:bold; background: #990000; border-bottom: 1px solid #363636;
+
+}
+.accordion .section input[type=radio]:checked + label:before {
+	content: '';
+	height: 99%;
+	border-left: 5px solid #21CCFC; /*左侧提示条*/
+
+
+}
+/*当前栏目面板*/
+.accordion .section input[type=radio]:checked ~ .content {
+	max-height: 300px;
+	opacity: 1;
+	z-index: 10;
+	overflow-y: auto;
+	padding:10px;
+}
+
+/*栏目标题框*/
+.accordion .section label {
+	position: relative;
+	cursor: pointer;
+	padding: 10px 20px;
+	display: table;
+	background: #990000; #2D7D9A; /*标题框*/;
+	color: #fff;
+
+	width: 100%;
+	-webkit-transition: background 0.3s ease-in-out;
+	-moz-transition: background 0.3s ease-in-out;
+	-ms-transition: background 0.3s ease-in-out;
+	transition: background 0.3s ease-in-out;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+.accordion .section label:before {
+	content: " ";
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 1px;
+	border-top: 1px solid #fff; #363636; /*栏目分割线*/
+}
+.accordion .section label:hover {background: #990000; color:#fff; font-weight: bold;}
+/*栏目标题字*/
+.accordion .section label span {display: table-cell; vertical-align: middle; color:#fff;}
+
+
+.accordion .section:last-of-type {border-bottom: 1px solid #363636;}
+.accordion .section .content {
+	max-height: 0;
+	-webkit-transition: all 0.4s;
+	-moz-transition: all 0.4s;
+	-ms-transition: all 0.4s;
+	transition: all 0.4s;
+	opacity: 0;
+	position: relative;
+	overflow-y: hidden;
+}

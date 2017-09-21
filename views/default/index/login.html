@@ -1,11 +1,11 @@
-{% extends "default/layout.html" %}
+{% extends "layout.html" %}
 
 {% block head %}
 	<style type="text/css">
-		form { margin:auto; width:360px; }
-		form label { display:inline-block; width:100px; text-align:right; }
-		form h2 { width:100%; text-align:center; color:#990000; margin-top:30px; font-weight:bold; }
-
+		[name=loginForm] { margin:auto; width:360px;}
+		[name=loginForm] label { display:inline-block; width:100px; text-align:right; }
+		[name=loginForm] h2 { width:90%; text-align:center; color:#990000; margin-top:30px; font-weight:bold; }
+		[name=loginForm] img {position: absolute; left: 210px; margin-top: 3px;}
 	</style>
 {% endblock %}
 
@@ -32,7 +32,7 @@
 		<input type="password" name="password" style="display: none;">
 	</p>
 	<p>
-	<p>
+	<p class="relative">
 		<label>验证码：</label>
 		<input type="text" name="captcha" required="required">
 		<img  title="点击刷新" src="{{ baseURL }}/captcha" align="absbottom" onclick="this.src='{{ baseURL }}/captcha?'+Math.random();">
@@ -57,7 +57,7 @@
 
 R.move('form input','[name=password]');
 R.enter('[name=captcha]', doLogin);
-R.focus('[name=login]');
+R('[name=login]').focus();
 
 function displayMessage(msg) {
 	R('.message').innerHTML = msg ? '\

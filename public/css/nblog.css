@@ -1,8 +1,4 @@
-
-html, body {
-	margin:0;
-	padding:0;
-}
+body { margin:0; padding:0; }
 
 h1,h2,h3,h4,h5,h6 {
 	font-weight: bold;
@@ -16,7 +12,7 @@ header {
 	background-image: -webkit-linear-gradient(to bottom, #660000, #990000);
 	background-image: linear-gradient(to bottom, #660000, #990000);
 }
-header *,
+header *:not(input),
 header a,
 header a:hover { color: #fff; font-weight: bolder; }
 
@@ -25,12 +21,12 @@ header a:hover { color: #fff; font-weight: bolder; }
 .banner > a > b  { font-size: 26px; margin: 25px 10px 0; display: inline-block;}
 
 .banner [name=search] {
-	height: 12px;
-	width: 85px;
-	font-size: 14px;
+	height: 20px;
+	width: 90px;
+	font-size: 12px;
 	padding-right: 18px;
 }
-.banner .icon-search { position: absolute; left: 130px; top: 3px; }
+.banner .icon-search { position:absolute; left:110px; bottom:0;}
 
 .banner .login-info {
 	position: relative;
@@ -44,12 +40,11 @@ header a:hover { color: #fff; font-weight: bolder; }
 	font-weight: bolder;
 }
 .banner .login-info li a {
-	color: #FFFFFF;
+	color: #fff;
 }
 
-.banner .fa-user {
-	color: yellow;
-}
+
+
 
 .main-frame {
 	min-height: 460px;

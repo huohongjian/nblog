@@ -10,19 +10,28 @@ class User {
 	}
 
 	public function index($request, $response, $args) {
+		$userid =123;// $GLOBALS['session'];
+
+	//	print_r($userid);
+		echo $userid;
+		return $response;
+
+		$cat = DB::get('nb_user')->where(['userid'=>$userid])->selectVal('categories');
 		$articles = DB::get('nb_article')
 	//				  ->where(['userid' => 2])
 					  ->order('artid DESC')
 					  ->selectAll();
-		$this->container->get('view')->render($response, TEMPLATE.'/user/index.html', [
-			'articles' => $articles
+		$this->container->get('view')->render($response, 'user/index.html', [
+			'categories'=> explode(',', $cat),
+			'articles' 	=> $articles
 		]);
 		return $response;
 	}
 
-	public function contact($request, $response, $args) {
-		// your code
-		// to access items in the container... $this->container->get('');
+	public function manage($request, $response, $args) {
+		return $this->container->get('view')->render($response, 'user/manage.html', [
+			
+		]);
 		return $response;
 	}
 
@@ -30,23 +39,25 @@ class User {
 		$userid = Session::get('userid');
 		$id = $args['articleid'];
 		$article = empty($id) ? array() : DB::get('nb_article')->where(['articleid'=>$id])->selectOne();
-		$cats = DB::get('nb_user')->where(['userid'=>$userid])->selectVal(['categories']);
-		return $this->container->get('view')->render($response, TEMPLATE.'/article/kindeditor.html', [
+		$cats = DB::get('nb_user')->where(['userid'=>$userid])->selectVal('categories');
+		$this->container->get('view')->render($response, 'user/kindeditor.html', [
 			'categories' => explode(',', $cats),
 			'article' => $article,
 			'maxnum'  => 12,
 		]);
+		return $response;
 	}
 
 	public function saveArticle($request, $response, $args) {
 
-		$p = $request->getParsedBody();
-		if (empty($p['articleid'])) {
-			$p['articleid'] = uniqid();
-		}
-		$id = DB::get('nb_article')->returning('articleid')->conflict('articleid')->upsert($p);
+		$post = $request->getParsedBody();
 
+		if (strlen($post['articleid'])<13) {
+			$post['articleid'] = uniqid();
+		}
+		$id = DB::get('nb_article')->returning('articleid')->conflict('articleid')->upsert($post);
 		return $response->withJson(['status'=>200, 'articleid'=>$id, 'msg'=>'保存文章成功!']);
+		return $response; //必须返回上一行
 	}
 
    
