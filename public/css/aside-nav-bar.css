@@ -45,6 +45,9 @@
 	color: #fff;
 
 	width: 100%;
+
+box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;
+	
 	-webkit-transition: background 0.3s ease-in-out;
 	-moz-transition: background 0.3s ease-in-out;
 	-ms-transition: background 0.3s ease-in-out;
@@ -64,9 +67,9 @@
 	height: 1px;
 	border-top: 1px solid #fff; #363636; /*栏目分割线*/
 }
-.accordion .section label:hover {background: #990000; color:#fff; font-weight: bold;}
+.accordion .section label:hover {background:#990000; color:#fff; font-weight:bolder;}
 /*栏目标题字*/
-.accordion .section label span {display: table-cell; vertical-align: middle; color:#fff;}
+.accordion .section label span {display:table-cell; vertical-align:middle; color:#fff;}
 
 
 .accordion .section:last-of-type {border-bottom: 1px solid #363636;}

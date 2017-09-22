@@ -71,6 +71,7 @@ $app->get ('/article/edit/[{articleid}]', 	Article::class.':edit');
 
 $app->group('/user', function() use ($app) {
 	$app->get ('',								User::class.':index');
+	$app->get ('/article/edit', 				User::class.':editArticle');
 	$app->get ('/article/edit/[{articleid}]', 	User::class.':editArticle');
 	$app->post('/article/save', 				User::class.':saveArticle');
 	$app->any('/renewpwd', 						User::class.':renewpwd');

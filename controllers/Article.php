@@ -18,9 +18,10 @@ class Article {
 	function index($request, $response, $args) {
 
 		$article = DB::get("nb_article")->where(['articleid'=>$args['articleid']])->selectOne();
-		$this->container->get('view')->render($response, 'article/index.html',
-			array('article'=>$article)
-		);
+		$this->container->get('view')->render($response, 'article/index.html', [
+			'article'=>$article,
+			'userid' =>$GLOBALS['session']['userid']
+		]);
 		return $response;
 	}
 

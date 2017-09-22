@@ -2,25 +2,23 @@
 
 
 
-{% block inRight %}
+{% block inRight %} {% autoescape false %}
 
+<article class="detail m20 mt50">
+	<header>
+		<h2>{{article.title}}</h2>
+		<ul class="hor border-tl pt20">
+			<li><i class="iconfont icon-seeuser"></i><span>{{userid}}</span></li>
+			<li><span>阅读</span></li>
+			<li><span>更新时间</span></li>
+			<li><a href="{{ baseURL }}/user/article/edit/{{ article.articleid }}">编辑</a></li>
+		</ul>
+	</header>
 
-
-{% autoescape false %}
-
-<article>
-	<div>
-		<p><a href="{{ baseURL }}/user/article/edit/{{ article.articleid }}">编辑</a></p>
-		<h1>{{ article.title }}</h1>
-	</div>
 	<section>
 		{{ article.content }}
 	</section>
 </article>
 
 
-{% endautoescape %}
-
-
-
-{% endblock %}
+{% endautoescape %} {% endblock %}

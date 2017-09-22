@@ -13,11 +13,17 @@
 	</div>
 	<div class="flex1 text-middle">
 		<ul class="pl10">
-			<li><a href="{{ baseURL }}/"><i class="iconfont icon-home"></i> 首页</a></li>
-			<li><a href="{{ baseURL }}/user/article/edit/"><i class="iconfont icon-home"></i> 添加文档</a></li>
-			<li><a href="javascript:panelHelp()"><i class="iconfont icon-home"></i> 帮助</a></li>
+			<li><a href="{{ baseURL }}/"><i class="iconfont icon-home"></i>首页</a></li>
+			<li><a href="{{ baseURL }}/admin"><i class="iconfont icon-home"></i>系统管理</a></li>
+			<li><a href="javascript:panelHelp()"><i class="iconfont icon-home"></i>帮助</a></li>
 
-			<li class="float-right"><a href="{{ baseURL }}/user"><i class="iconfont icon-seeuser"></i> {{ login }}</a></li>
+
+
+			<li class="float-right"><a href="{{ baseURL }}/logout">退出</a></li>
+			<li class="float-right"><a href="{{ baseURL }}/user/manage">管理</a></li>
+			<li class="float-right"><a href="{{ baseURL }}/user/article/edit">添加</a></li>
+			<li class="float-right"><a href="{{ baseURL }}/user"><i class="iconfont icon-seeuser"> </i> {{ login }}</a></li>
+
 		</ul>
 	</div>
 </header>

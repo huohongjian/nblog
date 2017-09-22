@@ -1,19 +1,19 @@
 /* footer near to bottom */
+html{height:100%;}
+body{margin:0; padding:0; min-height:100vh; flex-direction:column; display:flex; display:-webkit-flex /*Safari*/}
+main.a{flex:1; min-height:calc(100vh - 150px);/*ie*/}
+main.b{flex:1; min-height:calc(100vh - 110px);/*ie*/ }
 
-main.a{min-height:calc(100vh - 150px);}
-main.b{min-height:calc(100vh - 110px);}
-/*--------------------*/
-
-
-body { margin:0; padding:0; }
 
 h1,h2,h3,h4,h5,h6 {
 	font-weight: bold;
 	line-height: 1.3;
 	margin-top: 1em;
 	margin-left: 0;
-	color: #990000;
+	color: #880000;
 }
+
+
 
 header.a li,
    nav.a li{list-style-type:circle; display:inline-block;}
@@ -29,21 +29,22 @@ header.a figure img {width:60px; margin:8px 8px 2px;}
 header.a figcaption {display:table-cell; vertical-align:middle; font-size: 26px;}
 
 header.a ul {float:right; position:relative; margin:3px;}
-header.a li {margin-right: 8px;}
+header.a li {margin-right:8px;}
 
 header.a [name=search] {height:12px; width:96px; font-size:12px; padding-right:20px;}
-header.a .icon-search { position:absolute; left:138px; bottom:0;}
+header.a .icon-search { position:absolute; left:143px; bottom:0;}
 
 
-nav.a ul {
-	margin:0;
-	padding: 4px 20px;
+nav.a {
 	border-bottom: 1px solid #BBBBBB;
 	background-image: -webkit-linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 	background-image: linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 }
-nav.a li {margin: 0 10px;}
-nav.a a {font-weight: bold; text-decoration: none;}
+nav.a ul {padding: 4px;}
+nav.a li:not(:first-child):before{content:'|'; margin:20px;}
+nav.a a {font-weight: bold;}
+
+
 
 footer.a {text-align: center;}
 
@@ -55,3 +56,7 @@ footer.a {text-align: center;}
 .admin-page header ul li { display: inline; text-align: center; padding: 0 10px;}
 
 
+
+
+/* for article detail */
+article.detail > header li {padding: 5px;}
