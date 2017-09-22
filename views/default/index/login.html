@@ -1,17 +1,16 @@
 {% extends "layout.html" %}
 
-{% block head %}
+
+{% block toHead %}
 	<style type="text/css">
-		[name=loginForm] { margin:auto; width:360px;}
+		[name=loginForm] { margin: 0 auto; width:360px;}
 		[name=loginForm] label { display:inline-block; width:100px; text-align:right; }
 		[name=loginForm] h2 { width:90%; text-align:center; color:#990000; margin-top:30px; font-weight:bold; }
-		[name=loginForm] img {position: absolute; left: 210px; margin-top: 3px;}
 	</style>
 {% endblock %}
 
-{% block main %}
 
-
+{% block inMain %}
 <form name="loginForm" method="post">
 	<p>
 		<h2>用户登录</h2>
@@ -45,7 +44,7 @@
 {% endblock %}
 
 
-{% block script %}
+{% block toBody %}
 <script type="text/javascript" src="{{ baseURL }}/js/rsa/RSA.js"></script>
 <script type="text/javascript" src="{{ baseURL }}/js/rsa/BigInt.js"></script>
 <script type="text/javascript" src="{{ baseURL }}/js/rsa/Barrett.js"></script>

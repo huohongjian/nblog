@@ -4,7 +4,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require_once('../vendor/autoload.php');
 
-
+$session = Session::all();
 
 
 $configuration = [
@@ -21,12 +21,8 @@ $app = new \Slim\App($c);
 //$app = new \Slim\App();
 $container = $app->getContainer();
 
-$session_login = Session::get('login');
 
-//$session = Session::get();
-
-
-$container['view'] = function($c) use ($session_login) {
+$container['view'] = function($c) use ($session) {
 	$view = new \Slim\Views\Twig('../views/default', [
 		'cache' => false
 	]);
@@ -47,7 +43,7 @@ $container['view'] = function($c) use ($session_login) {
 	
 //	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
-	$view->getEnvironment()->addGlobal('login', $session_login);
+	$view->getEnvironment()->addGlobal('login', $session['login']);
 	return $view;
 };
 
@@ -74,13 +70,22 @@ $app->get ('/article/edit/[{articleid}]', 	Article::class.':edit');
 
 
 $app->group('/user', function() use ($app) {
-	$app->get ('/',								User::class.':index');
-	$app->get ('/manage',						User::class.':manage');
+	$app->get ('',								User::class.':index');
 	$app->get ('/article/edit/[{articleid}]', 	User::class.':editArticle');
 	$app->post('/article/save', 				User::class.':saveArticle');
+	$app->any('/renewpwd', 						User::class.':renewpwd');
 
-})->add(function($request, $response, $next) use ($session_login) {
-	if (!$session_login) {
+
+	$app->group('/manage', function() use ($app) {
+		$app->get('',					UserManage::class.':index');
+		$app->get('/userinfo',			UserManage::class.':userinfo');
+		$app->get('/template',			UserManage::class.':template');
+		$app->get('/articles',			UserManage::class.':articles');
+		$app->get('/category',			UserManage::class.':category');
+	});
+
+})->add(function($request, $response, $next) use ($session) {
+	if (!$session) {
 		return	$response->withStatus(302)->withHeader('Location', '/login');
 	}
 	$response = $next($request, $response);

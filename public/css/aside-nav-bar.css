@@ -11,7 +11,7 @@
 .accordion .section ul {padding: 0; margin: 0; list-style: none;}
 .accordion .section ul li {padding: 10px;}
 .accordion .section ul li:hover {cursor: pointer;}
-.accordion .section ul li:hover * {color: #990000; font-weight: bold;}
+.accordion .section ul li:hover a {color: #990000; font-weight: bold; display: block;}
 .accordion .section input[type=radio] {display: none;}
 
 /*当前栏目标题框*/

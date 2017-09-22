@@ -10,11 +10,7 @@ class User {
 	}
 
 	public function index($request, $response, $args) {
-		$userid =123;// $GLOBALS['session'];
-
-	//	print_r($userid);
-		echo $userid;
-		return $response;
+		$userid = $GLOBALS['session']['userid'];
 
 		$cat = DB::get('nb_user')->where(['userid'=>$userid])->selectVal('categories');
 		$articles = DB::get('nb_article')
@@ -29,7 +25,7 @@ class User {
 	}
 
 	public function manage($request, $response, $args) {
-		return $this->container->get('view')->render($response, 'user/manage.html', [
+		return $this->container->get('view')->render($response, 'user/layout.html', [
 			
 		]);
 		return $response;
@@ -58,6 +54,14 @@ class User {
 		$id = DB::get('nb_article')->returning('articleid')->conflict('articleid')->upsert($post);
 		return $response->withJson(['status'=>200, 'articleid'=>$id, 'msg'=>'保存文章成功!']);
 		return $response; //必须返回上一行
+	}
+
+	public function renewpwd($request, $response, $args) {
+
+		return $this->container->get('view')->render($response, 'user/renewpwd.html', [
+			
+		]);
+		return $response;
 	}
 
    

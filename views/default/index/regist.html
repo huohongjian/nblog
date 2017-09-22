@@ -1,17 +1,19 @@
 {% extends "layout.html" %}
 
-{% block head %}
-	<style type="text/css">
-		form { margin: auto; width: 550px; }
-		form i { display: inline-block; }
-		form label { display: inline-block; width: 100px; text-align: right; }
-		input[name=email] { width: 300px; }
-		form h2 { width:100%; text-align:center; color:#990000; margin-top:30px; font-weight:bold; }
 
-	</style>
+{% block toHead %}
+<style type="text/css">
+	form { margin:0 auto; width: 550px; }
+	form i { display: inline-block; }
+	form label { display: inline-block; width: 100px; text-align: right; }
+	input[name=email] { width: 300px; }
+	form h2 { width:100%; text-align:center; color:#990000; margin-top:30px; font-weight:bold; }
+
+</style>
 {% endblock %}
 
-{% block main %}
+
+{% block inMain %}
 <form name="registForm" method="post">
 	<p>
 		<h2>用户注册</h2>
@@ -67,7 +69,7 @@
 
 
 
-{% block script %}
+{% block toBody %}
 <script type="text/javascript" src="{{ baseURL }}/js/rsa/RSA.js"></script>
 <script type="text/javascript" src="{{ baseURL }}/js/rsa/BigInt.js"></script>
 <script type="text/javascript" src="{{ baseURL }}/js/rsa/Barrett.js"></script>

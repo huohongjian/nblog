@@ -74,7 +74,7 @@ function login($request, $response, $args) {
 						'userid' => $user['userid'],
 						'login'	 => $user['login'],
 					]);
-					return $response->withStatus(302)->withHeader('Location', '/user/');
+					return $response->withStatus(302)->withHeader('Location', '/user');
 				} else {
 					$message = '登录密码不正确!';
 				}

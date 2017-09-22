@@ -18,7 +18,8 @@
 <body>
 
 
-{% block Header %}<header class="a flex">{% block inHeader %}
+{% block Header %}
+<header class="a flex">
 <div class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-70">
 	<figure>
 		<img src="{{ baseURL }}/images/logo1.png">
@@ -40,10 +41,12 @@
 		{% endif %}
 	</ul>
 </div>
-{% endblock %}</header>{% endblock %}
+</header>
+{% endblock %}
 
 
-{% block Nav %}<nav class="a">{% block inNav %}
+{% block Nav %}
+<nav class="a">
 <ul>
 	<li><a href="{{ baseURL }}/">首页</a></li>
 	<li><a href="https://www.freebsd.org/docs.html">文档</a></li>
@@ -56,10 +59,12 @@
 	<li><a href="https://www.chinafreebsd.cn/index.php?title=WiKi%E8%AF%AD%E6%B3%95">freebsd样式</a></li>
 
 </ul>
-{% endblock %}</nav>{% endblock %}
+</nav>
+{% endblock %}
 
 
-{% block Main %}<main class="a flex b-p-0 c-p-5 d-p-50 e-p-80">{% block inMain %}
+{% block Main %}
+<main class="a flex b-p-0 c-p-5 d-p-50 e-p-80">
 <div class="left a-1-1 c-1-3 d-1-4 e-1-5 f-1-6">
 	{% block inLeft %}{% endblock %}
 </div>
@@ -67,17 +72,19 @@
 <div class="right flex1">
 	{% block inRight %}{% endblock %}
 </div>
-{% endblock %}</main>{% endblock %}
+</main>
+{% endblock %}
+
+
+{% block Footer %}
+<footer class="a">
 <!--尾部模板-->
 <!-- div class="back-to-top" id="gotop">
 	<i class="iconfont icon-top-copy"></i>
 </div -->
-
-{% block Footer %}<footer class="a">{% block inFooter %}
-<div class="a-1-1">
-	<h5>The site's copyright (c) belong to China FreeBSD 2017-2030. All rights reserved.</h5>
-</div>
-{% endblock %}</footer>{% endblock %}
+<h5>The site's copyright (c) belong to China FreeBSD 2017-2030. All rights reserved.</h5>
+</footer>
+{% endblock %}
 
 
 <script type="text/javascript" src="{{ baseURL }}/own/R.js?v=1.0.0"></script>

@@ -2,7 +2,7 @@
 
 {% block title %} KindEditor {% endblock%}
 
-{% block head %}
+{% block toHead %}
 	<link rel="stylesheet" href="{{ baseURL }}/js/kindeditor/themes/default/default.css" />
 	<link rel="stylesheet" href="{{ baseURL }}/js/kindeditor/plugins/code/prettify.css" />
 	<style>
@@ -27,88 +27,88 @@
 	</style>
 {% endblock %}
 
-{% block header %}{% endblock %}
-
-{% block main %}
-	<div class="flex admin-page">
-		<div class="a-1-1 d-1-4 f-1-5 left-frame">
-			<header>
-				<ul>
-					<li>添加 / 修改文章</li>
-				</ul>
-			</header>
-			<form name="editForm">
-				<p>
-					<label>
-						状态：
-						<select name="status" data-val="{{ article.status ?: 2 }}">
-							<option value="1">推荐</option>
-							<option value="2">公开</option>
-							<option value="3">隐藏</option>
-							<option value="4">删除</option>
-						</select>
-					</label>
-					<select name="category" class="float-right" data-val="{{ article.category }}">
-						<option value="">--选择类别--</option>
-						{% for category in categories %}
-						<option value="{{ category }}">{{ category }}</option>
-						{% endfor %}
-					</select>
-				</p>
-				<p>
-
-					<label>标题：</label>
-					<input name="title" type="text" value="{{ article.title }}" required="required" placeholder="必填" />
-				</p>
-				<p><label>别名：<input name="alias" type="text" value="{{ article.alias }}"></label></p>
-				<p><label>摘要：<textarea name="caption">{{ article.abstract }}</textarea></label></p>
-				<p>
-					<input type="text" name="keywords" class="float-right" placeholder="关键字" />
-					<label>电子书格式：<input type="checkbox" name="isbook" /></label>
-				</p>
-				<p>
-					<label>微缩图：</label>
-					<input type="text" name="thumb" data-maxnum="{{ maxnum }}" data-baseurl="{{ baseURL }}" readonly="true" title="双击此框，上传或更换微缩图，尺寸200x150" />
-				</p>
-				<p class="text-center" style="height: 150px;">
-					<img id="thumbimg" title="双击图片随机更换微缩图" />
-				</p>
-				<p>
-					<input type="button" name="save" value="保存" class="float-right" />
-				</p>
-
-				<input type="text" name="articleid" value="{{ article.articleid }}" class="hide" />
-			</form>
-		</div>
-
-
-
-		<div class="a-1-1 d-3-4 f-4-5 right-frame">
-			<header>
-				<span class="float-right">
-					<a href="{{ baseURL }}/user"><i class="iconfont icon-seeuser"></i> {{ login }}</a>
-				</span>
-				<ul>
-					<li><a href="{{ baseURL }}/"><i class="iconfont icon-home"></i> 首页</a></li>
-					<li><a href="{{ baseURL }}/user/article/edit/"><i class="iconfont icon-home"></i> 新建</a></li>
-					<li><a href="javascript:panelHelp()"><i class="iconfont icon-home"></i> 帮助</a></li>
-				</ul>
-				
-			</header>
-			<form name="editForm">
-				<textarea name="content" style="width:100%; height:550px; box-sizing:border-box; visibility:hidden;">
-					{{ article.content }}
-				</textarea>
-			</form>
-		</div>
-
-
+{% block Header %}
+<header class="a flex">
+	<div class="a-1-1 d-1-3 e-1-4 f-1-5 text-center">
+		<h3 class="white">添加 / 修改文章</h3>
 	</div>
+	<div class="flex1 text-middle">
+		<ul class="pl10">
+			<li><a href="{{ baseURL }}/"><i class="iconfont icon-home"></i> 首页</a></li>
+			<li><a href="{{ baseURL }}/user/article/edit/"><i class="iconfont icon-home"></i> 添加文档</a></li>
+			<li><a href="javascript:panelHelp()"><i class="iconfont icon-home"></i> 帮助</a></li>
+
+			<li class="float-right"><a href="{{ baseURL }}/user"><i class="iconfont icon-seeuser"></i> {{ login }}</a></li>
+		</ul>
+	</div>
+</header>
 {% endblock %}
 
-{% block footer %}{% endblock %}
 
-{% block script %}
+{% block Nav %}{% endblock %}
+
+
+{% block Main %}
+<main class="a flex">
+	<div class="left a-1-1 d-1-3 e-1-4 f-1-5">
+		<form name="editForm">
+			<p>
+				<label>
+					状态：
+					<select name="status" data-val="{{ article.status ?: 2 }}">
+						<option value="1">推荐</option>
+						<option value="2">公开</option>
+						<option value="3">隐藏</option>
+						<option value="4">删除</option>
+					</select>
+				</label>
+				<select name="category" class="float-right" data-val="{{ article.category }}">
+					<option value="">--选择类别--</option>
+					{% for category in categories %}
+					<option value="{{ category }}">{{ category }}</option>
+					{% endfor %}
+				</select>
+			</p>
+			<p>
+
+				<label>标题：</label>
+				<input name="title" type="text" value="{{ article.title }}" required="required" placeholder="必填" />
+			</p>
+			<p><label>别名：<input name="alias" type="text" value="{{ article.alias }}"></label></p>
+			<p><label>摘要：<textarea name="caption">{{ article.abstract }}</textarea></label></p>
+			<p>
+				<input type="text" name="keywords" class="float-right" placeholder="关键字" />
+				<label>电子书格式：<input type="checkbox" name="isbook" /></label>
+			</p>
+			<p>
+				<label>微缩图：</label>
+				<input type="text" name="thumb" data-maxnum="{{ maxnum }}" data-baseurl="{{ baseURL }}" readonly="true" title="双击此框，上传或更换微缩图，尺寸200x150" />
+			</p>
+			<p class="text-center" style="height: 150px;">
+				<img id="thumbimg" title="双击图片随机更换微缩图" />
+			</p>
+			<p>
+				<input type="button" name="save" value="保存" class="float-right" />
+			</p>
+
+			<input type="text" name="articleid" value="{{ article.articleid }}" class="hide" />
+		</form>
+	</div>
+
+	<div class="right flex1">
+		<form name="editForm">
+			<textarea name="content" style="width:100%; height:550px; box-sizing:border-box; visibility:hidden;">
+				{{ article.content }}
+			</textarea>
+		</form>
+	</div>
+</main>
+{% endblock %}
+
+
+
+
+{% block toBody %}
 <script src="{{ baseURL }}/js/kindeditor/kindeditor-all-min.js"></script>
 <script src="{{ baseURL }}/js/kindeditor/plugins/code/prettify.js"></script>
 <script type="text/javascript">
