@@ -6,9 +6,22 @@
 
 {% block inRight %}
 
-<h2>文档列表</h2>
+<h2>用户文档管理</h2>
 
-
+<table>
+	<thead>
+		<tr><th>标题</th><th>状态</th><th>上传时间</th></tr>
+	</thead>
+	<tbody>
+		{% for article in articles %}
+		<tr>
+			<td>{{article.title}}</td>
+			<td>{{article.status}}</td>
+			<td>{{article.addtime}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 
 {% endblock %}
 
@@ -19,7 +32,7 @@
 
 {% block toBody%}
 <script type="text/javascript">
-	R.id('section-2').setAttribute('checked', 'true');
+	R.id('section-1').setAttribute('checked', 'true');
 
 </script>
 

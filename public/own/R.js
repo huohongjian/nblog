@@ -84,7 +84,7 @@
 			},
 		}
 	}
-	_.fd=function(f){return _.type(f)=='FormData'?f:new FormData(_(f||'form'))}
+	_.fd=function(f){return _.isEmpty(f)?new FormData():_.type(f)=='FormData'?f:new FormData(_(f))}
 	_.FD=function(f){f=_.fd(f);
 		return {
 			fd :f,
@@ -134,7 +134,7 @@
 		_.ALL(qs||'form input').each(function(e,i,s,E){
 			_.enter(e,function(){
 				while(_.inArray(E[i+1],ex)&&i<s){i++}
-				if(i>s-2)i=-1;E[i+1].select();
+				if(i>s-2)i=-1;E[i+1].focus();
 			});
 		});
 	}
@@ -165,10 +165,10 @@
 			if(p.random)p.url+=(p.url.indexOf('?')>0?'&':'?')+'r='+Math.random();
 			
 			x.open(p.method, p.url, p.async);
-			if (_.isJSON(p.data)) {
-				x.setRequestHeader('Content-type','application/json');
-				p.data = JSON.stringify(p.data);
-			}
+			// if (_.isJSON(p.data)) {
+			// 	x.setRequestHeader('Content-type','application/json');
+			// 	p.data = JSON.stringify(p.data);
+			// }
 		//	x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');//for formdata
 		//	x.setRequestHeader('Content-type', 'multipart/form-data');
 			x.timeout = p.timeout || 30000;

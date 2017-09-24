@@ -32,8 +32,8 @@ function __construct(){
 //    @session_start();  
 }  
 /* 
-34.* 参数：（宽度，高度，字符个数） 
-35.*/  
+* 参数：（宽度，高度，字符个数） 
+*/  
 function config($width='80',$height='25',$codenum='4')  
 {    
    $this->width=$width;  
@@ -69,7 +69,13 @@ private function outFileHeader()
    */  
 private function createCode()  
 {  
-   $this->checkcode = strtoupper(substr(md5(rand()),0,$this->codenum));  
+//	$this->checkcode = strtoupper(substr(md5(rand()),0,$this->codenum)); //原有
+// 修改为下面的，不产生0和1；
+	$chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ3456789';
+	$password = '';
+	for ( $i=0; $i<$this->codenum; $i++){
+		$this->checkcode .= $chars[mt_rand(0, strlen($chars) - 1)];
+	}
 }  
 /** 
    * 产生验证码图片 

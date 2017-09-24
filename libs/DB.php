@@ -23,6 +23,7 @@ class DB {
 	private $where;
 	private $order;
 	private $limit;
+	private $offset;
 	private $conflict;
 	private $returning;
 
@@ -106,6 +107,11 @@ class DB {
 		return $this;
 	}
 
+	function offset(string $offset) {
+		$this->offset = $this->clear($offset);
+		return $this;
+	}
+
 	function returning(string $returning) {
 		$this->returning = $this->clear($returning);
 		return $this;
@@ -122,6 +128,7 @@ class DB {
 		if (isset($this->where)) { $sql .= " WHERE $this->where"; }
 		if (isset($this->order)) { $sql .= " ORDER BY $this->order"; }
 		if (isset($this->limit)) { $sql .= " LIMIT $this->limit"; }
+		if (isset($this->offset)) { $sql .= " OFFSET $this->offset"; }
 		return $sql;
 	}
 
@@ -207,6 +214,7 @@ class DB {
 
 
 	function query($sql) {
+//		echo $sql;
 		try {
 			$this->result = @pg_query($this->conn, $sql);
 			if (!$this->result) {

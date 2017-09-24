@@ -6,17 +6,27 @@
 
 {% block inRight %}
 
-<h2>类别管理</h2>
-
-
+<fieldset>
+	<legend>文章类别设置：</legend>
+	<form id="categories">
+		<input type="text" name="categories" value="{{user.categories}}" style="width:80%;" />
+		<input type="button" value="提交" onclick="renewCategories()" />
+	</form>
+</fieldset>
 
 {% endblock %}
 
 
 {% block toBody%}
 <script type="text/javascript">
-	R.id('section-2').setAttribute('checked', 'true');
+R.id('section-1').setAttribute('checked', 'true');
 
+
+function renewCategories() {
+	R.post('./userinfo', R.fd('#categories'), function(data) {
+		panelMsg(data);
+	});
+}
 </script>
 
 

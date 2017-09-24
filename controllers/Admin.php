@@ -29,6 +29,7 @@ class Admin {
 
 		$content = "";
 		$handle = fopen("..//sql//install.sql", "r");
+//		$handle = fopen("..//sql//article.sql", "r");
 		while (!feof($handle)) {
 			$content .= fread($handle, 4096); //4096B
 		}

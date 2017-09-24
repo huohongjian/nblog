@@ -11,8 +11,8 @@
 	<meta http-equiv="Access-Control-Allow-Origin" content="*">  
 	<title>{% block inTitle %}China FreeBSD{% endblock %}</title>
  	<link rel="stylesheet" href="//at.alicdn.com/t/font_418836_42k8vtq2myflmcxr.css" />
-	<link rel="stylesheet" href="{{ baseURL }}/css/nblog.css?v=1.0.0" />
-	<link rel="stylesheet" href="{{ baseURL }}/own/R.css?v=1.0.0" />
+	<link rel="stylesheet" href="{{baseURL}}/css/nblog.css?v=1.0.0" />
+	<link rel="stylesheet" href="{{baseURL}}/own/R.css?v=1.0.0" />
 	{% block toHead %}{% endblock %}
 </head>
 <body>
@@ -21,8 +21,8 @@
 {% block Header %}<header class="a flex">{% block inHeader %}
 <div class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-70">
 	<figure>
-		<img src="{{ baseURL }}/images/logo1.png">
-		<figcaption><a href="{{ baseURL }}">China FreeBSD</a></figcaption>
+		<img src="{{baseURL}}/images/logo1.png">
+		<figcaption><a href="{{baseURL}}">China FreeBSD</a></figcaption>
 	</figure >
 </div>
 
@@ -30,13 +30,13 @@
 	<ul>
 		<li><i class="iconfont icon-search gray"></i><input type="text" name="search" placeholder="search"></li>
 		{% if (login) %}
-			<li><a href="{{ baseURL }}/user"><i class="iconfont icon-seeuser"> </i> {{ login }}</a></li>
-			<li><a href="{{ baseURL }}/user/article/edit">添加</a></li>
-			<li><a href="{{ baseURL }}/user/manage">管理</a></li>
-			<li><a href="{{ baseURL }}/logout">退出</a></li>
+			<li><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"> </i> {{login}}</a></li>
+			<li><a href="{{baseURL}}/user/article/edit/new">添加</a></li>
+			<li><a href="{{baseURL}}/user/manage">管理</a></li>
+			<li><a href="{{baseURL}}/logout">退出</a></li>
 		{% else %}
-		<li><a href="{{ baseURL }}/regist">注册</a></li>
-		<li><a href="{{ baseURL }}/login">登录</a></li>
+		<li><a href="{{baseURL}}/regist">注册</a></li>
+		<li><a href="{{baseURL}}/login">登录</a></li>
 		{% endif %}
 	</ul>
 </div>
@@ -47,12 +47,13 @@
 
 {% block Nav %}<nav class="a">{% block inNav %}
 <ul class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80">
-	<li><a href="{{ baseURL }}/">首页</a></li>
+	<li><a href="{{baseURL}}/">首页</a></li>
 	<li><a href="https://www.freebsd.org/docs.html">文档</a></li>
-	<li><a href="{{ baseURL }}/article/list">文档列表</a></li>
-	<li><a href="{{ baseURL }}/">帮助</a></li>
-	<li><a href="{{ baseURL }}/">赞助</a></li>
+	<li><a href="{{baseURL}}/suggest">建议</a></li>
+	<li><a href="{{baseURL}}/">帮助</a></li>
 	<li><a href="https://www.chinafreebsd.cn/index.php?title=WiKi%E8%AF%AD%E6%B3%95">freebsd样式</a></li>
+	<li><a href="{{baseURL}}/article/chinafreebsd_resouce">本站源</a></li>
+	<li><a href="{{baseURL}}/article/chinafreebsd_sponsor">赞助</a></li>
 </ul>
 {% endblock %}</nav>{% endblock %}
 
@@ -64,7 +65,7 @@
 	{% block inLeft %}{% endblock %}
 </div>
 
-<div class="right flex1">
+<div class="right a-1-1 c-2-3 d-3-4 e-4-5 f-5-6">
 	{% block inRight %}{% endblock %}
 </div>
 {% endblock %}</main>{% endblock %}
@@ -81,9 +82,9 @@
 {% endblock %}</footer>{% endblock %}
 
 
-<script type="text/javascript" src="{{ baseURL }}/own/R.js?v=1.0.0"></script>
-<script type="text/javascript" src="{{ baseURL }}/own/Panel.js?v=1.0.0"></script>
-<script type="text/javascript" src="{{ baseURL }}/js/nblog.js?v=1.0.0"></script>
+<script type="text/javascript" src="{{baseURL}}/own/R.js?v=1.0.0"></script>
+<script type="text/javascript" src="{{baseURL}}/own/Panel.js?v=1.0.0"></script>
+<script type="text/javascript" src="{{baseURL}}/js/nblog.js?v=1.0.0"></script>
 {% block toBody %}{% endblock %}
 </body>
 </html>

@@ -2,57 +2,83 @@
 
 class UserManage {
 
-	protected $container;
+protected $container;
 
-	public function __construct(Interop\Container\ContainerInterface $container) {
-		$this->container = $container;
+public function __construct(Interop\Container\ContainerInterface $container) {
+	$this->container = $container;
+	
+}
+
+
+function index($request, $response, $args) {
+
+	$this->container->get('view')->render($response, 'user/manage/index.html',[
 		
+	]);
+	return $response;
+}
+
+
+public function renewpassword($request, $response, $args) {
+	$post = $request->getParsedBody();
+	$userid = $GLOBALS['session']->userid;
+	$user = DB::get('nb_user')->where(['userid'=>$userid])->selectOne();
+
+	$key = base64_encode(pack("H*", $post['pwd0']));
+	$pwd0 = Rsa::privDecrypt($key, true);
+
+	if ($pwd0 == $user['password']) {
+		$key = base64_encode(pack("H*", $post['pwd1']));
+		$pwd1 = Rsa::privDecrypt($key, true);
+		DB::get('nb_user')->where(['userid'=>$userid])->update(['password'=>$pwd1]);
+		return $response->getBody()->write('密码已修改!');
+	} else {
+		return $response->getBody()->write('原密码不正确!');
 	}
+}
 
 
-	function index($request, $response, $args) {
-
-		$this->container->get('view')->render($response, 'user/manage/index.html',[
-			
+public function userinfo($request, $response, $args) {
+	$userid = $GLOBALS['session']->userid;
+	if ($request->isPost()) {
+		$post = $request->getParsedBody();
+		unset($post['login']);
+		DB::get('nb_user')->where(['userid'=>$userid])->update($post);
+		return $response->getBody()->write('用户信息已修改!');
+	} else {
+		return $this->container->get('view')->render($response, 'user/manage/userinfo.html',[
+			'user' => DB::get('nb_user')->where(['userid'=>$userid])->selectOne()
 		]);
-		return $response;
 	}
+}
 
 
-	public function userinfo($request, $response, $args) {
+public function template($request, $response, $args) {
+
+	$this->container->get('view')->render($response, 'user/manage/template.html',[
 		
-		$this->container->get('view')->render($response, 'user/manage/userinfo.html',[
-			
-		]);
-		return $response;
-	}
+	]);
+	return $response;
+}
 
 
-	public function template($request, $response, $args) {
-
-		$this->container->get('view')->render($response, 'user/manage/template.html',[
-			
-		]);
-		return $response;
-	}
-
-
-	public function articles($request, $response, $args) {
-
-		$this->container->get('view')->render($response, 'user/manage/articles.html',[
-			
-		]);
-		return $response;
-	}
+public function articles($request, $response, $args) {
+	$userid = $GLOBALS['session']->userid;
+	$articles = DB::get('nb_article')->where(['userid'=>$userid])->order('artid DESC')->selectAll('title,status,addtime');
+	$this->container->get('view')->render($response, 'user/manage/articles.html',[
+		'articles' => $articles
+	]);
+	return $response;
+}
 
 
-	public function category($request, $response, $args) {
+public function category($request, $response, $args) {
 
-		$this->container->get('view')->render($response, 'user/manage/category.html',[
-			
-		]);
-		return $response;
-	}
+	$this->container->get('view')->render($response, 'user/manage/category.html',[
+		
+	]);
+	return $response;
+}
 
 
    

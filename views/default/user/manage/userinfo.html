@@ -1,24 +1,148 @@
 {% extends "user/layout.html" %}
 
-
-
+{% block toHead1 %}
+	<link rel="stylesheet" href="{{baseURL}}/js/kindeditor/themes/default/default.css" />
+{% endblock %}
 
 
 {% block inRight %}
 
-<h2>用户信息</h2>
 
+<fieldset>
+	<legend><h4>修改用户密码：</h4></legend>
+	<form id="pwd">
+		原密码：<input type="password" name="pwd0"/>
+		新密码：<input type="password" name="pwd1"/>
+		再次输入：<input type="password" name="pwd2"/>
+		<input type="button" value="提交" onclick="renewPassword()" />
+	</form>
+</fieldset>
 
+<fieldset>
+	<legend><h4>修改用户信息：</h4></legend>
+	<form id="info" class="flex">
+		<div class="pr50">
+			<p>
+				<label>登录名：</label>
+				<input type="text" name="login" value="{{user.login}}" readonly="true"/>
+			</p>
+			<p>
+				<label>用户名：</label>
+				<input type="text" name="name" value="{{user.name}}"/>
+			</p>
+			<p>
+				<label>电话：</label>
+				<input type="text" name="telephone" value="{{user.telephone}}"/>
+			</p>
+			<p>
+				<label>email：</label>
+				<input type="text" name="email" value="{{user.email}}"/>
+			</p>
+			<p>
+				<label>qq：</label>
+				<input type="text" name="qq" value="{{user.qq}}"/>
+			</p>
+		</div>
+		<div class="flex1">
+			<p>
+				<label>更换头像：</label>
+				<img id="headphoto" class="pointer" src="{{user.photo}}" height="100" title="双击更换头像" />
+				<input type="text" name="photo" value="{{user.photo}}" data-url="{{baseURL}}" hidden="true"/>
+			</p>
+			<p>
+				<label>说点什么：</label>
+				<textarea type="text" name="intro">{{user.intro}}</textarea>
+				<input type="button" value="提交" onclick="renewInfo()">
+			</p>
+		</div>
+	</form>
+</fieldset>
+
+<fieldset>
+	<legend><h4>设置文章类别：</h4></legend>
+	<form id="categories">
+		<input type="text" class="p8" name="categories" value="{{user.categories}}" style="width:80%;" />
+		<input type="button" value="提交" onclick="renewCategories()" />
+		<h5>* 以英文逗号为分割符</h5>
+	</form>
+</fieldset>
 
 {% endblock %}
 
 
+
 {% block toBody%}
+<script type="text/javascript" src="{{baseURL}}/js/kindeditor/kindeditor-all-min.js"></script>
+<script type="text/javascript" src="{{baseURL}}/js/rsa/RSA.js"></script>
+<script type="text/javascript" src="{{baseURL}}/js/rsa/BigInt.js"></script>
+<script type="text/javascript" src="{{baseURL}}/js/rsa/Barrett.js"></script>
+<script type="text/javascript" src="{{baseURL}}/js/md5.min.js"></script>
+<script type="text/javascript" src="{{baseURL}}/js/public_key.js"></script>
 <script type="text/javascript">
-	R.id('section-1').setAttribute('checked', 'true');
+R.id('section-1').setAttribute('checked', 'true');
+R('input[name=pwd0]').select();
+R.move('#pwd input');
+R.move('#info input');
+
+
+KindEditor.ready(function(K) {
+	var editor = K.editor({
+		allowFileManager : true
+	});
+	K('#headphoto').dblclick(function() {
+		editor.loadPlugin('image', function() {
+			editor.plugin.imageDialog({
+				imageUrl : K('input[name=photo]').val(),
+				clickFn : function(url, title, width, height, border, align) {
+					K('input[name=photo]').val(url);
+					
+
+					editor.hideDialog();
+					R.id('headphoto').src=url;
+				}
+			});
+		});
+	});
+
+});
+
+
+
+
+function renewPassword() {
+	var pwd0    = R('[name=pwd0]').value,
+		pwd1 	= R('[name=pwd1]').value;
+	if (pwd1!=R('[name=pwd2]').value) {
+		panelMsg('两次密码输入一致!');
+	} else if (pwd1.length<3) {
+		panelMsg('密码长度不得小于3!');
+	} else if (!R.isDC(pwd1)) {
+		panelMsg('密码只能输入英文、数字、下划线!')
+	} else {
+		setMaxDigits(131);
+		var key  = new RSAKeyPair("10001", '', PUBLIC_KEY);
+
+		R.post('./renewpassword', R.FD().app({
+			'pwd0': encryptedString(key, md5(pwd0)),
+			'pwd1': encryptedString(key, md5(pwd1)),
+		}).fd, function(data){
+			panelMsg(data);
+		});
+	}
+}
+
+
+function renewInfo() {
+	R.post('', R.fd('#info'), function(data) {
+		panelMsg(data);
+	});
+}
+
+function renewCategories() {
+	R.post('', R.fd('#categories'), function(data) {
+		panelMsg(data);
+	});
+}
 
 </script>
-
-
-
 {% endblock %}

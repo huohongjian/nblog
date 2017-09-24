@@ -43,56 +43,56 @@ $container['view'] = function($c) use ($session) {
 	
 //	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
-	$view->getEnvironment()->addGlobal('login', $session['login']);
+	$view->getEnvironment()->addGlobal('login', $session->login);
 	return $view;
 };
 
 
-$app->get('/',  			'Index:index');
-$app->get('/captcha',		'Index:captcha');
-$app->get('/logout',		'Index:logout');
-$app->any('/login',			'Index:login');
-
+$app->get('/',  				'Index:index');
+$app->get('/captcha',			'Index:captcha');
+$app->get('/logout',			'Index:logout');
+$app->any('/login',				'Index:login');
 $app->any('/regist',			'Index:regist');
 $app->post('/checkLoginName',	'Index:hasSameUser');
-
-$app->get('/admin', 		 Admin::class.':index');
-$app->get('/admin/install',  Admin::class.':install');
-$app->get('/admin/userlist', Admin::class.':userlist');
+$app->any('/suggest',			'Index:suggest');
 
 
 
-$app->post('/article/save', 				Article::class.':save');
-$app->get ('/article/list',					Article::class.':list');
+
 $app->get ('/article/{articleid}',			Article::class.':index');
-$app->get ('/article/edit/[{articleid}]', 	Article::class.':edit');
 
 
 
 $app->group('/user', function() use ($app) {
-	$app->get ('',								User::class.':index');
-	$app->get ('/article/edit', 				User::class.':editArticle');
-	$app->get ('/article/edit/[{articleid}]', 	User::class.':editArticle');
-	$app->post('/article/save', 				User::class.':saveArticle');
-	$app->any('/renewpwd', 						User::class.':renewpwd');
+	$app->get ('',							User::class.':index');
 
+	$app->group('/article', function() use ($app) {
+		$app->get ('',						User::class.':index');
+		$app->get ('/[{category}]',			User::class.':index');
+		$app->get ('/edit/[{articleid}]', 	User::class.':editArticle');
+		$app->post('/save', 				User::class.':saveArticle');
 
+	});
 	$app->group('/manage', function() use ($app) {
 		$app->get('',					UserManage::class.':index');
-		$app->get('/userinfo',			UserManage::class.':userinfo');
+		$app->post('/renewpassword',	UserManage::class.':renewpassword');
+		$app->any('/userinfo',			UserManage::class.':userinfo');
 		$app->get('/template',			UserManage::class.':template');
 		$app->get('/articles',			UserManage::class.':articles');
 		$app->get('/category',			UserManage::class.':category');
 	});
-
 })->add(function($request, $response, $next) use ($session) {
 	if (!$session) {
 		return	$response->withStatus(302)->withHeader('Location', '/login');
 	}
 	$response = $next($request, $response);
-
 	return $response;
 });
+
+
+$app->get('/admin', 		 Admin::class.':index');
+$app->get('/admin/install',  Admin::class.':install');
+$app->get('/admin/userlist', Admin::class.':userlist');
 
 
 // $app->group('/utils', function () use ($app) {

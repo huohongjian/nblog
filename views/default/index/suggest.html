@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+
+
+{% block inRight %}
+
+<table>
+	<thead>
+		<tr><th>时间</th><th>建议</th></tr>
+	</thead>
+	<tbody>
+		{% for suggest in suggests %}
+		<tr><td>{{suggest.addtime}}</td><td>{{suggest.content}}</td></tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+{% endblock %}

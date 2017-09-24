@@ -2,60 +2,72 @@
 
 {% block inLeft %}
 
-<h3>栏目</h3>
-<ul>
-	{% for column in columns%}
-	<li><a href="#">{{ column.name }}</a></li>
-	{% endfor %}
-</ul>
+<section>
+	<h3>文档类别</h3>
+	<ul class="hor">
+		{% for column in columns%}
+		<li><a href="#">{{ column.name }}</a></li>
+		{% endfor %}
+	</ul>
+</section>
 
-<h3>下载</h3>
-<a href="https://www.freebsd.org/where.html" target="_blank">FreeBSD 11.1-RELEASE</a>
 
-<br><br><br>
+<section>
+	<h3>下载地址</h3>
+	<a href="https://www.freebsd.org/where.html" target="_blank">FreeBSD 11.1-RELEASE</a>
+</section>
 
+<section>
+	<h3>文档中心</h3>
+	<ul class="none">
+		<li><a href="https://www.freebsd.org/doc/zh_CN/books/handbook/" target="_blank">官方中文手册</a></li>
+		<li><a href="https://www.freebsd.org/zh_CN/" target="_blank">官方中文网站</a></li>
+	</ul>
+</section>
+
+<section>
+	<h3>意见建议</h3>
+	<form id="suggestForm">
+		<textarea name="content" rows="4" placeholder="网站正在开发建设，请您把对网站的意见留给我们，我们会继续努力。"></textarea>
+		<input type="button" value="提交" onclick="suggest()" />
+	</form>
+	
+</section>
 
 {% endblock %}
 
 
 {% block inRight %}
 
-<div class="flex" style="border-bottom: 1px solid #ddd;">
+<div class="flex" style="padding-bottom:20px; border-bottom: 1px solid #ddd;">
 	<div class="a-1-1 d-1-2">
-		<article style="padding: 18px;">
-			<img src="{{ baseURL }}/images/freebsd.png" align="left" width="120px" style="margin-top:8px;" />
 			<section>
-				<h3 style="display: inline;">FreeBSD</h3>
-				<span class="justify">是一个使用于现代服务器、桌面与嵌入式平台的先进作业系统。由一群庞大的社群持续超过三十年的开发。由于它先进的网路、安全性与储存方面的特色，使得FreeBSD成为许多大型网站以及最普遍的嵌入式网路与储存装置的平台选择。</span>
+				<img src="{{baseURL}}/images/freebsd.png" align="left" width="120px" style="margin:8px 5px 5px 0;" />
+				<span><h3 style="display:inline;">FreeBSD</h3>是一个适用于现代服务器、桌面与嵌入式平台的先进操作系统。由一个庞大的开发人员团队持续开发超过三十年。FreeBSD先进的网络、安全性和存储方面的特色使得它成为许多大型网站以及最普遍的嵌入式网络与存储设备的平台选择。</span>
 			</section>
-		</article>
 	</div>
 	<div class="a-1-1 d-1-2">
-		<article style="padding: 18px;">
 			<section>
-				<h3 style="display: inline;">China FreeBSD</h3>
-				<span class="justify">致力于FreeBSD在中国的推广。我们的计划是：(1)建立China FreeBSD镜像服务器，免费提供下载和更新服务；(2)建立China FreeBSD Wiki；(3)建立DDNS系统；(4)建立中文man查询系统等。本站遵从开源精神，不定期更新和发布 FreeBSD的资讯消息和技术资料。我们将尽全力帮助那些需要帮助的人们，也热切期盼您的参与和贡献！</span>
+				<span><h3 style="display:inline;">China FreeBSD</h3> 致力于FreeBSD在中国的推广。我们的计划是：(1)建立China FreeBSD镜像服务器，免费提供下载和更新服务；(2)建立China FreeBSD Wiki；(3)建立DDNS系统；(4)建立中文man查询系统等。本站遵从开源精神，不定期更新和发布 FreeBSD的资讯消息和技术资料。我们将尽全力帮助那些需要帮助的人们，也热切期盼您的参与和贡献！</span>
 			</section>
-		</article>
 	</div>
 </div>
 
 <div class="flex">
 	<div class="a-1-1 d-1-2">
-		<article style="padding: 18px;">
-			<h3>文章列表</h3>
-			<ul>
+		<section>
+			<h3>最新文章</h3>
+			<ul class="none">
 				{% for article in articles %}
 				<li><a href='{{ baseURL }}/article/{{ article.articleid }}'>{{ article.title }}</a></li>
 				{% endfor %}
 			</ul>
-		</article>
+		</section>
 	</div>
 	<div class="a-1-1 d-1-2">
-		<article style="padding: 18px;">
 			<section>
 				<h3>推荐资源</h3>
-				<ul>
+				<ul class="none">
 					<li><a href="http://pubs.vmware.com/vsphere-50/index.jsp" target="_blank">
 					vSphere 5 文档中心</a></li>
 					<li><a href="http://wiki.ubuntu.org.cn" target="_blank">ubuntu</a></li>
@@ -65,9 +77,22 @@
 					<li><a href="http://www.cnblogs.com/hz1124/p/6090835.html">HTML5新增标签与属性</a></li>
 				</ul>
 			</section>
-		</article>
 	</div>
 </div>
 
 
+{% endblock %}
+
+
+
+
+
+{% block toBody %}
+<script type="text/javascript">
+	function suggest() {
+		R.post('./suggest', R.FD('#suggestForm').fd, function(data) {
+				panelMsg(data);
+		});
+	}
+</script>
 {% endblock %}

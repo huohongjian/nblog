@@ -9,20 +9,19 @@ class Article {
 		
 	}
 
-	private function getArticleById($id) {
-		return DB::get("nb_article")->where(array('articleid'=>$id))->selectOne();
-	}
-
-
 	// 显示文章内容
 	function index($request, $response, $args) {
+		$id = pg_escape_string($args['articleid']);
+		$sql = "UPDATE nb_article SET counter=counter+1 WHERE articleid='$id';
+				SELECT a.*, b.name AS username FROM nb_article AS a
+				LEFT JOIN nb_user AS b ON a.userid=b.userid
+				WHERE a.articleid='$id'";
+		$article = DB::getInstance()->query($sql)->fetchOne();
 
-		$article = DB::get("nb_article")->where(['articleid'=>$args['articleid']])->selectOne();
-		$this->container->get('view')->render($response, 'article/index.html', [
+		return $this->container->get('view')->render($response, 'article/index.html', [
 			'article'=>$article,
-			'userid' =>$GLOBALS['session']['userid']
+			'userid' =>$GLOBALS['session']->userid
 		]);
-		return $response;
 	}
 
 

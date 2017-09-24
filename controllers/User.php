@@ -9,19 +9,25 @@ class User {
 		$this->container = $container;
 	}
 
+	// 显示用户文章列表
 	public function index($request, $response, $args) {
-		$userid = $GLOBALS['session']['userid'];
+		$userid = $GLOBALS['session']->userid;
 
-		$cat = DB::get('nb_user')->where(['userid'=>$userid])->selectVal('categories');
-		$articles = DB::get('nb_article')
-	//				  ->where(['userid' => 2])
-					  ->order('artid DESC')
-					  ->selectAll();
-		$this->container->get('view')->render($response, 'user/index.html', [
-			'categories'=> explode(',', $cat),
+		$category = $args['category'];
+		$sql = "SELECT * FROM nb_article WHERE userid='$userid'";
+		if ($category) {
+			$sql .= " AND category='".pg_escape_string($category)."'";
+		}
+		$sql .= " ORDER BY artid DESC";
+
+		$user = DB::get('nb_user')->where(['userid'=>$userid])->selectOne('categories,photo');
+
+		$articles = DB::getInstance()->query($sql)->fetchAll();
+		return $this->container->get('view')->render($response, 'user/index.html', [
+			'userphoto' => $user['photo'],
+			'categories'=> explode(',', $user['categories']),
 			'articles' 	=> $articles
 		]);
-		return $response;
 	}
 
 	public function manage($request, $response, $args) {
@@ -44,25 +50,27 @@ class User {
 		return $response;
 	}
 
+
 	public function saveArticle($request, $response, $args) {
-
 		$post = $request->getParsedBody();
-
-		if (strlen($post['articleid'])<13) {
+		if (strlen($post['articleid'])<9) {
 			$post['articleid'] = uniqid();
 		}
+		
+		$post['userid'] = $GLOBALS['session']->userid;
+
+
 		$id = DB::get('nb_article')->returning('articleid')->conflict('articleid')->upsert($post);
-		return $response->withJson(['status'=>200, 'articleid'=>$id, 'msg'=>'保存文章成功!']);
+		if ($id) {
+			return $response->withJson(['status'=>200, 'msg'=>'保存成功!', 'articleid'=>$id]);
+		} else {
+			return $response->withJson(['status'=>400, 'msg'=>'保存失败!']);
+		}
 		return $response; //必须返回上一行
 	}
 
-	public function renewpwd($request, $response, $args) {
 
-		return $this->container->get('view')->render($response, 'user/renewpwd.html', [
-			
-		]);
-		return $response;
-	}
+
 
    
 }

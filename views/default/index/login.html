@@ -32,7 +32,7 @@
 	</p>
 	<p>
 	<p class="relative">
-		<label>验证码：</label>
+		<label title="为避免混淆，验证码中没有数字0,1,2">验证码：</label>
 		<input type="text" name="captcha" required="required">
 		<img  title="点击刷新" src="{{ baseURL }}/captcha" align="absbottom" onclick="this.src='{{ baseURL }}/captcha?'+Math.random();">
 	</p>
@@ -50,7 +50,6 @@
 <script type="text/javascript" src="{{ baseURL }}/js/rsa/Barrett.js"></script>
 <script type="text/javascript" src="{{ baseURL }}/js/md5.min.js"></script>
 <script type="text/javascript" src="{{ baseURL }}/js/public_key.js"></script>
-<script type="text/javascript" src="{{ baseURL }}/own/Panel.js"></script>
 <script type="text/javascript">
 
 

@@ -4,6 +4,23 @@
 	author:		huohongjian
 */
 
+
+DROP TABLE IF EXISTS nb_suggest CASCADE;
+DROP SEQUENCE IF EXISTS nb_suggest_seq;
+CREATE SEQUENCE nb_suggest_seq;
+CREATE TABLE IF NOT EXISTS nb_suggest (
+	suggestid 	integer NOT NULL DEFAULT nextval('nb_suggest_seq'),
+	content 	text NOT NULL default '',
+	answer		text NOT NULL default '',
+	addtime		timestamp(0) without time zone NOT NULL DEFAULT now(),
+	CONSTRAINT nb_suggest_pkey PRIMARY KEY (suggestid)
+);
+
+
+
+
+
+/*
 DROP TABLE IF EXISTS nb_article CASCADE;
 DROP SEQUENCE IF EXISTS nb_article_seq;
 DROP TYPE IF EXISTS nb_article_parrern_enum;
@@ -36,21 +53,6 @@ CREATE INDEX nb_article_userid_category	ON nb_article (userid, category);
 CREATE INDEX nb_article_status 			ON nb_article (status);
 
 
-/*
-CREATE OR REPLACE FUNCTION nb_article_get_by_categoryid(_categoryid integer)
-	RETURNS SETOF nb_article AS $$
-DECLARE
-	_path TEXT;
-BEGIN
-	SELECT INTO _path path FROM nb_category WHERE categoryid=$1;
-	_path := _path || $1 || ',%';
-	RETURN QUERY SELECT a.* FROM nb_article a 
-				 LEFT JOIN nb_category b 
-				 ON a.categoryid=b.categoryid 
-				 WHERE b.categoryid=$1 OR b.path LIKE _path;
-END;
-$$ LANGUAGE plpgsql;
-*/
 
 
 
@@ -157,7 +159,7 @@ CREATE TABLE IF NOT EXISTS nb_user (
 	telephone 	character varying(16),
 	email 		character varying(64),
 	qq 			character varying(32),
-	photo 		character varying(255),
+	photo 		character varying(255) default '/thumbs/1.jpg',
 	intro 		text,
 	remark		text,
   	CONSTRAINT nb_user_pkey PRIMARY KEY (userid)
@@ -205,6 +207,7 @@ INSERT INTO nb_column VALUES
 (106,  2, '存储安全', true,  '0,1,2,', 0),
 (107,  2, '脚本工具', true,  '0,1,2,', 0),
 (108,  2, '源码实例', true,  '0,1,2,', 0);
+*/
 
 
 
@@ -215,6 +218,28 @@ INSERT INTO nb_column VALUES
 
 
 
+
+
+
+
+
+
+
+/*
+CREATE OR REPLACE FUNCTION nb_article_get_by_categoryid(_categoryid integer)
+	RETURNS SETOF nb_article AS $$
+DECLARE
+	_path TEXT;
+BEGIN
+	SELECT INTO _path path FROM nb_category WHERE categoryid=$1;
+	_path := _path || $1 || ',%';
+	RETURN QUERY SELECT a.* FROM nb_article a 
+				 LEFT JOIN nb_category b 
+				 ON a.categoryid=b.categoryid 
+				 WHERE b.categoryid=$1 OR b.path LIKE _path;
+END;
+$$ LANGUAGE plpgsql;
+*/
 
 
 /*************************************************************************************************

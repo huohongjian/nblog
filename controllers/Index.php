@@ -11,7 +11,7 @@ function __construct(Interop\Container\ContainerInterface $container) {
 function index($request, $response, $args) {
 
 	$this->container->get('view')->render($response, 'index/index.html', [
-		'articles' => DB::get('nb_article')->order('articleid DESC')->selectAll('articleid, title'),
+		'articles' => DB::get('nb_article')->order('artid DESC')->limit('6')->selectAll('articleid, title'),
 		'columns'  => DB::get('nb_column')->where(['parentid'=>2])->order('odr, columnid')->selectAll(),
 	]);
 	return $response;
@@ -61,19 +61,17 @@ function regist($request, $response, $args) {
 
 function login($request, $response, $args) {
 	if ($request->isPost()) {
-		$ds = $request->getParsedBody();
+		$post = $request->getParsedBody();
 
-		if (strtoupper($ds['captcha']) == strtoupper(Session::get('ca'))) {
-			$user = DB::get('nb_user')->where(["login" => $ds['login']])
-					->selectOne('userid, login, password, roleid, name');
+		if (strtoupper($post['captcha']) == strtoupper(Session::get('ca'))) {
+			$user = DB::get('nb_user')->where(["login" => $post['login']])
+					->selectOne('userid, login, password, roleid, name, photo');
 			if ($user) {
-				$key = base64_encode(pack("H*", $ds['password']));
-				$ds['password'] = Rsa::privDecrypt($key, true);
-				if ($ds['password'] == md5($ds['captcha'].$user['password'].$ds['captcha'])) {
-					Session::set([
-						'userid' => $user['userid'],
-						'login'	 => $user['login'],
-					]);
+				$key = base64_encode(pack("H*", $post['password']));
+				$post['password'] = Rsa::privDecrypt($key, true);
+				if ($post['password'] == md5($post['captcha'].$user['password'].$post['captcha'])) {
+					unset($user['password']);
+					Session::set($user);
 					return $response->withStatus(302)->withHeader('Location', '/user');
 				} else {
 					$message = '登录密码不正确!';
@@ -92,8 +90,23 @@ function login($request, $response, $args) {
 
 
 function logout($request, $response, $args) {
-	Session::unset('login');
+	Session::clear();
 	return $response->withStatus(302)->withHeader('Location', '/');
+}
+
+
+function suggest($request, $response, $args) {
+	if ($request->isPost()) {
+		$post = $request->getParsedBody();
+		DB::get('nb_suggest')->insert($post);
+		return $response->getBody()->write('感谢您的宝贵建议!');
+	} else {
+
+		return $this->container->get('view')->render($response, 'index/suggest.html', [
+			'suggests' => DB::get('nb_suggest')->selectAll()
+		]);
+	}
+	
 }
 
 

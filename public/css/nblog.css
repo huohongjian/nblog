@@ -18,7 +18,7 @@ h1,h2,h3,h4,h5,h6 {
 header.a li,
    nav.a li{list-style-type:circle; display:inline-block;}
 
-header.a {
+header.a, .panel > header {
 	background-image:-webkit-linear-gradient(to bottom, #550000, #770000);
 	background-image:linear-gradient(to bottom, #550000, #770000);
 }
@@ -26,7 +26,7 @@ header.a a {color:#fff; font-weight:bolder;}
 
 header.a figure {display:table; margin:0;}
 header.a figure img {width:60px; margin:8px 8px 2px;}
-header.a figcaption {display:table-cell; vertical-align:middle; font-size: 26px;}
+header.a figcaption {display:table-cell; vertical-align:middle; font-size: 28px;}
 
 header.a ul {float:right; position:relative; margin:3px;}
 header.a li {margin-right:8px;}
@@ -43,6 +43,12 @@ nav.a {
 nav.a ul {padding: 4px;}
 nav.a li:not(:first-child):before{content:'|'; margin:20px;}
 nav.a a {font-weight: bold;}
+nav.a {margin-bottom: 15px;}
+
+main.a {}
+
+
+
 
 
 
@@ -59,4 +65,28 @@ footer.a {text-align: center;}
 
 
 /* for article detail */
+article.detail {width:100%;}
 article.detail > header li {padding: 5px;}
+
+
+
+
+
+.left {
+	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;
+	padding-right:20px;
+}
+
+section {padding: 5px 10px;}
+.left section img {width:150px;}
+.left section input {width: calc(100% - 80px);}
+
+section.category > a > h3 {border-bottom:1px solid gray; padding:0 8px 10px;}
+
+
+
+
+
+/* for user/manage/userinfo */
+.right fieldset{margin: 20px;}
+.right fieldset label {width:90px; display: inline-block; text-align: right;}

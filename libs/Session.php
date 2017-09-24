@@ -6,14 +6,14 @@ class Session {
     
 	static private $life = 60 * 60 * 6;
 
-	static function all() {
+	static function all($returnArray=false) {
 		$time = date("Y-m-d H:i:s", time() - self::$life);
 		$SID  = session_id();
 		$sql  = "UPDATE nb_session SET logintime = current_timestamp 
 				 WHERE sessionid='$SID' AND logintime>'$time' 
 				 RETURNING data";
 		$json = DB::getInstance()->query($sql)->fetchVal();
-		return json_decode($json, true);
+		return json_decode($json, $returnArray);
 	}
 
 	static function get($key) {
@@ -41,11 +41,12 @@ class Session {
 		$sql = "UPDATE nb_session SET data=data-'$key' WHERE sessionid='$SID'";
 		return DB::getInstance()->query($sql);
 	}
-	
-	
-	static function gc() {
-		$time = date("Y-m-d H:i:s", time() - self::$life);
-		$sql  = "DELETE FROM nb_session WHERE logintime<'{$time}'";
+
+
+	static function clear() {
+		self::gc();
+		$SID = session_id();
+		$sql = "DELETE FROM nb_session WHERE sessionid='$SID'";
 		return DB::getInstance()->query($sql);
 	}
 	
@@ -54,7 +55,13 @@ class Session {
 		self::gc();
 		return DB::get('nb_session').selectVal('count(*)');
 	}
-
+	
+	
+	static function gc() {
+		$time = date("Y-m-d H:i:s", time() - self::$life);
+		$sql  = "DELETE FROM nb_session WHERE logintime<'{$time}'";
+		return DB::getInstance()->query($sql);
+	}
 }
 
 

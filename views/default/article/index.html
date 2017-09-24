@@ -2,16 +2,19 @@
 
 
 
-{% block inRight %} {% autoescape false %}
+{% block inMain %} {% autoescape false %}
 
-<article class="detail m20 mt50">
+<article class="detail mt50 b-p-5 c-p-20 d-p-50 e-p-80 f-p-120">
 	<header>
 		<h2>{{article.title}}</h2>
-		<ul class="hor border-tl pt20">
-			<li><i class="iconfont icon-seeuser"></i><span>{{userid}}</span></li>
-			<li><span>阅读</span></li>
-			<li><span>更新时间</span></li>
-			<li><a href="{{ baseURL }}/user/article/edit/{{ article.articleid }}">编辑</a></li>
+		<ul class="hor border-tl p0 pt20">
+			<li><span>贡献者：{{article.username}}</span></li>
+			<li><span>阅读：{{article.counter}}</span></li>
+			<li><span>更新时间：{{article.newtime}}</span></li>
+
+			{% if article.userid == userid %}
+			<li><a href="{{baseURL}}/user/article/edit/{{article.articleid}}">编辑</a></li>
+			{% endif %}
 		</ul>
 	</header>
 
