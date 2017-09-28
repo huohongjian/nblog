@@ -20,7 +20,25 @@ class Article {
 
 		return $this->container->get('view')->render($response, 'article/index.html', [
 			'article'=>$article,
-			'userid' =>$GLOBALS['session']->userid
+			'user' => [ 'userid'=>$GLOBALS['session']->userid,
+						'roleid'=>$GLOBALS['session']->roleid
+					  ]
+		]);
+	}
+
+
+	function search($request, $response, $args) {
+		if ($args['key']) {
+			$sql = "SELECT * FROM nb_article WHERE title LIKE '%"
+				 . pg_escape_string($args['key'])
+				 . "%' ORDER BY artid DESC";
+			$rs = DB::getInstance()->query($sql)->fetchAll();
+		} else {
+			$sql = "SELECT * FROM nb_article ORDER BY artid DESC";
+			$rs = DB::getInstance()->query($sql)->fetchAll();
+		}
+		return $this->container->get('view')->render($response, 'article/search.html', [
+			'articles' => $rs
 		]);
 	}
 

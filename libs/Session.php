@@ -6,7 +6,7 @@ class Session {
     
 	static private $life = 60 * 60 * 6;
 
-	static function all($returnArray=false) {
+	static function getAll($returnArray=false) {
 		$time = date("Y-m-d H:i:s", time() - self::$life);
 		$SID  = session_id();
 		$sql  = "UPDATE nb_session SET logintime = current_timestamp 

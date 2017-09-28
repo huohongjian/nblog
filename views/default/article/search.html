@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+
+
+{% block inMain %}
+
+<div class="mt50 b-p-5 c-p-20 d-p-50 e-p-80 f-p-120">
+
+	<ul class="none">
+		{% for article in articles %}
+		<li><a href="../../article/{{article.articleid}}">{{article.title}}</a></li>
+		{% endfor %}
+
+	</ul>
+
+</div>
+
+
+{% endblock %}

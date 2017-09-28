@@ -24,10 +24,13 @@
 			setSelect: function(v){
 				_.ALL('option',o).each(function(e){if(e.value==v)return e.selected='true'})
 			},
-
+			enter: function(f,b){
+				o.addEventListener('keyup',function(e){var e=e||W.e;e.preventDefault();if(e.keyCode==13)f(e)},b||false)
+			},
 
 		}
 	}
+
 	_.ce  = function(t,j){var k,l,e=D.createElement(t);
 		if(j){for(k in j){if(j[k]){
 			if(k=='attribute'){

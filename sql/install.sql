@@ -5,44 +5,59 @@
 */
 
 
+DROP TABLE IF EXISTS nb_donation CASCADE;
+DROP SEQUENCE IF EXISTS nb_donation_seq;
+CREATE SEQUENCE nb_donation_seq;
+CREATE TABLE IF NOT EXISTS nb_donation (
+	donationid 	integer NOT NULL DEFAULT nextval('nb_donation_seq'),
+	donor 		text NOT NULL default '',
+	amount		numeric(9,2) NOT NULL default 0,
+	beneficence	text NOT NULL default '',
+	day			date NOT NULL default CURRENT_DATE,
+	CONSTRAINT nb_donation_pkey PRIMARY KEY (donationid)
+);
+
+
+
+/*
 DROP TABLE IF EXISTS nb_suggest CASCADE;
 DROP SEQUENCE IF EXISTS nb_suggest_seq;
 CREATE SEQUENCE nb_suggest_seq;
 CREATE TABLE IF NOT EXISTS nb_suggest (
 	suggestid 	integer NOT NULL DEFAULT nextval('nb_suggest_seq'),
-	content 	text NOT NULL default '',
+	content 	varchar(32) NOT NULL default '',
+	money		
 	answer		text NOT NULL default '',
 	addtime		timestamp(0) without time zone NOT NULL DEFAULT now(),
 	CONSTRAINT nb_suggest_pkey PRIMARY KEY (suggestid)
 );
 
+*/
 
 
 
 
-/*
 DROP TABLE IF EXISTS nb_article CASCADE;
 DROP SEQUENCE IF EXISTS nb_article_seq;
-DROP TYPE IF EXISTS nb_article_parrern_enum;
+DROP TYPE IF EXISTS nb_article_status_enum;
+CREATE TYPE nb_article_status_enum AS ENUM ('推荐', '公开', '隐藏', '删除');
 CREATE SEQUENCE nb_article_seq;
-CREATE TYPE nb_article_parrern_enum AS ENUM ('html', 'markdown', 'text');
 CREATE TABLE IF NOT EXISTS nb_article (
 	artid		integer NOT NULL DEFAULT nextval('nb_article_seq'),
 	articleid 	varchar(32) UNIQUE,
 	category 	varchar(32) NOT NULL default '',
-	columnid 	integer NOT NULL default 0, 	-- 栏目id
+	columnid 	integer NOT NULL default 0,
 	userid 		integer NOT NULL default 0,
-	status		integer NOT NULL default 2,		-- 1:推荐, 2:公开, 3:隐藏, 4:删除
 	counter 	integer NOT NULL default 0,
 	comment 	integer NOT NULL default 0,
 	isbook		boolean NOT NULL default false,	-- 电子书格式
-	pattern		nb_article_parrern_enum NOT NULL default 'html',
 	title 		varchar(255) NOT NULL default '',
 	alias		varchar(255) NOT NULL default '',
 	keywords	varchar(255) NOT NULL default '',
 	thumb		varchar(255) NOT NULL default '',
 	caption 	text NOT NULL default '',
 	content 	text NOT NULL default '',
+	status		nb_article_status_enum NOT NULL default '公开',
 	addtime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
 	newtime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
 	CONSTRAINT nb_article_pkey PRIMARY KEY (artid)
@@ -54,6 +69,48 @@ CREATE INDEX nb_article_status 			ON nb_article (status);
 
 
 
+
+
+DROP TABLE IF EXISTS nb_column CASCADE;
+DROP SEQUENCE IF EXISTS nb_column_seq;
+CREATE SEQUENCE nb_column_seq;
+CREATE TABLE IF NOT EXISTS nb_column (
+	columnid 	integer NOT NULL DEFAULT nextval('nb_column_seq'),
+	parentid 	integer NOT NULL default 0,
+	name 		varchar(64) NOT NULL default '',
+	leaf		boolean NOT NULL default true,
+	path 		varchar(64) NOT NULL default '0,',
+	odr 		integer NOT NULL default 0,
+	CONSTRAINT nb_column_pkey PRIMARY KEY (columnid)
+);
+CREATE INDEX nb_column_parentid 	ON nb_column (parentid);
+CREATE INDEX nb_column_path		ON nb_column (path);
+CREATE INDEX nb_column_odr		ON nb_column (odr);
+
+INSERT INTO nb_column VALUES
+(1,    0, '全部类别', false, '0,', 0),
+(2,	   1, '网站栏目', false, '0,1,', 0),
+(3,    1, 'FreeBSD',  false, '0,1,', 0),
+
+(201,  2, '资讯1',    true,  '0,1,2,', 0),
+(202,  2, '资讯2',    true,  '0,1,2,', 0),
+(203,  2, '资讯4',    true,  '0,1,2,', 0),
+(204,  2, '资讯5',    true,  '0,1,2,', 0),
+(205,  2, '资讯6',    true,  '0,1,2,', 0),
+(206,  2, '技术精华', true,  '0,1,2,', 0),
+(207,  2, '资源链接', true,  '0,1,2,', 0),
+
+(301,  3, '系统手册', true,  '0,1,3,', 0),
+(302,  3, '环境变量', true,  '0,1,3,', 0),
+(303,  3, '桌面应用', true,  '0,1,3,', 0),
+(304,  3, '服务应用', true,  '0,1,3,', 0),
+(305,  3, '网络应用', true,  '0,1,3,', 0),
+(306,  3, '内核模块', true,  '0,1,3,', 0),
+(307,  3, '存储安全', true,  '0,1,3,', 0),
+(308,  3, '脚本工具', true,  '0,1,3,', 0),
+(309,  3, '源码实例', true,  '0,1,3,', 0);
+
+/*
 
 
 DROP TABLE IF EXISTS nb_status CASCADE;
@@ -177,36 +234,6 @@ INSERT INTO nb_user(name, login, password, roleid)  VALUES
 ('HHJ',			 	'hhj', 			'202cb962ac59075b964b07152d234b70', 5);
 
 
-
-
-DROP TABLE IF EXISTS nb_column CASCADE;
-DROP SEQUENCE IF EXISTS nb_column_seq;
-CREATE SEQUENCE nb_column_seq;
-CREATE TABLE IF NOT EXISTS nb_column (
-	columnid 	integer NOT NULL DEFAULT nextval('nb_column_seq'),
-	parentid 	integer NOT NULL default 0,
-	name 		varchar(64) NOT NULL default '',
-	leaf		boolean NOT NULL default true,
-	path 		varchar(64) NOT NULL default '0,',
-	odr 		integer NOT NULL default 0,
-	CONSTRAINT nb_column_pkey PRIMARY KEY (columnid)
-);
-CREATE INDEX nb_column_parentid 	ON nb_column (parentid);
-CREATE INDEX nb_column_path		ON nb_column (path);
-CREATE INDEX nb_column_odr		ON nb_column (odr);
-
-INSERT INTO nb_column VALUES
-(1,    0, '全部类别', false, '0,', 0),
-(2,    1, 'FreeBSD',  false, '0,1,', 0),
-(100,  2, '系统手册', true,  '0,1,2,', 0),
-(101,  2, '环境变量', true,  '0,1,2,', 0),
-(102,  2, '桌面应用', true,  '0,1,2,', 0),
-(103,  2, '服务应用', true,  '0,1,2,', 0),
-(104,  2, '网络应用', true,  '0,1,2,', 0),
-(105,  2, '内核模块', true,  '0,1,2,', 0),
-(106,  2, '存储安全', true,  '0,1,2,', 0),
-(107,  2, '脚本工具', true,  '0,1,2,', 0),
-(108,  2, '源码实例', true,  '0,1,2,', 0);
 */
 
 

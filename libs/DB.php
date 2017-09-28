@@ -74,26 +74,18 @@ class DB {
 	}
 
 
-
-
-
 	static function get($table='') {
-		$ins = self::getInstance();
-		$ins->table = $table;	// The user doesn't input table name, so it's not necessary to clear.
-		unset($ins->where, $ins->order, $ins->limit, $ins->returning, $ins->conflict);
-		return $ins;
+		$I = self::getInstance();
+		$I->table = self::clear($table);
+		unset($I->where, $I->order, $I->limit, $I->offset, $I->returning, $I->conflict);
+		return $I;
 	}
 
-
-	function where(array $where, array $glue=['AND'], array $operator=['=']) {
-		$s = '';
-		$i = 0;
+	function where(array $where) {
 		foreach ($where as $k => $v) {
-			$s .= $k.($operator[$i] ?? '=').$this->escape($v).' '.($glue[$i] ?? 'AND').' ';
-			$i++;
+			$s .= ' AND '.$this->clear($k).'='.$this->escape($v);
 		}
-		$n = strlen($glue[$i-1] ?? 'AND');
-		$this->where = substr($s, 0, -$n-2);
+		$this->where = substr($s, 4);
 		return $this;
 	}
 
@@ -102,12 +94,12 @@ class DB {
 		return $this;
 	}
 
-	function limit(string $limit) {
+	function limit($limit) {
 		$this->limit = $this->clear($limit);
 		return $this;
 	}
 
-	function offset(string $offset) {
+	function offset($offset) {
 		$this->offset = $this->clear($offset);
 		return $this;
 	}
@@ -156,12 +148,13 @@ class DB {
 		return $this->query($sql)->fetchVal($row, $col);
 	}
 
-	static function struckArray(array $arr) {
+	private function struckArray(array $arr) {
 		$ks = array();
 		$vs = array();
 		$kv = array();
 		foreach ($arr as $k => $v) {
-			$v = self::escape($v);
+			$k = $this->clear($k);
+			$v = $this->escape($v);
 			array_push($ks, $k);
 			array_push($vs, $v);
 			array_push($kv, "$k=$v");
@@ -178,7 +171,7 @@ class DB {
 		if (isset($this->returning)) {
 			$sql .= " RETURNING $this->returning";
 		}
-		return $this->query($sql)->fetchVal();
+		return $this->query($sql)->fetchOne();
 	}
 
 	function update(array $arr) {
@@ -197,7 +190,7 @@ class DB {
 		if ($this->returning) {
 			$sql .= " RETURNING $this->returning";
 		}
-		return $this->query($sql)->fetchVal();
+		return $this->query($sql)->fetchOne();
 	}
 
 	function delete() {
@@ -272,6 +265,9 @@ class DB {
 	function fetchObj($row=0, $type=PGSQL_ASSOC) {
 		return @pg_fetch_object($this->result, $row, $type);
 	}
+
+
+	
 
 	function numRows() {
 		return @pg_num_rows($this->result);

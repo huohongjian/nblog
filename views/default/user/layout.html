@@ -2,7 +2,7 @@
 
 
 {% block toHead %}
-<link rel="stylesheet" href="{{ baseURL }}/css/aside-nav-bar.css?v=1.0.0">
+<link rel="stylesheet" href="{{baseURL}}/css/aside-nav-bar.css?v=1.0.0">
 {% block toHead1 %} {% endblock %}
 {% endblock %}
 
@@ -14,12 +14,12 @@
 	</div>
 	<div class="flex1 text-middle">
 		<ul class="pl10">
-			<li><a href="{{ baseURL }}/"><i class="iconfont icon-home"></i>首页</a></li>
+			<li><a href="{{baseURL}}/"><i class="iconfont icon-home"></i>首页</a></li>
 
-			<li class="float-right"><a href="{{ baseURL }}/logout">退出</a></li>
-			<li class="float-right"><a href="{{ baseURL }}/user/manage">管理</a></li>
-			<li class="float-right"><a href="{{ baseURL }}/user/article/edit">添加</a></li>
-			<li class="float-right"><a href="{{ baseURL }}/user"><i class="iconfont icon-seeuser"> </i> {{ login }}</a></li>
+			<li class="float-right"><a href="{{baseURL}}/logout">退出</a></li>
+			<li class="float-right"><a href="{{baseURL}}/user/manage">管理</a></li>
+			<li class="float-right"><a href="{{baseURL}}/user/article/edit/new">添加</a></li>
+			<li class="float-right"><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"> </i> {{login}}</a></li>
 
 		</ul>
 	</div>
@@ -48,7 +48,7 @@
 			</div>
 			<div class="section">
 				<input type="radio" name="accordion-1" id="section-2" value="toggle"/>
-				<label for="section-3"><span>Scroller</span></label>
+				<label for="section-2"><span>Scroller</span></label>
 				<div class="content">
 					<ul>
 						<li><span>Need Coffee</span></li>

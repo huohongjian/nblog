@@ -11,8 +11,9 @@
 	<meta http-equiv="Access-Control-Allow-Origin" content="*">  
 	<title>{% block inTitle %}China FreeBSD{% endblock %}</title>
  	<link rel="stylesheet" href="//at.alicdn.com/t/font_418836_42k8vtq2myflmcxr.css" />
-	<link rel="stylesheet" href="{{baseURL}}/css/nblog.css?v=1.0.0" />
 	<link rel="stylesheet" href="{{baseURL}}/own/R.css?v=1.0.0" />
+	<link rel="stylesheet" href="{{baseURL}}/css/nblog.css?v=1.0.0" />
+	<link rel="stylesheet" href="{{baseURL}}/css/docbook.css" />
 	{% block toHead %}{% endblock %}
 </head>
 <body>
@@ -48,7 +49,6 @@
 {% block Nav %}<nav class="a">{% block inNav %}
 <ul class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80">
 	<li><a href="{{baseURL}}/">首页</a></li>
-	<li><a href="https://www.freebsd.org/docs.html">文档</a></li>
 	<li><a href="{{baseURL}}/suggest">建议</a></li>
 	<li><a href="{{baseURL}}/">帮助</a></li>
 	<li><a href="https://www.chinafreebsd.cn/index.php?title=WiKi%E8%AF%AD%E6%B3%95">freebsd样式</a></li>

@@ -64,7 +64,17 @@ public function template($request, $response, $args) {
 
 public function articles($request, $response, $args) {
 	$userid = $GLOBALS['session']->userid;
-	$articles = DB::get('nb_article')->where(['userid'=>$userid])->order('artid DESC')->selectAll('title,status,addtime');
+	$page = $args['page'] ?? 1;
+	$limit = 20;
+	$offset = ($page-1) * $limit;
+	$sql = "SELECT a.* 
+		   FROM nb_article AS a, nb_status AS b
+		   WHERE a.userid=$userid and a.status=b.statusid
+		   ORDER BY a.artid DESC
+		   LIMIT $limit
+		   OFFSET $offset";
+	$articles = DB::getInstance()->query($sql)->fetchALL();
+
 	$this->container->get('view')->render($response, 'user/manage/articles.html',[
 		'articles' => $articles
 	]);

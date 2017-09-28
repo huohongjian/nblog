@@ -37,12 +37,35 @@ class User {
 		return $response;
 	}
 
+
+	// public function bsdeditor($request, $response, $args) {
+	// 	$userid = Session::get('userid');
+	// 	$id = $args['articleid'];
+	// 	$article = strlen($id)<13 ? array() : DB::get('nb_article')->where(['articleid'=>$id])->selectOne();
+	// 	$cats = DB::get('nb_user')->where(['userid'=>$userid])->selectVal('categories');
+	// 	$this->container->get('view')->render($response, 'user/bsdeditor.html', [
+	// 		'categories' => explode(',', $cats),
+	// 		'article' => $article,
+	// 		'maxnum'  => 12,
+	// 	]);
+	// 	return $response;
+	// }
+
 	public function editArticle($request, $response, $args) {
-		$userid = Session::get('userid');
+		$userid = $GLOBALS['session']->userid;
 		$id = $args['articleid'];
-		$article = empty($id) ? array() : DB::get('nb_article')->where(['articleid'=>$id])->selectOne();
+
+		if (strlen($id)<13) {
+			$article = array();
+		} else {
+			$article = DB::get('nb_article')->where(['articleid'=>$id])->selectOne();
+			if ($article['userid'] != $userid and $GLOBALS['session']->roleid>2) {
+				$article = array();
+			}
+		}
+
 		$cats = DB::get('nb_user')->where(['userid'=>$userid])->selectVal('categories');
-		$this->container->get('view')->render($response, 'user/kindeditor.html', [
+		$this->container->get('view')->render($response, 'user/bsdeditor.html', [
 			'categories' => explode(',', $cats),
 			'article' => $article,
 			'maxnum'  => 12,
@@ -53,22 +76,34 @@ class User {
 
 	public function saveArticle($request, $response, $args) {
 		$post = $request->getParsedBody();
-		if (strlen($post['articleid'])<9) {
-			$post['articleid'] = uniqid();
-		}
-		
 		$post['userid'] = $GLOBALS['session']->userid;
+		
+		if (strlen($post['articleid'])<13) {
+			$post['articleid'] = uniqid();
+			$sql = "UPDATE nb_user SET score=score+1 WHERE userid=$1";
+			DB::getInstance()->query2($sql, [$post['userid']]);
 
-
-		$id = DB::get('nb_article')->returning('articleid')->conflict('articleid')->upsert($post);
-		if ($id) {
-			return $response->withJson(['status'=>200, 'msg'=>'保存成功!', 'articleid'=>$id]);
+			$r = DB::get('nb_article')->returning('articleid')->insert($post);
+			return $response->withJson([
+				'status'	=> 200,
+				'msg'		=> '文章添加成功!',
+				'articleid' => $r['articleid']
+			]);
 		} else {
-			return $response->withJson(['status'=>400, 'msg'=>'保存失败!']);
+			$post['newtime'] = date("Y-m-d h:i:s");
+			DB::get('nb_article')->where(['articleid'=>$post['articleid']])->update($post);
+			return $response->withJson([
+				'status'	=> 200,
+				'msg'		=> '文章保存成功!',
+				'articleid' => $post['articleid']
+			]);
 		}
+		return $response->withJson([
+				'status'	=> 400,
+				'msg'		=> '文章添加/保存失败!'
+			]);
 		return $response; //必须返回上一行
 	}
-
 
 
 

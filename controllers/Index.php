@@ -103,7 +103,7 @@ function suggest($request, $response, $args) {
 	} else {
 
 		return $this->container->get('view')->render($response, 'index/suggest.html', [
-			'suggests' => DB::get('nb_suggest')->selectAll()
+			'suggests' => DB::get('nb_suggest')->order('suggestid DESC')->selectAll()
 		]);
 	}
 	

@@ -4,7 +4,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require_once('../vendor/autoload.php');
 
-$session = Session::all();
+$session = Session::getAll();
 
 
 $configuration = [
@@ -43,7 +43,7 @@ $container['view'] = function($c) use ($session) {
 	
 //	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
-	$view->getEnvironment()->addGlobal('login', $session->login);
+	$view->getEnvironment()->addGlobal('login',   $session->login);
 	return $view;
 };
 
@@ -57,21 +57,19 @@ $app->post('/checkLoginName',	'Index:hasSameUser');
 $app->any('/suggest',			'Index:suggest');
 
 
-
-
 $app->get ('/article/{articleid}',			Article::class.':index');
+$app->get ('/article/search/[{key}]',		Article::class.':search');
 
 
 
 $app->group('/user', function() use ($app) {
-	$app->get ('',							User::class.':index');
+	$app->get ('', User::class.':index');
 
 	$app->group('/article', function() use ($app) {
-		$app->get ('',						User::class.':index');
-		$app->get ('/[{category}]',			User::class.':index');
-		$app->get ('/edit/[{articleid}]', 	User::class.':editArticle');
-		$app->post('/save', 				User::class.':saveArticle');
-
+		$app->get ('',							User::class.':index');
+		$app->get ('/[{category}]',				User::class.':index');
+		$app->get ('/edit/[{articleid}]', 		User::class.':editArticle');
+		$app->post('/save', 					User::class.':saveArticle');
 	});
 	$app->group('/manage', function() use ($app) {
 		$app->get('',					UserManage::class.':index');
@@ -88,6 +86,8 @@ $app->group('/user', function() use ($app) {
 	$response = $next($request, $response);
 	return $response;
 });
+
+
 
 
 $app->get('/admin', 		 Admin::class.':index');
