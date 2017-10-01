@@ -40,23 +40,24 @@ CREATE TABLE IF NOT EXISTS nb_suggest (
 DROP TABLE IF EXISTS nb_article CASCADE;
 DROP SEQUENCE IF EXISTS nb_article_seq;
 DROP TYPE IF EXISTS nb_article_status_enum;
-CREATE TYPE nb_article_status_enum AS ENUM ('推荐', '公开', '隐藏', '删除');
+CREATE TYPE nb_article_status_enum AS ENUM ('公开', '隐藏', '删除');
 CREATE SEQUENCE nb_article_seq;
 CREATE TABLE IF NOT EXISTS nb_article (
 	artid		integer NOT NULL DEFAULT nextval('nb_article_seq'),
 	articleid 	varchar(32) UNIQUE,
-	category 	varchar(32) NOT NULL default '',
+	category 	varchar(32) NOT NULL default '未分类',
 	columnid 	integer NOT NULL default 0,
 	userid 		integer NOT NULL default 0,
 	counter 	integer NOT NULL default 0,
 	comment 	integer NOT NULL default 0,
-	isbook		boolean NOT NULL default false,	-- 电子书格式
 	title 		varchar(255) NOT NULL default '',
 	alias		varchar(255) NOT NULL default '',
 	keywords	varchar(255) NOT NULL default '',
 	thumb		varchar(255) NOT NULL default '',
 	caption 	text NOT NULL default '',
 	content 	text NOT NULL default '',
+	hide 		boolean NOT NULL default false,
+	isbook		boolean NOT NULL default false,	-- 电子书格式
 	status		nb_article_status_enum NOT NULL default '公开',
 	addtime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
 	newtime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
@@ -111,6 +112,7 @@ INSERT INTO nb_column VALUES
 (309,  3, '源码实例', true,  '0,1,3,', 0);
 
 /*
+桌面应用  实用脚本  环境变量 服务部署   内核模块  网络应用 存储设计 安全审计   命令工具
 
 
 DROP TABLE IF EXISTS nb_status CASCADE;
@@ -230,7 +232,7 @@ INSERT INTO nb_user(name, login, password, roleid)  VALUES
 ('administrator',  	'admin', 		'202cb962ac59075b964b07152d234b70', 2),
 ('anonymous', 		'anon', 		'202cb962ac59075b964b07152d234b70', 6),
 ('iceage',			'iceage',		'202cb962ac59075b964b07152d234b70',	2),
-('HuoHongJian', 	'huohongjian',	'202cb962ac59075b964b07152d234b70', 2),
+('Huo', 			'huo',			'202cb962ac59075b964b07152d234b70', 2),
 ('HHJ',			 	'hhj', 			'202cb962ac59075b964b07152d234b70', 5);
 
 

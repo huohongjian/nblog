@@ -1,6 +1,22 @@
-{% extends "layout.html" %}
+{% extends "admin/layout.html" %}
 
-{% block main %}
-<h1>系统管理</h1>
+
+
+{% block inRight %}
+<h3>系统管理</h3>
+
+{% endblock %}
+
+
+
+
+
+{% block toBody %}
+<script type="text/javascript">
+	R('#section-1').checked = true;
+
+
+
+</script>
 
 {% endblock %}

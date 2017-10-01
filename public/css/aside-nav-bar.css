@@ -19,13 +19,20 @@
 	color:#fff; font-weight:bold; background: #990000; border-bottom: 1px solid #363636;
 
 }
-.accordion .section input[type=radio]:checked + label:before {
+/*.accordion .section input[type=radio]:checked + label:before {
 	content: '';
 	height: 99%;
-	border-left: 5px solid #21CCFC; /*左侧提示条*/
+	border-left: 5px solid #21CCFC; /*左侧提示条
+}*/
 
-
+.accordion .section input[type=radio]:checked + label {
+	border-left: 5px solid #21CCFC;
 }
+
+
+
+
+
 /*当前栏目面板*/
 .accordion .section input[type=radio]:checked ~ .content {
 	max-height: 300px;
@@ -67,6 +74,10 @@ box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box
 	height: 1px;
 	border-top: 1px solid #fff; #363636; /*栏目分割线*/
 }
+
+
+
+
 .accordion .section label:hover {background:#990000; color:#fff; font-weight:bolder;}
 /*栏目标题字*/
 .accordion .section label span {display:table-cell; vertical-align:middle; color:#fff;}

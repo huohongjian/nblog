@@ -7,13 +7,26 @@
 	_.all = function(q,o){return (o||D).querySelectorAll(q)}
 	_.ALL = function(q,o){o=_.all(q,o);
 		return {
-			each:function(fn){var i=0,I=o.length;for(;i<I;i++){fn(o[i],i,I,o)}},
-			map:function(fn){var r=[],i=0,I=o.length;for(;i<I;I++){r.push(fn(o[i],i,I,o))}return r},
+			all: o,
+			each:function(fn){var i=0,I=o.length;for(;i<I;i++){fn(o[i],i,I)}},
+			map:function(fn){var r=[],i=0,I=o.length;for(;i<I;I++){r.push(fn(o[i],i,I))}return r},
+			move:function(ex){ex=_.all(ex);
+				this.each(function(a,i,I){
+					_.ONE(a).enter(function(){
+						while(_.ARR(ex).has(o[i+1])&&i<I){i++}
+						if(i>I-2)i=-1;
+						o[i+1].getAttribute('type').toUpperCase()=='TEXT'?o[i+1].select():o[i+1].focus();
+					});
+				});
+			},
 		}
 	}
 	_.one = function(q,o){return _(q,o)}
 	_.ONE = function(q,o){o=_(q,o);
 		return {
+			one: o,
+			get:function(k){return o.getAttribute(k)},
+			set:function(k,v){o.setAttribute(k,v)},
 			remove: function(){
 
 			},
@@ -24,14 +37,13 @@
 			setSelect: function(v){
 				_.ALL('option',o).each(function(e){if(e.value==v)return e.selected='true'})
 			},
-			enter: function(f,b){
-				o.addEventListener('keyup',function(e){var e=e||W.e;e.preventDefault();if(e.keyCode==13)f(e)},b||false)
+			enter: function(f){
+				o.addEventListener('keyup',function(e){var e=e||W.e;e.preventDefault();if(e.keyCode==13)f(e)},false)
 			},
 
 		}
 	}
-
-	_.ce  = function(t,j){var k,l,e=D.createElement(t);
+	_.ce = function(t,j){var k,l,e=D.createElement(t);
 		if(j){for(k in j){if(j[k]){
 			if(k=='attribute'){
 				for(l in j[k]){if(j[k][l])e.setAttribute(l,j[k][l])}
@@ -40,23 +52,35 @@
 			}else{e[k]=j[k]}
 		}}}return e;
 	}
-
-
-	_.inArray=function(search,array){
-		for(var i in array){
-			if(array[i]==search){return true}
+	_.CHK = function(q,o){
+		return {
+			val: function(){var r=[];_.ALL(q,o).each(function(a){if(a.checked)r.push(a.value)});return r;},
+			to: function(Q){
+				_(Q).addEventListener('change',function(){
+					var v=this.checked;
+					_.ALL(q,o).each(function(a){a.checked=v});
+			},false)},
 		}
-		return false;
 	}
 
-// return value "Arguments", "Array", "Boolean", "Date", "Error", "Function", "JSON", "Math", "Number", "Object", "RegExp", "String", FormData
+	_.ARR = function(arr){
+		return {
+			arr: arr,
+			has:function(v){for(var i=0;i<arr.length;i++){if(arr[i]==v)return true}return false},
+			map:function(f){var A=[];this.each(function(a,i,I,A){a.push(f(a,i,I,A))});return A},
+			each:function(f){var i,I=arr.length;for(i=0;i<I;i++){f(arr[i],i,I,arr)}},
+		}
+	}
+
+
+// return value "Arguments", "Array", "Boolean", "Date", "Error", "Function", "Math", "Number", "Object", "RegExp", "String", FormData
 	_.type    = function(o){return Object.prototype.toString.call(o).slice(8,-1)}
 	_.isDC 	  = function(s){return /^[a-zA-Z0-9\.-_]+$/.test(s)}
 	_.isDom   = function(o){return !!(o&&window&&o.nodeType)}
 	_.isJSON  = function(o){return _.type(o)=='Object'&&!o.length}
 	_.isChar  = function(s){return /^[a-zA-Z]+$/.test(s)}
 	_.isDigit = function(s){return /^[0-9\.-]+$/.test(s)}
-	_.isEmpty = function(s){return s==null||s==undefined||s==''||s==0||s==[]||s=={}}
+	_.empty   = function(s){return s==null||s==undefined||s==''||s==0||s==[]||s=={}}
 	
 	_.hash 	  = function(s){var h=5381,i=0,I=s.length;for(;i<I;i++){h=h*33+s.charCodeAt(i)}return h%1013}
 	_.concat  = function(){var r={},a=arguments,i=0,I=a.length,k;for(;i<I;i++){for(k in a[i]){r[k]=a[i][k]}}return r}
@@ -87,16 +111,16 @@
 			},
 		}
 	}
-	_.fd=function(f){return _.isEmpty(f)?new FormData():_.type(f)=='FormData'?f:new FormData(_(f))}
+	_.fd=function(f){return _.empty  (f)?new FormData():_.type(f)=='FormData'?f:new FormData(_(f))}
 	_.FD=function(f){f=_.fd(f);
 		return {
 			fd :f,
 			app:function(j){for(var k in j){f.append(k,j[k])}return this},
 			set:function(j){for(var k in j){f.set(k,j[k])}return this},
 			del:function(a){for(var i=0;i<a.length;i++){f.delete(a[i])}return this},
-			concat:function(F,app){
+			concat:function(F,isApp){
 				F=_.fd(F);var i=F.entries(),r=i.next();
-				if(app){
+				if(isApp){
 					while(!r.done){
 						f.append(r.value[0],r.value[1]);
 						r=i.next();
@@ -108,6 +132,23 @@
 					}
 				}
 				return this;
+			},
+			json:function(){
+				var k,v,j={},i=f.entries(),r=i.next();
+				while(!r.done){
+					k=r.value[0];
+					v=r.value[1];
+					if(j[k]){
+						if(_.type(j[k])!='Array'){
+							j[k]=[j[k]]
+						}
+						j[k].push(v)
+					}else{
+						j[k]=v;
+					}
+					
+					r=i.next()
+				}return j;
 			},
 		}
 	}
@@ -130,17 +171,6 @@
 	}
 	_.getScrollTop=function(){return D.documentElement.scrollTop||W.pageYOffset||D.body.scrollTop}
 	_.setScrollTop=function(n){D.documentElement.scrollTop=W.pageYOffset=D.body.scrollTop=n}
-	
-	_.enter =function(q,f,b){_(q).addEventListener('keyup',function(e){var e=e||W.e;e.preventDefault();if(e.keyCode==13)f(e)},b||false)}
-	_.move  =function(qs,ex){
-		ex=_.all(ex);
-		_.ALL(qs||'form input').each(function(e,i,s,E){
-			_.enter(e,function(){
-				while(_.inArray(E[i+1],ex)&&i<s){i++}
-				if(i>s-2)i=-1;E[i+1].focus();
-			});
-		});
-	}
 
 
 	var xhr={
@@ -157,42 +187,46 @@
 				p={
 				'method'	: 'POST',
 				'url'		: '',
-				'data'		: null, //FormData or JSON
-				'type'		: 'JSON',
+				'data'		: null,
+				'type'		: 'TEXT',
 				'async'		: true,
 				'random'	: true,
 				'onload'	: function(res){console.log(res)},
 				'onprogress': function(z,t){console.log(z+' / '+t)}
 		    };
-		    for(var k in cfg){p[k]=cfg[k]}
+		    for(var k in cfg){if(cfg[k])p[k]=cfg[k]}
 			if(p.random)p.url+=(p.url.indexOf('?')>0?'&':'?')+'r='+Math.random();
 			
 			x.open(p.method, p.url, p.async);
-			// if (_.isJSON(p.data)) {
-			// 	x.setRequestHeader('Content-type','application/json');
-			// 	p.data = JSON.stringify(p.data);
-			// }
-		//	x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');//for formdata
-		//	x.setRequestHeader('Content-type', 'multipart/form-data');
+
+			if (_.isJSON(p.data)) {
+				x.setRequestHeader('Content-type','application/json');
+				p.data=JSON.stringify(p.data);
+			}
 			x.timeout = p.timeout || 30000;
 			x.send(p.data);
 			x.ontimeout  = p.ontimeout 	|| function(e){console.log('request timeout!')};
 			x.onabort 	 = p.onabort	|| function(e){console.log('request abort!')};
 			x.onerror 	 = p.onerror	|| function(e){console.log('request failed!' + e)};
 			x.onloadstart= p.onloadstart|| function(e){console.log('request start...')};
-			x.onload     = function(e){
+			x.onload = function(e){
 				if(this.status===200){
 					var r=e.target.responseText;
 					if(p.type.toUpperCase()=='JSON'){
 						if(r==''){r={}}else{try{r=JSON.parse(r)}catch(e){console.log('json parse error:'+e)}}
-					}p.onload(r);
-			}}
+					}
+					p.onload(r);
+				}else{
+					console.log('Some error araise. This response staus is '+this.status);
+				}
+			};
 			x.upload.onprogress=function(e){if(e.lengthComputable)p.onprogress(e.loaded,e.total)}
 	}};
-	_.get =function(url,  cb,type){_.ajax({url:url,onload:cb,type:type||'TEXT',method:'GET'})}
-	_.post=function(url,d,cb,type){_.ajax({url:url,onload:cb,type:type||'TEXT',data:d})}
 	_.ajax=function(cfg){xhr.run(cfg)}
-
+	_.get =function(url,  cb,type){_.ajax({url:url,onload:cb,type:type,method:'GET'})}
+	_.post=function(url,d,cb,type){_.ajax({url:url,onload:cb,type:type,method:'POST',data:d})}
+	_.put =function(url,d,cb,type){_.ajax({url:url,onload:cb,type:type,method:'PUT', data:d})}
+	_.delete=function(url,d,cb,type){_.ajax({url:url,onload:cb,type:type,method:'DELETE', data:d})}
 })('R')
 
 

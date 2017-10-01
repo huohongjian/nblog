@@ -20,9 +20,9 @@ class User {
 		}
 		$sql .= " ORDER BY artid DESC";
 
-		$user = DB::get('nb_user')->where(['userid'=>$userid])->selectOne('categories,photo');
+		$user = DB::get('nb_user')->where(['userid'=>$userid])->select('categories,photo')->one();
 
-		$articles = DB::getInstance()->query($sql)->fetchAll();
+		$articles = DB::getInstance()->query($sql)->all();
 		return $this->container->get('view')->render($response, 'user/index.html', [
 			'userphoto' => $user['photo'],
 			'categories'=> explode(',', $user['categories']),
@@ -52,19 +52,22 @@ class User {
 	// }
 
 	public function editArticle($request, $response, $args) {
+		$roleid = $GLOBALS['session']->roleid ?? 6;
 		$userid = $GLOBALS['session']->userid;
 		$id = $args['articleid'];
 
 		if (strlen($id)<13) {
 			$article = array();
 		} else {
-			$article = DB::get('nb_article')->where(['articleid'=>$id])->selectOne();
+			$article = DB::get('nb_article')->where(['articleid'=>$id])->select()->one();
 			if ($article['userid'] != $userid and $GLOBALS['session']->roleid>2) {
-				$article = array();
+				
+				return	$response->withStatus(303)->withHeader('Location', '/user/article/edit/new');
+	//			$article = array();
 			}
 		}
 
-		$cats = DB::get('nb_user')->where(['userid'=>$userid])->selectVal('categories');
+		$cats = DB::get('nb_user')->where(['userid'=>$userid])->select('categories')->val();
 		$this->container->get('view')->render($response, 'user/bsdeditor.html', [
 			'categories' => explode(',', $cats),
 			'article' => $article,
@@ -83,20 +86,23 @@ class User {
 			$sql = "UPDATE nb_user SET score=score+1 WHERE userid=$1";
 			DB::getInstance()->query2($sql, [$post['userid']]);
 
-			$r = DB::get('nb_article')->returning('articleid')->insert($post);
+			$articleid = DB::get('nb_article')->returning('articleid')->insert($post)->val();
 			return $response->withJson([
 				'status'	=> 200,
 				'msg'		=> '文章添加成功!',
-				'articleid' => $r['articleid']
+				'articleid' => $articleid
 			]);
 		} else {
 			$post['newtime'] = date("Y-m-d h:i:s");
-			DB::get('nb_article')->where(['articleid'=>$post['articleid']])->update($post);
-			return $response->withJson([
-				'status'	=> 200,
-				'msg'		=> '文章保存成功!',
-				'articleid' => $post['articleid']
-			]);
+			if ( DB::get('nb_article')->where(['articleid'=>$post['articleid']])
+									  ->update($post)->affectedRows() ) {
+				return $response->withJson([
+					'status'	=> 200,
+					'msg'		=> '文章保存成功!',
+					'articleid' => $post['articleid']
+				]);
+			}
+				
 		}
 		return $response->withJson([
 				'status'	=> 400,

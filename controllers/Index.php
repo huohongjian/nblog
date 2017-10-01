@@ -11,8 +11,7 @@ function __construct(Interop\Container\ContainerInterface $container) {
 function index($request, $response, $args) {
 
 	$this->container->get('view')->render($response, 'index/index.html', [
-		'articles' => DB::get('nb_article')->order('artid DESC')->limit('6')->selectAll('articleid, title'),
-		'columns'  => DB::get('nb_column')->where(['parentid'=>2])->order('odr, columnid')->selectAll(),
+		'articles' => DB::get('nb_article')->order('artid DESC')->limit(6)->select('articleid, title')->all()
 	]);
 	return $response;
 }
@@ -28,7 +27,7 @@ function captcha($request, $response, $args) {
 
 function checkLoginName($request, $response, $args) {
 	$post = $request->getParsedBody();
-	if (DB::get('nb_user')->where(['login'=>$post['login']])->selectVal('count(*)')) {
+	if (DB::get('nb_user')->where(['login'=>$post['login']])->select('count(*)')->val()) {
 		echo '存在同名用户!';
 	}
 	return $response;
@@ -43,14 +42,15 @@ function regist($request, $response, $args) {
 			$message = '登录名长度不得小于3位!';
 		} elseif (strtoupper($post['captcha']) != strtoupper(Session::get('ca'))) {
 			$message = '验证码错误!';
-		} elseif (DB::get('nb_user')->where(['login'=>$post['login']])->selectVal('count(*)')) {
+		} elseif (DB::get('nb_user')->where(['login'=>$post['login']])->select('count(*)')->val()) {
 			$message = '存在同名用户!';
 		} else {
 			unset($post['captcha']);
 			$key = base64_encode(pack("H*", $post['password']));
 			$post['password'] = Rsa::privDecrypt($key, true);
-			DB::get('nb_user')->insert($post);
-			return $response->withStatus(302)->withHeader('Location', '/login');
+			if ( DB::get('nb_user')->insert($post)->affectedRows() ) {
+				return $response->withStatus(302)->withHeader('Location', '/login');
+			}
 		}
 	}
 	return $this->container->get('view')->render($response, 'index/regist.html', [
@@ -65,7 +65,7 @@ function login($request, $response, $args) {
 
 		if (strtoupper($post['captcha']) == strtoupper(Session::get('ca'))) {
 			$user = DB::get('nb_user')->where(["login" => $post['login']])
-					->selectOne('userid, login, password, roleid, name, photo');
+					->select('userid, login, password, roleid, name, photo')->one();
 			if ($user) {
 				$key = base64_encode(pack("H*", $post['password']));
 				$post['password'] = Rsa::privDecrypt($key, true);
@@ -103,7 +103,7 @@ function suggest($request, $response, $args) {
 	} else {
 
 		return $this->container->get('view')->render($response, 'index/suggest.html', [
-			'suggests' => DB::get('nb_suggest')->order('suggestid DESC')->selectAll()
+			'suggests' => DB::get('nb_suggest')->order('suggestid DESC')->select()->all()
 		]);
 	}
 	

@@ -76,11 +76,11 @@ $app->group('/user', function() use ($app) {
 		$app->post('/renewpassword',	UserManage::class.':renewpassword');
 		$app->any('/userinfo',			UserManage::class.':userinfo');
 		$app->get('/template',			UserManage::class.':template');
-		$app->get('/articles',			UserManage::class.':articles');
+		$app->any('/articles',			UserManage::class.':articles');
 		$app->get('/category',			UserManage::class.':category');
 	});
 })->add(function($request, $response, $next) use ($session) {
-	if (!$session) {
+	if (empty($session->login)) {
 		return	$response->withStatus(302)->withHeader('Location', '/login');
 	}
 	$response = $next($request, $response);
@@ -88,11 +88,15 @@ $app->group('/user', function() use ($app) {
 });
 
 
+$app->group('/admin', function() use ($app) {
+	$app->get('/', 				Admin::class.':index');
+	$app->get('/install',  		Admin::class.':install');
+	$app->get('/users', 		Admin::class.':users');
+	$app->any('/articles', 		Admin::class.':articles');
+
+});
 
 
-$app->get('/admin', 		 Admin::class.':index');
-$app->get('/admin/install',  Admin::class.':install');
-$app->get('/admin/userlist', Admin::class.':userlist');
 
 
 // $app->group('/utils', function () use ($app) {

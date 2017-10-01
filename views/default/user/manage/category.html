@@ -7,10 +7,11 @@
 {% block inRight %}
 
 <fieldset>
-	<legend>文章类别设置：</legend>
+	<legend><h4>文章类别设定：</h4></legend>
 	<form id="categories">
-		<input type="text" name="categories" value="{{user.categories}}" style="width:80%;" />
+		<input type="text" name="categories" value="{{categories}}" style="width:80%;" />
 		<input type="button" value="提交" onclick="renewCategories()" />
+		<h5>* 以英文逗号为分割符</h5>
 	</form>
 </fieldset>
 

@@ -12,7 +12,7 @@ class Session {
 		$sql  = "UPDATE nb_session SET logintime = current_timestamp 
 				 WHERE sessionid='$SID' AND logintime>'$time' 
 				 RETURNING data";
-		$json = DB::getInstance()->query($sql)->fetchVal();
+		$json = DB::getInstance()->query($sql)->val();
 		return json_decode($json, $returnArray);
 	}
 
@@ -22,7 +22,7 @@ class Session {
 		$sql  = "UPDATE nb_session SET logintime = current_timestamp 
 				 WHERE sessionid=$1 AND logintime>$2 
 				 RETURNING data->>$3";
-		return DB::getInstance()->query2($sql, [$SID, $time, $key])->fetchVal();
+		return DB::getInstance()->query2($sql, [$SID, $time, $key])->val();
 	}
 	
 
@@ -53,7 +53,7 @@ class Session {
 	
 	static function sum(){
 		self::gc();
-		return DB::get('nb_session').selectVal('count(*)');
+		return DB::get('nb_session').select('count(*)')->val();
 	}
 	
 	

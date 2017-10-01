@@ -1,7 +1,6 @@
 
 
-R.move('[name=registForm] input', '[name=password]');
-R.enter('[name=captcha]', doRegist);
+R.ALL('[name=registForm] input').move('[name=password]');
 
 R('[name=login]').focus();
 R('[name=login]').addEventListener('change', function(){

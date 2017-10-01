@@ -1,8 +1,10 @@
 /* footer near to bottom */
 html{height:100%;}
-body{margin:0; padding:0; min-height:100vh; flex-direction:column; display:flex; display:-webkit-flex /*Safari*/}
-main.a{flex:1; min-height:calc(100vh - 150px);/*ie*/}
-main.b{flex:1; min-height:calc(100vh - 80px);/*ie*/ }
+body{margin:0; padding:0; height:100%; flex-direction:column; display:flex;}
+header.a,footer.a{flex: 0 0 auto;}
+main{flex:1 0 auto;}
+
+
 
 
 /*h1,h2,h3,h4,h5,h6 {
@@ -42,7 +44,9 @@ nav.a li:not(:first-child):before{content:'|'; margin:20px;}
 nav.a a {font-weight: bold;}
 nav.a {margin-bottom: 15px;}
 
-main.a {}
+main.a section li a {
+	text-overflow:ellipsis;display:block;overflow:hidden;white-space:nowrap;
+}
 
 
 
@@ -75,7 +79,7 @@ article.detail > section {margin: 0 2%;}
 }
 
 /*home-page section*/
-section {padding: 5px 12px;}
+section {padding:5px 12px; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
 .left section img {width:150px;}
 .left section input {width: calc(100% - 80px);}
 
@@ -88,3 +92,26 @@ section.category > a > h3 {border-bottom:1px solid gray; padding:0 8px 10px;}
 /* for user/manage/userinfo */
 .right fieldset{margin: 20px;}
 .right fieldset label {width:90px; display: inline-block; text-align: right;}
+
+
+/* for admin article manage*/
+table.article {border-collapse: collapse;}
+table.article,
+table.article tr th,
+table.article tr td {border:1px solid #DDDDDD;padding:0 5px; height: 28px;}
+
+table.article tr th:nth-child(1){width:15px;}
+table.article tr td:nth-child(2),
+table.article tr th:nth-child(2){width:380px;}
+table.article tr th:nth-child(3){width:60px;}
+table.article tr th:nth-child(4){width:90px;}
+table.article tr th:nth-child(5){width:50px;}
+table.article tr th:nth-child(6){width:150px;}
+table.article tr th:nth-child(7),
+table.article tr th:nth-child(8){width:60px;}
+table.article td a{width:inherit; text-overflow:ellipsis;display:inline-block;overflow:hidden;white-space:nowrap;}
+table.article tr td:nth-child(1),
+table.article tr td:nth-child(3),
+table.article tr td:nth-child(5),
+table.article tr td:nth-child(7){text-align:center;}
+

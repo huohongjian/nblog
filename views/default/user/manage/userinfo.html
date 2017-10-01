@@ -9,7 +9,7 @@
 
 
 <fieldset>
-	<legend><h4>修改用户密码：</h4></legend>
+	<legend><h4>更改登录密码：</h4></legend>
 	<form id="pwd">
 		原密码：<input type="password" name="pwd0"/>
 		新密码：<input type="password" name="pwd1"/>
@@ -19,7 +19,7 @@
 </fieldset>
 
 <fieldset>
-	<legend><h4>修改用户信息：</h4></legend>
+	<legend><h4>更改用户信息：</h4></legend>
 	<form id="info" class="flex">
 		<div class="pr50">
 			<p>
@@ -58,14 +58,7 @@
 	</form>
 </fieldset>
 
-<fieldset>
-	<legend><h4>设置文章类别：</h4></legend>
-	<form id="categories">
-		<input type="text" class="p8" name="categories" value="{{user.categories}}" style="width:80%;" />
-		<input type="button" value="提交" onclick="renewCategories()" />
-		<h5>* 以英文逗号为分割符</h5>
-	</form>
-</fieldset>
+
 
 {% endblock %}
 

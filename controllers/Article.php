@@ -16,7 +16,7 @@ class Article {
 				SELECT a.*, b.name AS username FROM nb_article AS a
 				LEFT JOIN nb_user AS b ON a.userid=b.userid
 				WHERE a.articleid='$id'";
-		$article = DB::getInstance()->query($sql)->fetchOne();
+		$article = DB::getInstance()->query($sql)->one();
 
 		return $this->container->get('view')->render($response, 'article/index.html', [
 			'article'=>$article,
@@ -32,10 +32,10 @@ class Article {
 			$sql = "SELECT * FROM nb_article WHERE title LIKE '%"
 				 . pg_escape_string($args['key'])
 				 . "%' ORDER BY artid DESC";
-			$rs = DB::getInstance()->query($sql)->fetchAll();
+			$rs = DB::getInstance()->query($sql)->all();
 		} else {
 			$sql = "SELECT * FROM nb_article ORDER BY artid DESC";
-			$rs = DB::getInstance()->query($sql)->fetchAll();
+			$rs = DB::getInstance()->query($sql)->all();
 		}
 		return $this->container->get('view')->render($response, 'article/search.html', [
 			'articles' => $rs
@@ -45,7 +45,7 @@ class Article {
 
 	public function list($request, $response, $args) {
 
-		$rs = DB::get('nb_article')->selectAll();
+		$rs = DB::get('nb_article')->select()->all();
 		
 		$this->container->get('view')->render($response, 'article/list.html',
 			array('articles'=>$rs)

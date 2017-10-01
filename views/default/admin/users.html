@@ -1,0 +1,55 @@
+{% extends "admin/layout.html" %}
+
+
+
+{% block inRight %}
+<h3>用户管理</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>登录名</th>
+			<th>用户名</th>
+			<th>角色</th>
+			<th>注册时间</th>
+			<th>qq</th>
+			<th>电话</th>
+			<th>邮箱</th>
+			<th>自我介绍</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for user in users %}
+		<tr>
+			<td>{{user.userid}}</td>
+			<td>{{user.login}}</td>
+			<td>{{user.name}}</td>
+			<td>{{user.roleid}}</td>
+			<td>{{user.jointime}}</td>
+			<td>{{user.qq}}</td>
+			<td>{{user.telephone}}</td>
+			<td>{{user.email}}</td>
+			<td>{{user.intro}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block toBody %}
+<script type="text/javascript">
+	R('#section-1').checked = true;
+
+
+
+</script>
+
+{% endblock %}

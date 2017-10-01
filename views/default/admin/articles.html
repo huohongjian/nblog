@@ -1,5 +1,4 @@
-{% extends "user/layout.html" %}
-
+{% extends "admin/layout.html" %}
 
 
 
@@ -7,8 +6,13 @@
 {% block inRight %}
 <h3>文档管理</h3>
 
-<form id="searchForm" class="inline-block mr50 mt0">
-
+<form id="searchForm" class="inline-block mr50">
+	<select name="manageid"  onchange="getArticles(1)">
+		<option value="">-- 所有管理状态 --</option>
+		<option value="1">站长推荐</option>
+		<option value="2">正常公开</option>
+		<option value="3">限制浏览</option>
+	</select>
 
 	<select name="status" onchange="getArticles(1)">
 		<option value="">-- 所有状态 --</option>
@@ -16,7 +20,7 @@
 		<option value="隐藏">隐藏</option>
 		<option value="删除">删除</option>
 	</select>
-
+	
 	<select name="category" onchange="getArticles(1)">
 		<option value="">-- 所有类别 --</option>
 		{% for category in categories %}
@@ -28,33 +32,29 @@
 	<select name="range">
 		<option value="title">标题</option>
 		<option value="content">内容</option>
-		<option value="keywords">关键字</option>
+		<option value="username">贡献者</option>
 	</select>
 	<input type="text" name="key" placeholder="search">
-	<input type="text" name="page" value="1" hidden="true">
+
+	<input type="text" name="userid" value="" hidden="true"/>
+	<input type="text" name="page" value="1" hidden="true"/>
 </form>
 
 
-<form name="setForm" class="inline-block mt0">
-	<select id="status">
-		<option value="">-- 更改状态 --</option>
-		<option value="公开">公开</option>
-		<option value="隐藏">隐藏</option>
-		<option value="删除">删除</option>
+<form name="setForm" class="inline-block">
+	<select name="status">
+		<option value="">-- 更改管理状态 --</option>
+		<option value="1">站长推荐</option>
+		<option value="2">正常公开</option>
+		<option value="3">限制浏览</option>
+		<option value="4">彻底删除</option>
 	</select>
 
-	<select id="category">
-		<option value="">-- 更改类别 --</option>
-		{% for category in categories %}
-		<option value="{{category}}">{{category}}</option>
-		{% endfor %}
-		<option value="未分类">未分类</option>
-	</select>
-	<input type="button" onclick="dowork()" value="批量设定"/>
+	<input type="button" name="" value="批量设定" onclick="dowork()">
 </form>
 
 
-<form id="idsForm" class="mt0">
+<form id="checkForm">
 	<table id="articleTable" class="article">
 		<thead>
 			<tr>
@@ -64,45 +64,43 @@
 				<th>类别</th>
 				<th>点击</th>
 				<th>添加时间</th>
+				<th>贡献者</th>
 				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody id="articles">
-			<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 		</tbody>
 	</table>
 </form>
 
-<span class="" id="pagination"></span>
+<span class="" id="pagination" data-curpage='{{pages.curPage}}' data-totitem='{{pages.totItem}}' data-peritem="{{pages.perItem}}"></span>
+
 
 
 
 {% endblock %}
 
 
-
-
-{% block toBody%}
+{% block toBody %}
 <script type="text/javascript" src="../../../own/Pagination.js"></script>
 <script type="text/javascript">
 
 R.id('section-1').checked = true;
-R.CHK('[name=ids]').to('#checkall');
+R.CHK('[name=checkone]').to('#checkall');
 R.ONE('[name=key]').enter(function(){getArticles(1)});
 R.one('[name=key]').focus();
 
 
-var page = R.id('pagination');
+
+
 var pagination = new Pagination({
-	container: page,
+	container: 'pagination',
 	perItem: 10,
 	onclick: function(index){
 		getArticles(index);
 	},
 });
 
-
-getArticles(1);
 
 function getArticles(page) {
 	R('[name=page]').value = page;
@@ -121,64 +119,32 @@ function getArticles(page) {
 			tbody.appendChild(tr);
 
 			tr.appendChild(R.ce('td', {
-				innerHTML: '<input type="checkbox" name="ids" value="'+ca[0]+'"/>'
+				innerHTML: '<input type="checkbox" name="ids" value="' + ca[0] + '"/>'
 			}));
 			tr.appendChild(R.ce('td', {
-				innerHTML: '<a href="../../article/'+ca[0]+'">'+ca[1]+'</a>'
+				innerHTML: '<a href="../article/'+ca[0]+'">'+ca[1]+'</a>'
 			}));
 			tr.appendChild(R.ce('td', {innerHTML: ca[2]}));
 			tr.appendChild(R.ce('td', {innerHTML: ca[3]}));
 			tr.appendChild(R.ce('td', {innerHTML: ca[4]}));
 			tr.appendChild(R.ce('td', {innerHTML: ca[5]}));
+			tr.appendChild(R.ce('td', {innerHTML: ca[6]}));
 			tr.appendChild(R.ce('td', {
-				innerHTML: '<a href="../../user/article/edit/'+ca[0]+'">编辑</a>'
+				innerHTML: '<a href="../user/article/edit/' + ca[0] + '">编辑</a>'
 			}));
-
-//				articleid,title,status,category,addtime,counter
 		}
 	}, 'json');
 }
 
 
 function dowork() {
-	var ids = R.CHK('[name=ids]').val(),
-		sta = R('#status').value,
-		cat = R('#category').value
-	if(R.empty(ids)){
-		panelMsg('请选择文档!');
-		return;
-	} else if (R.empty(sta) && R.empty(cat)) {
-		panelMsg('请选择操作!');
-		return;
-	}
-	R.put('', {
-		ids: 	  ids,
-		status:   sta,
-		category: cat,
-	}, function(data){
-		if (data=='批量操作成功!') {
-			if (!R.empty(sta)) {
-				R.ALL('[name=ids]:checked').each(function(a){
-					a.parentNode.parentNode.children[2].innerHTML=sta})
-			}
-			if (!R.empty(cat)) {
-				R.ALL('[name=ids]:checked').each(function(a){
-					a.parentNode.parentNode.children[3].innerHTML=cat})
-			}
-		}
+	console.log(R.CHK('[name=checkone]').val());
 
+	console.log(R.FD('#checkForm').json());
 
-
-		panelMsg(data);
-	});
-
+	alert('建设中');
 }
 
-
-
-
 </script>
-
-
 
 {% endblock %}
