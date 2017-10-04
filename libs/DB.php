@@ -19,31 +19,16 @@ class DB {
 	private $result;
 	static private $instance;
 
-	private $table;
-	private $where;
-	private $order;
-	private $limit;
-	private $offset;
-	private $conflict;
-	private $returning;
 
-
-	private function __construct() {
-		$this->connect();
-	}
-
-
-	private function __clone() { }
-
-
-	private function connect() {
-		$conn = 'host 	= 127.0.0.1
-				 port 	= 5432
-				 dbname	= nblog
-				 user 	= postgres
-				 password = ';
+	private function __construct($cnf='default') {
+		$cns =  ['default' =>  'host 	= 127.0.0.1
+				 				port 	= 5432
+				 				dbname	= nblog
+				 				user 	= postgres
+				 				password = '
+				];
 		try {
-			$this->conn = @pg_connect($conn);
+			$this->conn = @pg_connect($cns[$cnf]);
 		} catch (Exception $e) {
 			die ($e->getMessage());
 		}
@@ -52,107 +37,59 @@ class DB {
 		}
 	}
 
-	static function ins() {
-		return self::getInstance();
-	}
 
-	static function getInstance() {
+	private function __clone() { }
+
+
+	static function ins($cnf='default') {
 		if (!(self::$instance instanceof self)) {
-			self::$instance = new static;
+			self::$instance = new static($cnf);
 		}
 		return self::$instance;
 	}
 
 
-	static function get($table='') {
-		$I = self::getInstance();
-		$I->table = self::clear($table);
-		unset($I->where, $I->order, $I->limit, $I->offset, $I->returning, $I->conflict);
-		return $I;
-	}
-
-
-	function where(array $where) {
-		foreach ($where as $k => $v) {
-			$s .= ' AND '.$this->clear($k).'='.$this->escape($v);
-		}
-		$this->where = substr($s, 4);
-		return $this;
-	}
-
-	function order(string $order) {
-		$this->order = $this->clear($order);
-		return $this;
-	}
-
-	function limit($limit) {
-		$this->limit = (int)$limit;
-		return $this;
-	}
-
-	function offset($offset) {
-		$this->offset = (int)$offset;
-		return $this;
-	}
-
-	function returning(string $returning) {
-		$this->returning = $this->clear($returning);
-		return $this;
-	}
-
-	function conflict(string $conflict) {
-		$this->conflict = $this->clear($conflict);
-		return $this;
-	}
-
-	function select(string $field='*') {
-		$sql = 'SELECT '.$this->clear($field).' FROM '.$this->table;
-		if (isset($this->where)) { $sql .= ' WHERE '	.$this->where; }
-		if (isset($this->order)) { $sql .= ' ORDER BY '	.$this->order; }
-		if (isset($this->limit)) { $sql .= ' LIMIT '	.$this->limit; }
-		if (isset($this->offset)){ $sql .= ' OFFSET '	.$this->offset;}
+	function select(string $table, array $where=[], string $exp='', string $fields='*') {
+		$sql = $this->clear('SELECT ' . $fields . ' FROM ' . $table)
+			 . $this->where($where) . ' ' . $this->clear($exp);
 		return $this->query($sql);
 	}
 
-	function insert(array $arr) {
-		$arr = $this->struck($arr);
-		$sql = "INSERT INTO $this->table ({$arr->ks}) VALUES ({$arr->vs})";
-		if (isset($this->returning)) {
-			$sql .= " RETURNING $this->returning";
-		}
+
+	function insert(string $table, array $data, string $exp='') {
+		$sql = 'INSERT INTO ' . $this->clear($table)
+			 . $this->struck($data)->invals
+			 . $this->clear($exp);
 		return $this->query($sql);
 	}
 
-	function update(array $arr) {
-		$arr = $this->struck($arr);
-		$sql = "UPDATE $this->table SET {$arr->kvs}";
-		if (isset($this->where)) {
-			$sql .= " WHERE $this->where";
-		}
+
+	function update(string $table, array $data, array $where=[], string $exp='') {
+		$sql = 'UPDATE ' . $this->clear($table)
+			 . $this->struck($data)->upsets
+			 . $this->where($where)
+			 . $this->clear($exp);
 		return $this->query($sql);
 	}
 
-	function upsert(array $arr) {
-		$arr = $this->struck($arr);
-		$sql = "INSERT INTO $this->table ({$arr->ks}) VALUES ({$arr->vs}) 
-				ON CONFLICT ({$this->conflict}) do UPDATE SET {$arr->kvs}";
-		if ($this->returning) {
-			$sql .= " RETURNING $this->returning";
-		}
+	function upsert(string $table, array $data, string $conflict, string $exp='') {
+		$obj = $this->struck($data);
+		$sql = 'INSERT INTO ' . $this->clear($table)
+			 . $obj->invals
+			 . ' ON CONFLICT (' . $this->clear($conflict) . ') do UPDATE SET '
+			 . $obj->upsets
+			 . $this->clear($exp);
 		return $this->query($sql);
 	}
 
-	function delete() {
-		$sql = "DELETE FROM $this->table";
-		if (isset($this->where)) {
-			$sql .= " WHERE $this->where";
-		}
+	function delete(string $table, array $where=[]) {
+		$sql = 'DELETE FROM ' . $this->clear($table) . $this->where($where);
 		return $this->query($sql);
 	}
 
 
 	function query($sql) {
-//		echo $sql;
+		echo $sql;
 		try {
 			$this->result = @pg_query($this->conn, $sql);
 			if (!$this->result) {
@@ -260,7 +197,23 @@ class DB {
 		}
 	}
 
-	static function like($k, $v, $exEmpty=true) {
+
+
+	static function where(array $where, boolean $exEmpty=true) {
+		foreach ($where as $k => $v) {
+			if (!$exEmpty or $v!='') {
+				$s .= ' AND '.self::clear($k).'='.self::escape($v);
+			}
+		}
+		if (empty($s)) {
+			return '';
+		} else {
+			return ' WHERE '. substr($s, 4);
+		}
+	}
+
+
+	static function like($k, $v) {
 		if ($exEmpty and $v=='') {
 			return '';
 		} else {
@@ -268,23 +221,24 @@ class DB {
 		}
 	}
 
-	static function struck(array $arr, $glue=',', $exEmpty=true) {
-		$ks = array();
-		$vs = array();
-		$kv = array();
-		foreach ($arr as $k => $v) {
-			if (!$exEmpty or $v!='') {
-				$k = self::clear($k);
-				$v = self::escape($v);
-				array_push($ks, $k);
-				array_push($vs, $v);
-				array_push($kv, "$k=$v");
-			}
+	static function struck(array $data) {
+		foreach ($data as $k => $v) {
+			$k = self::clear($k);
+			$v = self::escape($v);
+			$fields .= ',' . $k;
+			$values .= ',' . $v;
+			$upsets .= ',' . $k . '=' . $v;
 		}
+		$fields = substr($fields, 1);
+		$values = substr($values, 1);
+		$upsets = substr($upsets, 1);
+		$invals = ' (' . $fields . ') VALUES (' . $values . ')';
+
 		return (object)[
-					'ks'  => implode(',', $ks),
-					'vs'  => implode(',', $vs),
-					'kvs' => implode(" {$glue} ", $kv)
+					'fields'  => $fields,
+					'values'  => $values,
+					'upsets'  => $upsets,
+					'invals'  => $invals
 				];
 	}
 }
