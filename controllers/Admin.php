@@ -26,6 +26,7 @@ public function users($request, $response, $args) {
 
 
 function articles($request, $response, $args) {
+	$userid = (int)$GLOBALS['session']->userid;
 
 	if ($request->isGet()) {
 
@@ -35,55 +36,62 @@ function articles($request, $response, $args) {
 
 
 	} else {
-
-	}
-
-	$page = 1;
-	$limit = 3;
-	$sql = 'SELECT a.articleid, a.title, b.name AS username, a.status, a.category, c.name AS columnname, a.addtime
-				   
-			FROM nb_article a
-			LEFT JOIN nb_user b ON a.userid=b.userid
-			LEFT JOIN nb_column c ON a.columnid=c.columnid';
-	$SQL = 'SELECT count(a.*) FROM nb_article a';
-
-	if ($request->isPost()) {
-		$post = $request->getParsedBody();
-		$page = (int)$post['page'];
-
-		if (!empty($post['status'])) {
-			$where .= ' AND a.status='.DB::escape($post['status']);
-		}
-		if (!empty($post['columnid'])) {
-			$where .= ' AND a.columnid='.DB::clear($post['columnid']);
-		}
-		if (!empty($post['key'])) {
-			$where .= ' AND a.' . DB::clear($post['range']) .
-					  ' LIKE ' . DB::escape("%{$post['key']}%");
-		}
-	}
-
-	if ($where) {
-		$where = ' WHERE ' . substr($where, 4);
-		$sql .= $where;
-		$SQL .= $where;
-	}
-	$sql .= " ORDER BY a.artid DESC LIMIT $limit OFFSET " . ($page - 1) * $limit;
-
-	$pages = [	'totItem'=>DB::getInstance()->query($SQL)->val(), 
-				'perItem'=>$limit,
-				'curPage'=>$page
-			];
-	$articles = DB::getInstance()->query($sql)->arr();
-
-
-	if ($request->isPost()) {
-		return $response->withJson([
-			'articles' => $articles,
-			'pages' => $pages
-		]);
-	} else {
+		$input  = $request->getParsedBody();
+		$page   = $input['page'] ?? 1;
+		$limit  = 10;
+		$offset = ($page-1) * $limit;
 		
+		if ($request->isPost()) {
+			
+			$where = DB::struck([
+				'a.approved' => $input['approved'],
+				'a.columnid' => $input['columnid'],
+				'a.status' 	 => $input['status'],
+				'a.category' => $input['category']
+			], 'AND')->kvs;
+			$where .= DB::like(' AND a.'.$input['range'], $input['key']);
+
+			if ($where) $where = 'WHERE '.$where;
+			
+
+			$sql = "SELECT count(*) FROM nb_article a $where";
+			$SQL = "SELECT a.articleid,a.title,a.status,a.category,a.counter,a.addtime,
+						   a.approved, b.name, c.name AS username
+					FROM nb_article a
+					LEFT JOIN nb_column b ON a.columnid=b.columnid
+					LEFT JOIN nb_user c   ON a.userid=c.userid
+					$where
+					ORDER BY a.artid DESC LIMIT $limit OFFSET $offset";
+
+			return $response->withJson([
+				'articles' => DB::ins()->query($SQL)->arr(),
+				'pages' => ['perItem'=>$limit, 'totItem'=>DB::ins()->query($sql)->val()]
+			]);
+
+		} else if ($request->isPut()) {
+			$ids = $input['ids'];
+			$sta = $input['status'];
+			$cat = $input['category'];
+
+			if (empty($ids)) {
+				$manage = '请选择文档!';
+			} else if (empty($sta) and empty($cat)) {
+				$manage = '请选择操作!';
+			} else {
+				$set = DB::struck(['status'=>$sta, 'category'=>$cat])->kvs;
+				$ids = DB::struck($ids)->vs;
+				$sql = "UPDATE nb_article SET $set WHERE articleid in ($ids)";
+				if (DB::ins()->query($sql)) {
+					$manage = '批量操作成功!';
+				} else {
+					$manage = '批量操作失败!';
+				}
+			}
+			$response->getBody()->write($manage);
+		}
+
+
+
 	}
 }
 

@@ -92,9 +92,8 @@ R.ONE('[name=key]').enter(function(){getArticles(1)});
 R.one('[name=key]').focus();
 
 
-var page = R.id('pagination');
 var pagination = new Pagination({
-	container: page,
+	container: '#pagination',
 	perItem: 10,
 	onclick: function(index){
 		getArticles(index);

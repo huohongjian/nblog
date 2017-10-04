@@ -40,7 +40,10 @@ CREATE TABLE IF NOT EXISTS nb_suggest (
 DROP TABLE IF EXISTS nb_article CASCADE;
 DROP SEQUENCE IF EXISTS nb_article_seq;
 DROP TYPE IF EXISTS nb_article_status_enum;
+DROP TYPE IF EXISTS nb_article_level_enum;
+
 CREATE TYPE nb_article_status_enum AS ENUM ('公开', '隐藏', '删除');
+CREATE TYPE nb_article_level_enum AS ENUM ('推荐', '浏览', '限制');
 CREATE SEQUENCE nb_article_seq;
 CREATE TABLE IF NOT EXISTS nb_article (
 	artid		integer NOT NULL DEFAULT nextval('nb_article_seq'),
@@ -56,17 +59,17 @@ CREATE TABLE IF NOT EXISTS nb_article (
 	thumb		varchar(255) NOT NULL default '',
 	caption 	text NOT NULL default '',
 	content 	text NOT NULL default '',
-	hide 		boolean NOT NULL default false,
 	isbook		boolean NOT NULL default false,	-- 电子书格式
+	approved	boolean NOT NULL default true,  -- 审核通过
 	status		nb_article_status_enum NOT NULL default '公开',
 	addtime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
 	newtime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
 	CONSTRAINT nb_article_pkey PRIMARY KEY (artid)
 );
-CREATE INDEX nb_article_articleid 		ON nb_article (articleid);
-CREATE INDEX nb_article_columnid 		ON nb_article (columnid);
-CREATE INDEX nb_article_userid_category	ON nb_article (userid, category);
-CREATE INDEX nb_article_status 			ON nb_article (status);
+CREATE INDEX nb_article_articleid 					ON nb_article (articleid);
+CREATE INDEX nb_article_columnid 					ON nb_article (columnid);
+CREATE INDEX nb_article_category_status_approved 	ON nb_article (category, status, approved);
+CREATE INDEX nb_article_userid_status				ON nb_article (userid, status);
 
 
 
@@ -91,7 +94,7 @@ CREATE INDEX nb_column_odr		ON nb_column (odr);
 INSERT INTO nb_column VALUES
 (1,    0, '全部类别', false, '0,', 0),
 (2,	   1, '网站栏目', false, '0,1,', 0),
-(3,    1, 'FreeBSD',  false, '0,1,', 0),
+(3,    1, '文章类别', false, '0,1,', 0),
 
 (201,  2, '资讯1',    true,  '0,1,2,', 0),
 (202,  2, '资讯2',    true,  '0,1,2,', 0),
@@ -112,7 +115,6 @@ INSERT INTO nb_column VALUES
 (309,  3, '源码实例', true,  '0,1,3,', 0);
 
 /*
-桌面应用  实用脚本  环境变量 服务部署   内核模块  网络应用 存储设计 安全审计   命令工具
 
 
 DROP TABLE IF EXISTS nb_status CASCADE;
