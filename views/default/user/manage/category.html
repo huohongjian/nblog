@@ -8,13 +8,18 @@
 
 <fieldset>
 	<legend><h4>文章类别设定：</h4></legend>
-	<form id="categories">
-		<input type="text" name="categories" value="{{categories}}" style="width:80%;" />
-		<input type="button" value="提交" onclick="renewCategories()" />
-		<h5>* 以英文逗号为分割符</h5>
+	<form id="categories" class="mb30">
+		<input type="text" name="categories" value="{{categories}}" style="width:80%; padding:6px;" />
+		<input type="button" value="提交" onclick="renewCategories()" />		
 	</form>
 </fieldset>
 
+<h4 class="ml30">说明</h4>
+<ul>
+	<li>您可以根据自己的需求设置文章类别，类别之间以英文逗号分割。</li>
+	<li>强烈建议您，请尽量按默认类别分类，可以提高文章检索效率。</li>
+	<li>默认类别：<span class="bsd bolder">{{defaultCategories}}</span></li>
+</ul>
 {% endblock %}
 
 
@@ -24,7 +29,7 @@ R.id('section-1').setAttribute('checked', 'true');
 
 
 function renewCategories() {
-	R.post('./userinfo', R.fd('#categories'), function(data) {
+	R.post('', R.fd('#categories'), function(data) {
 		panelMsg(data);
 	});
 }

@@ -1,0 +1,17 @@
+<ul class="login-bar p0">
+	{% if sUser.login %}
+	<li><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"></i> {{sUser.login}}</a></li>
+	<li><a href="{{baseURL}}/user/article/edit/new">添加</a></li>
+	<li><a href="{{baseURL}}/user/manage">管理</a></li>
+
+	{% if sUser.roleid<=2 %}
+	<li><a href="{{baseURL}}/admin/">系统</a></li>
+	{% endif %}
+
+	<li><a href="{{baseURL}}/logout">退出</a></li>
+	
+	{% else %}
+	<li><a href="{{baseURL}}/regist">注册</a></li>
+	<li><a href="{{baseURL}}/login">登录</a></li>
+	{% endif %}
+</ul>

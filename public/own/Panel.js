@@ -47,7 +47,7 @@ Panel.prototype = {
 		p.R('head').appendChild(p.C('style', {type:'text/css', textContent:'\
 			.panel {border:1px solid #ddd; position:absolute;}\
 			.panel > header {cursor:' + 'cur1; padding:0 10px; cursor:move; border-bottom:' + h + 'px solid #ddd; overflow:hidden;}\
-			.panel > header ul {float:right; margin:0;}\
+			.panel > header ul {float:right; margin:8px;}\
 			.panel > header li {cursor:pointer; margin-left:10px; display:inline-block; list-style-type:none;}\
 			.panel > div._panel_content_ {cursor:' + 'cur2' + '; display:table; width:100%; text-align:' + p.textAlign + ';}\
 			.panel > div._panel_content_ > m,\

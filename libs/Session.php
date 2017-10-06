@@ -5,15 +5,19 @@ session_start();
 class Session {
     
 	static private $life = 60 * 60 * 6;
+	static private $params = false;
 
-	static function getAll($returnArray=false) {
-		$time = date("Y-m-d H:i:s", time() - self::$life);
-		$SID  = session_id();
-		$sql  = "UPDATE nb_session SET logintime = current_timestamp 
-				 WHERE sessionid='$SID' AND logintime>'$time' 
-				 RETURNING data";
-		$json = DB::ins()->query($sql)->val();
-		return json_decode($json, $returnArray);
+	static function all($key='') {
+		if (self::$params===false) {
+			$time = date("Y-m-d H:i:s", time() - self::$life);
+			$SID  = session_id();
+			$sql  = "UPDATE nb_session SET logintime = current_timestamp 
+					 WHERE sessionid='$SID' AND logintime>'$time' 
+					 RETURNING data";
+			$json = DB::ins()->query($sql)->val();
+			self::$params = json_decode($json, true);
+		}
+		return $key=='' ? self::$params : self::$params[$key];
 	}
 
 	static function get($key) {

@@ -12,17 +12,15 @@
 	<div class="a-1-1 c-1-3 d-1-4 e-1-5 f-1-6 text-center">
 		<h3 class="white">系统管理</h3>
 	</div>
-	<div class="flex1 text-middle">
-		<ul class="pl10">
-			<li><a href="{{baseURL}}/"><i class="iconfont icon-home"></i>首页</a></li>
 
-			<li class="float-right"><a href="{{baseURL}}/logout">退出</a></li>
-			<li class="float-right"><a href="{{baseURL}}/admin/">系统</a></li>
-			<li class="float-right"><a href="{{baseURL}}/user/manage">管理</a></li>
-			<li class="float-right"><a href="{{baseURL}}/user/article/edit/new">添加</a></li>
-			<li class="float-right"><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"> </i> {{login}}</a></li>
+	<div class="a-1-1 c-1-3 text-middle">
+		<ul class="hor pl10">
+			<li><a href="{{baseURL}}/"><i class="iconfont icon-home"></i> 首页</a></li>
+		</ul>		
+	</div>
 
-		</ul>
+	<div class="flex1 text-middle text-right">
+		{% include "public/login-bar.html" %}
 	</div>
 </header>
 {% endblock %}
@@ -43,6 +41,9 @@
 					<ul>
 						<li><a href="./articles">文档管理</a></li>
 						<li><a href="./users">用户管理</a></li>
+						<li><a href="./categories">类别设定</a></li>
+						<li><a href="./donations">捐赠列表</a></li>
+						<li><a href="./homepage">首页内容管理</a></li>
 					</ul>
 				</div>
 			</div>

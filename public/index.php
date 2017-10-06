@@ -4,8 +4,6 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require_once('../vendor/autoload.php');
 
-$session = Session::getAll();
-
 
 $configuration = [
  'settings' => [
@@ -22,7 +20,7 @@ $app = new \Slim\App($c);
 $container = $app->getContainer();
 
 
-$container['view'] = function($c) use ($session) {
+$container['view'] = function($c) {
 	$view = new \Slim\Views\Twig('../views/default', [
 		'cache' => false
 	]);
@@ -43,7 +41,7 @@ $container['view'] = function($c) use ($session) {
 	
 //	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
-	$view->getEnvironment()->addGlobal('login',   $session->login);
+	$view->getEnvironment()->addGlobal('sUser',   Session::all());
 	return $view;
 };
 
@@ -55,10 +53,12 @@ $app->any('/login',				'Index:login');
 $app->any('/regist',			'Index:regist');
 $app->post('/checkLoginName',	'Index:hasSameUser');
 $app->any('/suggest',			'Index:suggest');
+$app->any('/donation',			'Index:donation');
 
 
-$app->get ('/article/{articleid}',			Article::class.':index');
-$app->get ('/article/search/[{key}]',		Article::class.':search');
+$app->get('/article/{articleid}',			Article::class.':index');
+$app->get('/article/search/[{key}]',		Article::class.':search');
+$app->any('/article/category/[{key}]',		Article::class.':category');
 
 
 
@@ -77,10 +77,10 @@ $app->group('/user', function() use ($app) {
 		$app->any('/userinfo',			UserManage::class.':userinfo');
 		$app->get('/template',			UserManage::class.':template');
 		$app->any('/articles',			UserManage::class.':articles');
-		$app->get('/category',			UserManage::class.':category');
+		$app->any('/category',			UserManage::class.':category');
 	});
-})->add(function($request, $response, $next) use ($session) {
-	if (empty($session->login)) {
+})->add(function($request, $response, $next) {
+	if (empty(Session::all('login'))) {
 		return	$response->withStatus(302)->withHeader('Location', '/login');
 	}
 	$response = $next($request, $response);
@@ -93,6 +93,9 @@ $app->group('/admin', function() use ($app) {
 	$app->get('/install',  		Admin::class.':install');
 	$app->get('/users', 		Admin::class.':users');
 	$app->any('/articles', 		Admin::class.':articles');
+	$app->any('/categories', 	Admin::class.':categories');
+	$app->any('/donations', 	Admin::class.':donations');
+	$app->any('/homepage',		Admin::class.':homepage');
 
 });
 

@@ -1,19 +1,19 @@
 {% extends "layout.html" %}
 
-{% block inLeft %}
+{% block toHead %}
+<style type="text/css">
+	section {padding: 15px;}
 
-<!-- <section>
-	<h3>文档分类</h3>
-	<ul class="hor">
-		{% for column in columns%}
-		<li><a href="#">{{ column.name }}</a></li>
-		{% endfor %}
-	</ul>
-</section> -->
+
+</style>
+{% endblock %}
+
+
+{% block inLeft %}
 
 
 <section>
-	<h3>下载地址</h3>
+	<h3>官方下载</h3>
 	<a href="https://www.freebsd.org/where.html" target="_blank">FreeBSD 11.1-RELEASE</a>
 </section>
 
@@ -28,66 +28,30 @@
 <section>
 	<h3>意见建议</h3>
 	<form id="suggestForm">
-		<textarea name="content" rows="4" placeholder="网站正在开发建设，请把您对网站的意见建议留给我们，我们会继续努力。"></textarea>
+		<textarea name="content" rows="4" placeholder="请把您的意见留给我们，我们会继续努力，不断完善和提高。"></textarea>
 		<input type="button" value="提交" onclick="suggest()" />
 	</form>
-	
 </section>
 
 {% endblock %}
 
 
-{% block inRight %}
-
-<div class="flex" style="padding-bottom:20px; border-bottom: 1px solid #ddd;">
-	<div class="a-1-1 d-1-2">
-			<section>
-				<img src="{{baseURL}}/images/freebsd.png" align="left" width="120px" style="margin:8px 5px 5px 0;" />
-				<span><h3 style="display:inline;">FreeBSD</h3> 是一个适用于现代服务器、桌面与嵌入式平台的先进操作系统。由一个庞大的开发人员团队持续开发超过三十年。FreeBSD先进的网络、安全性和存储方面的特色使得它成为许多大型网站以及最普遍的嵌入式网络与存储设备的平台选择。</span>
-			</section>
-	</div>
-	<div class="a-1-1 d-1-2">
-			<section>
-				<span><h3 style="display:inline;">China FreeBSD</h3> 致力于FreeBSD在中国的推广。我们的计划是：(1)建立China FreeBSD镜像服务器，免费提供下载和更新服务；(2)建立China FreeBSD Wiki；(3)建立DDNS系统；(4)建立中文man查询系统等。本站遵从开源精神，不定期更新和发布 FreeBSD的资讯消息和技术资料。我们将尽全力帮助那些需要帮助的人们，也热切期盼您的参与和贡献！</span>
-			</section>
-	</div>
-</div>
+{% block inRight %} {% autoescape false %}
 
 <div class="flex">
-	<div class="a-1-1 d-1-2 e-1-3">
-		<section>
-			<h3>最新资讯</h3>
-			<ul class="none">
-				{% for article in articles %}
-				<li><a href='{{baseURL}}/article/{{ article.articleid }}'>{{ article.title }}</a></li>
-				{% endfor %}
-			</ul>
-		</section>
-	</div>
-	<div class="a-1-1 d-1-2 e-1-3">
-		<section>
-			<h3>技术精华</h3>
-			<ul class="none">
-				{% for article in articles %}
-				<li><a href='{{baseURL}}/article/{{ article.articleid }}'>{{ article.title }}</a></li>
-				{% endfor %}
-			</ul>
-		</section>
-	</div>
-	<div class="a-1-1 d-1-2 e-1-3">
-		<section>
-			<h3>用户文章</h3>
-			<ul class="none">
-				{% for article in articles %}
-				<li><a href='{{baseURL}}/article/{{ article.articleid }}'>{{ article.title }}</a></li>
-				{% endfor %}
-			</ul>
-		</section>
-	</div>
 
+	{% for c in columns if c.content %}
+	<section class="a-1-1 d-1-2 f-1-3">
+		{% if c.thumb!='' %} <img src="{{c.thumb}}" class="home-thumb"/> {% endif %}
+		{{c.content}}
+	</section>
+	{% endfor %}
 
 </div>
 <div>
+	{% include "public/site-navigation.html" %}
+<!-- 
+
 	<section class="a-1-1">
 		<h3>资源链接</h3>
 		<ul class="hor">
@@ -99,13 +63,14 @@
 			<li><a href="http://www.cnblogs.com/zhouhuan/p/vertical_center.html">CSS垂直居中的11种实现方式</a></li>
 			<li><a href="http://www.cnblogs.com/hz1124/p/6090835.html">HTML5新增标签与属性</a></li>
 			<li><a href="http://kindeditor.net/docs/index.html">kindeditor文档</a></li>
+			<li><a href="http://wiki.ubuntu.org.cn/">ubuntu</a></li>
+				<li><a href="https://www.chinafreebsd.cn/index.php?title=WiKi%E8%AF%AD%E6%B3%95">freebsd样式</a></li>
 		</ul>
 	</section>
-
+ -->
 </div>
 
-
-{% endblock %}
+{% endautoescape %} {% endblock %}
 
 
 

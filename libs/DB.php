@@ -1,26 +1,25 @@
 <?php
 /*
 * ============================================================
-*                DB Class v3.0.0      2017.09.20
+*                DB Class v1.3.0      2017.10.05
 * -------------------------------------------------------------
 *   Copyright (C) belong to HuoHongJian, all rights reserved.
 * =============================================================
 *
-* 1. DB::get()->...->selectAll();						 	用于一次操作,已escape() & clear()
-* 2. DB::getInstance()->query()->fetchAll();				需要escape(),谨防SQL注入
-* 3. DB::getInstance()->query2($sql, $arr)->fetchAll();		用于一次操作,无需escape()
-* 4. DB::getInstance()->prepare()->execute()->fetchAll();	用于批量操作,无需escape()
+* 1. DB::ins()->select($data)->all();					用于一次操作,已escape() & clear()
+* 2. DB::ins()->query($sql)->all();						需要escape(),谨防SQL注入
+* 3. DB::ins()->query2($sql, $data)->all();				用于一次操作,无需escape()
+* 4. DB::ins()->prepare($sql)->execute($data)->all();	用于批量操作,无需escape()
 */
 
 class DB {
-
 	private $conn;
-	private $queryid;
 	private $result;
 	static private $instance;
 
+	private function __clone() {}
 
-	private function __construct($cnf='default') {
+	private function __construct($f='default') {
 		$cns =  ['default' =>  'host 	= 127.0.0.1
 				 				port 	= 5432
 				 				dbname	= nblog
@@ -28,7 +27,7 @@ class DB {
 				 				password = '
 				];
 		try {
-			$this->conn = @pg_connect($cns[$cnf]);
+			$this->conn = @pg_connect($cns[$f]);
 		} catch (Exception $e) {
 			die ($e->getMessage());
 		}
@@ -38,12 +37,9 @@ class DB {
 	}
 
 
-	private function __clone() { }
-
-
-	static function ins($cnf='default') {
+	static function ins($f='default') {
 		if (!(self::$instance instanceof self)) {
-			self::$instance = new static($cnf);
+			self::$instance = new static($f);
 		}
 		return self::$instance;
 	}
@@ -65,7 +61,7 @@ class DB {
 
 
 	function update(string $table, array $data, array $where=[], string $exp='') {
-		$sql = 'UPDATE ' . $this->clear($table)
+		$sql = 'UPDATE ' . $this->clear($table) . ' SET '
 			 . $this->struck($data)->upsets
 			 . $this->where($where)
 			 . $this->clear($exp);
@@ -89,11 +85,11 @@ class DB {
 
 
 	function query($sql) {
-		echo $sql;
+//		echo $sql;
 		try {
 			$this->result = @pg_query($this->conn, $sql);
 			if (!$this->result) {
-				throw new Exception("The database query failed! SQL: <p> $sql </p>");
+				throw new Exception("Query failed! SQL:<p>$sql</p>");
 			}
 		} catch (Exception $e) {
 			die($e->getMessage());
@@ -102,8 +98,15 @@ class DB {
 	}
 
 //	It is not necessary to escape, ~= prepare()->execute().
-	function query2($sql, array $arr) {
-		$this->result = @pg_query_params($this->conn, $sql, $arr);
+	function query2($sql, array $data) {
+		try {
+			$this->result = @pg_query_params($this->conn, $sql, $data);
+			if (!$this->result) {
+				throw new Exception("Query failed! SQL:<p>$sql</p>");
+			}
+		} catch (Exception $e) {
+			die($e->getMessage());
+		}
 		return $this;
 	}
 
@@ -123,7 +126,21 @@ class DB {
 		return @pg_fetch_all($this->result);
 	}
 
-	function arr() {
+	//PGSQL_NUM:以编号为键值; PGSQL_ASSOC:以字段名为键值; PGSQL_BOTH:同时用两者为键值;
+	function one($row=0, $type=PGSQL_ASSOC) {
+		return @pg_fetch_array($this->result, $row, $type);
+	}
+
+	function val($row=0, $col=0) {
+		return @pg_fetch_result($this->result, $row, $col);
+	}
+
+	function obj($row=0) {
+		return @pg_fetch_object($this->result, $row);
+	}
+
+	/* 相当于以编号为键值的all() */
+	function rows() {
 		$ds = array();
 		while($row = @pg_fetch_row($this->result)) {
 			$ds[]=$row;
@@ -131,16 +148,7 @@ class DB {
 		return $ds;
 	}
 
-	//PGSQL_NUM:以编号为键值; PGSQL_ASSOC:以字段名为键值; PGSQL_BOTH:同时用两者为键值;
-	function one($row=0, $type=PGSQL_ASSOC) {
-		return @pg_fetch_array($this->result, $row, $type);
-	}
-
-	function row($row=0, $type=PGSQL_ASSOC) {
-		return $this->fetchOne($row, $type);
-	}
-
-	function col($col=0){
+	function vals($col=0){
 		$ds = array();
 		while($row = @pg_fetch_row($this->result)) {
 			$ds[]=$row[$col];
@@ -148,13 +156,7 @@ class DB {
 		return $ds;
 	}
 
-	function val($row=0, $col=0) {
-		return @pg_fetch_result($this->result, $row, $col);
-	}
 
-	function obj($row=0, $type=PGSQL_ASSOC) {
-		return @pg_fetch_object($this->result, $row, $type);
-	}
 
 
 
@@ -181,11 +183,11 @@ class DB {
 
 
 
-
+	/* 数据清洗 */
 	static function clear($str) {
 		$str = str_replace(';', '；', 	$str);
 		$str = str_replace('--', '——', 	$str);
-		$str = str_replace('/', '〡', 	$str);
+		$str = str_replace('/*', '〡*', $str);
 		return $str;
 	}
 
@@ -197,11 +199,15 @@ class DB {
 		}
 	}
 
-
-
-	static function where(array $where, boolean $exEmpty=true) {
-		foreach ($where as $k => $v) {
-			if (!$exEmpty or $v!='') {
+	static function where(array $where, $exEmpty=true) {
+		if ($exEmpty) {
+			foreach ($where as $k => $v) {
+				if (!empty($v)) {
+					$s .= ' AND '.self::clear($k).'='.self::escape($v);
+				}
+			}
+		} else {
+			foreach ($where as $k => $v) {
 				$s .= ' AND '.self::clear($k).'='.self::escape($v);
 			}
 		}
@@ -214,20 +220,28 @@ class DB {
 
 
 	static function like($k, $v) {
-		if ($exEmpty and $v=='') {
-			return '';
-		} else {
-			return self::clear($k) . ' LIKE ' . self::escape('%'.$v.'%');
-		}
+		return self::clear($k) . ' LIKE ' . self::escape('%'.$v.'%');
 	}
 
-	static function struck(array $data) {
-		foreach ($data as $k => $v) {
-			$k = self::clear($k);
-			$v = self::escape($v);
-			$fields .= ',' . $k;
-			$values .= ',' . $v;
-			$upsets .= ',' . $k . '=' . $v;
+	static function struck(array $data, $exEmpty=false) {
+		if ($exEmpty) {
+			foreach ($data as $k => $v) {
+				if (!empty($v)) {
+					$k = self::clear($k);
+					$v = self::escape($v);
+					$fields .= ',' . $k;
+					$values .= ',' . $v;
+					$upsets .= ',' . $k . '=' . $v;
+				}
+			}
+		} else {
+			foreach ($data as $k => $v) {
+				$k = self::clear($k);
+				$v = self::escape($v);
+				$fields .= ',' . $k;
+				$values .= ',' . $v;
+				$upsets .= ',' . $k . '=' . $v;
+			}
 		}
 		$fields = substr($fields, 1);
 		$values = substr($values, 1);

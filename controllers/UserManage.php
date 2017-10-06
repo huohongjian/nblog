@@ -13,7 +13,7 @@ public function __construct(Interop\Container\ContainerInterface $container) {
 function index($request, $response, $args) {
 
 	$this->container->get('view')->render($response, 'user/manage/index.html',[
-		
+		'articleNum'=>DB::ins()->select('nb_user', ['userid'=>$userid], '', 'score')->val()
 	]);
 	return $response;
 }
@@ -21,8 +21,9 @@ function index($request, $response, $args) {
 
 public function renewpassword($request, $response, $args) {
 	$post = $request->getParsedBody();
-	$userid = $GLOBALS['session']->userid;
-	$user = DB::get('nb_user')->where(['userid'=>$userid])->select()->one();
+	$userid = Session::all('userid');
+
+	$user = DB::ins()->select('nb_user', ['userid'=>$userid])->one();
 
 	$key = base64_encode(pack("H*", $post['pwd0']));
 	$pwd0 = Rsa::privDecrypt($key, true);
@@ -30,7 +31,7 @@ public function renewpassword($request, $response, $args) {
 	if ($pwd0 == $user['password']) {
 		$key = base64_encode(pack("H*", $post['pwd1']));
 		$pwd1 = Rsa::privDecrypt($key, true);
-		DB::get('nb_user')->where(['userid'=>$userid])->update(['password'=>$pwd1]);
+		DB::ins()->update('nb_user', ['password'=>$pwd1], ['userid'=>$userid]);
 		return $response->getBody()->write('密码已修改!');
 	} else {
 		return $response->getBody()->write('原密码不正确!');
@@ -39,16 +40,17 @@ public function renewpassword($request, $response, $args) {
 
 
 public function userinfo($request, $response, $args) {
-	$userid = $GLOBALS['session']->userid;
+	$userid = Session::all('userid');
+
 	if ($request->isGet()) {
 		return $this->container->get('view')->render($response, 'user/manage/userinfo.html',[
-			'user' => DB::get('nb_user')->where(['userid'=>$userid])->select()->one()
+			'user' => DB::ins()->select('nb_user', ['userid'=>$userid])->one()
 		]);
 
 	} else {
 		$input = $request->getParsedBody();
 		unset($input['login']);
-		DB::get('nb_user')->where(['userid'=>$userid])->update($input);
+		DB::ins()->update('nb_user', $input, ['userid'=>$userid]);
 		return $response->getBody()->write('用户信息已修改!');
 	}
 }
@@ -65,10 +67,10 @@ function template($request, $response, $args) {
 
 
 function articles($request, $response, $args) {
-	$userid = (int)$GLOBALS['session']->userid;
+	$userid = Session::all('userid');
 
 	if ($request->isGet()) {
-		$c = DB::get('nb_user')->where(['userid'=>$userid])->select('categories')->val();
+		$c = DB::ins()->select('nb_user', ['userid'=>$userid], '', 'categories')->val();
 		return $this->container->get('view')->render($response, 'user/manage/articles.html',[
 			'categories' => explode(',', $c)
 		]);
@@ -81,43 +83,42 @@ function articles($request, $response, $args) {
 		
 		if ($request->isPost()) {
 			
-			$where = DB::struck([
+			$where = DB::where([
 				'userid' => $userid,
 				'status' => $input['status'],
 				'category' => $input['category']
-			], 'AND')->kvs;
+			]);
 
-			$key = $input['key'];
-			if (!empty($key)) {
-				$where .= ' AND '.DB::clear($input['range'])." LIKE ".DB::escape("%{$key}%");
+			if (!empty($input['key'])) {
+				$where .= ' AND '.DB::like($input['range'], $input['key']);
 			}
 
-			$sql = "SELECT count(*) FROM nb_article WHERE $where";
-			$SQL = str_replace('count(*)', 'articleid,title,status,category,counter,addtime',
-								$sql)." ORDER BY artid DESC LIMIT $limit OFFSET $offset";
+			$sql = "SELECT count(*) FROM nb_article $where";
+			$SQL = "SELECT articleid,title,status,category,counter,addtime
+					FROM nb_article
+					$where
+					ORDER BY artid DESC LIMIT $limit OFFSET $offset";
 
 			return $response->withJson([
-				'articles' => DB::ins()->query($SQL)->arr(),
+				'articles' => DB::ins()->query($SQL)->rows(),
 				'pages' => ['perItem'=>$limit, 'totItem'=>DB::ins()->query($sql)->val()]
 			]);
 
 		} else if ($request->isPut()) {
 			$ids = $input['ids'];
-			$sta = $input['status'];
-			$cat = $input['category'];
-
+			
 			if (empty($ids)) {
 				$manage = '请选择文档!';
-			} else if (empty($sta) and empty($cat)) {
-				$manage = '请选择操作!';
+
 			} else {
-				$set = DB::struck(['status'=>$sta, 'category'=>$cat])->kvs;
-				$ids = DB::struck($ids)->vs;
-				$sql = "UPDATE nb_article SET $set WHERE articleid in ($ids)";
-				if (DB::ins()->query($sql)) {
-					$manage = '批量操作成功!';
+				unset($input['ids']);
+				$set = DB::struck($input, $exEmpty=true)->upsets;
+				if (empty($set)) {
+					$manage = '请选择操作!';
 				} else {
-					$manage = '批量操作失败!';
+					$sql = 'UPDATE nb_article SET ' . $set
+						 . ' WHERE articleid in (' . DB::struck($ids)->values . ')';
+					$manage = DB::ins()->query($sql) ? '批量操作成功!' : '批量操作失败!';
 				}
 			}
 			$response->getBody()->write($manage);
@@ -129,18 +130,21 @@ function articles($request, $response, $args) {
 
 
 function category($request, $response, $args) {
-	$userid = (int)$GLOBALS['session']->userid;
+	$userid = Session::all('userid');
 
 	if ($request->isGet()) {
-		$c = DB::get('nb_user')->where(['userid'=>$userid])->select('categories')->val();
+		$c = DB::ins()->select('nb_user', ['userid'=>$userid], '', 'categories')->val();
+		$d = DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->vals();
 		return $this->container->get('view')->render($response, 'user/manage/category.html',[
-			'categories' => $c
+			'categories' => $c,
+			'defaultCategories'	 => implode(',', $d)
 		]);
-	} else {
-		
 
+	} else if ($request->isPost()) {
+		$input = $request->getParsedBody();
+		DB::ins()->update('nb_user', $input, ['userid'=>$userid]);
+		return $response->getBody()->write('文章类别已更改!');
 	}
-	return $response;
 }
 
 

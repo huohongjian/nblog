@@ -1,0 +1,8 @@
+<section>
+	<h3><a href="{{baseURL}}/article/category/">站点导航</a></h3>
+	<ul class="hor">
+		{% for a in categories %}
+		<li><a href="{{baseUrl}}/article/category/{{a.name}}">{{a.name}}</a></li>
+		{% endfor %}
+	</ul>
+</section>

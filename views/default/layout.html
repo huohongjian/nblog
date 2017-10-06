@@ -28,18 +28,14 @@
 </div>
 
 <div class="flex1">
+	{% include "public/login-bar.html" %}
 	<ul>
-		<li><i class="iconfont icon-search gray"></i><input type="text" name="search" placeholder="search"></li>
-		{% if (login) %}
-			<li><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"> </i> {{login}}</a></li>
-			<li><a href="{{baseURL}}/user/article/edit/new">添加</a></li>
-			<li><a href="{{baseURL}}/user/manage">管理</a></li>
-			<li><a href="{{baseURL}}/logout">退出</a></li>
-		{% else %}
-		<li><a href="{{baseURL}}/regist">注册</a></li>
-		<li><a href="{{baseURL}}/login">登录</a></li>
-		{% endif %}
+		<li>
+			<i class="iconfont icon-search gray"></i>
+			<input type="text" name="search" placeholder="search">
+		</li>
 	</ul>
+
 </div>
 {% endblock %}</header>{% endblock %}
 
@@ -50,11 +46,10 @@
 <ul class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80">
 	<li><a href="{{baseURL}}/">首页</a></li>
 	<li><a href="{{baseURL}}/suggest">建议</a></li>
-	<li><a href="{{baseURL}}/">帮助</a></li>
-	<li><a href="https://www.chinafreebsd.cn/index.php?title=WiKi%E8%AF%AD%E6%B3%95">freebsd样式</a></li>
-	<li><a href="{{baseURL}}/article/chinafreebsd_resouce">本站源</a></li>
-	<li><a href="{{baseURL}}/article/chinafreebsd_sponsor">赞助</a></li>
-	<li><a href="{{baseURL}}/admin/">系统管理</a></li>
+	<li><a href="{{baseURL}}/article/chinafreebsd-resouce">本站源</a></li>
+	<li><a href="{{baseURL}}/article/chinafreebsd-memorabilia">大事记</a></li>
+	<li><a href="{{baseURL}}/article/chinafreebsd-aboutus">关于我们</a></li>
+	<li><a href="{{baseURL}}/donation">捐赠</a></li>
 </ul>
 {% endblock %}</nav>{% endblock %}
 
@@ -75,7 +70,7 @@
 
 
 {% block Footer %}<footer class="a">{% block inFooter %}
-<h4 class="title pb10">The copyright (c) belong to China FreeBSD 2017-2030. All rights reserved.</h4>
+<h4 class="bsd text-center">The copyright (c) belong to China FreeBSD 2017-2030. All rights reserved.</h4>
 <!--尾部模板-->
 <!-- div class="back-to-top" id="gotop">
 	<i class="iconfont icon-top-copy"></i>

@@ -7,13 +7,6 @@ main{flex:1 0 auto;}
 
 
 
-/*h1,h2,h3,h4,h5,h6 {
-	line-height: 1.3;
-	color: #880000;
-}*/
-
-
-
 header.a li,
    nav.a li{list-style-type:circle; display:inline-block;}
 
@@ -21,6 +14,10 @@ header.a, .panel > header {
 	background-image:-webkit-linear-gradient(to bottom, #550000, #770000);
 	background-image:linear-gradient(to bottom, #550000, #770000);
 }
+.panel > header {color:#ffffff;}
+
+
+
 header.a a {color:#fff; font-weight:bolder;}
 
 header.a figure {display:table; margin:0;}
@@ -49,6 +46,9 @@ main.a section li a {
 }
 
 
+main.a img.home-thumb {
+	float: left; width: 120px; margin:8px 5px 5px 0;
+}
 
 
 
@@ -80,10 +80,10 @@ article.detail > section {margin: 0 2%;}
 
 /*home-page section*/
 section {padding:5px 12px; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
-.left section img {width:150px;}
+/*.left section img {width:150px;}
 .left section input {width: calc(100% - 80px);}
 
-section.category > a > h3 {border-bottom:1px solid gray; padding:0 8px 10px;}
+section.category > a > h3 {border-bottom:1px solid gray; padding:0 8px 10px;}*/
 
 
 
@@ -102,16 +102,20 @@ table.article tr td {border:1px solid #DDDDDD;padding:0 5px; height: 28px;}
 
 table.article tr th:nth-child(1){width:15px;}
 table.article tr td:nth-child(2),
-table.article tr th:nth-child(2){width:380px;}
-table.article tr th:nth-child(3){width:60px;}
-table.article tr th:nth-child(4){width:90px;}
-table.article tr th:nth-child(5){width:50px;}
-table.article tr th:nth-child(6){width:150px;}
+table.article tr th:nth-child(2){width:350px;}
+table.article tr th:nth-child(4),
+table.article tr th:nth-child(8),
+table.article tr th:nth-child(9){width:70px;}
+table.article tr th:nth-child(6){width:160px;}
+
+table.article tr th:nth-child(3),
+table.article tr th:nth-child(5),
 table.article tr th:nth-child(7),
-table.article tr th:nth-child(8){width:60px;}
+table.article tr th:nth-child(10){width:50px;}
 table.article td a{width:inherit; text-overflow:ellipsis;display:inline-block;overflow:hidden;white-space:nowrap;}
 table.article tr td:nth-child(1),
 table.article tr td:nth-child(3),
 table.article tr td:nth-child(5),
-table.article tr td:nth-child(7){text-align:center;}
+table.article tr td:nth-child(7),
+table.article tr td:nth-child(10){text-align:center;}
 

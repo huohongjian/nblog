@@ -68,16 +68,15 @@
 	<div class="a-1-1 d-1-3 e-1-4 f-1-5 text-center">
 		<h3 class="white">添加 / 修改文章</h3>
 	</div>
-	<div class="a-1-1 d-2-3 e-3-4 f-4-5 text-middle">
-		<ul class="pl10">
+	<div class="a-1-1 c-1-3 text-middle">
+		<ul class="hor pl10">
 			<li><a href="{{baseURL}}/"><i class="iconfont icon-home"></i> 首页</a></li>
+			<li><a href="javascript:preview()"><i class="iconfont icon-home"></i> 浏览</a></li>
 			<li><a href="javascript:panelHelp()"><i class="iconfont icon-home"></i> 帮助</a></li>
-
-			<li class="float-right"><a href="{{baseURL}}/logout">退出</a></li>
-			<li class="float-right"><a href="{{baseURL}}/user/manage">管理</a></li>
-			<li class="float-right"><a href="{{baseURL}}/user/article/edit/new">添加</a></li>
-			<li class="float-right"><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"> </i> {{login}}</a></li>
 		</ul>
+	</div>
+	<div class="flex1 text-middle text-right">
+		{% include "public/login-bar.html" %}
 	</div>
 </header>
 {% endblock %}
@@ -100,7 +99,7 @@
 					</select>
 				</label>
 				<select name="category" class="float-right" data-val="{{article.category}}">
-					<option value="未分类">--请选择类别--</option>
+					<option value="其他">--请选择类别--</option>
 					{% for category in categories %}
 					<option value="{{category}}">{{category}}</option>
 					{% endfor %}
@@ -119,7 +118,8 @@
 			</p>
 			<p>
 				<label>微缩图：</label>
-				<input type="text" name="thumb" value="{{article.thumb}}" data-maxnum="{{maxnum}}" data-baseurl="{{baseURL}}" readonly="true" title="双击此框，上传或更换微缩图，尺寸200x150" />
+				<a href="javascript:loadImgPlugin()">选择</a>
+				<input type="text" name="thumb" value="{{article.thumb}}" data-maxnum="{{maxnum}}" data-baseurl="{{baseURL}}" title="双击此框，上传或更换微缩图，尺寸200x150" onchange="setImage()" />
 			</p>
 			<p class="text-center" style="height: 150px;">
 				<img id="thumbimg" src="{{baseURL}}{{article.thumb}}" title="双击图片随机更换微缩图" />
@@ -379,22 +379,35 @@ KindEditor.ready(function(K) {
 	});
 
 
-	K('input[name=thumb]').click(function() {
-		editor.loadPlugin('image', function() {
-			editor.plugin.imageDialog({
-				imageUrl : K('input[name=thumb]').val(),
-				clickFn : function(url, title, width, height, border, align) {
-					editor.hideDialog();
-					K('input[name=thumb]').val(url);
-					K('#thumbimg').attr('src', url);
-				}
-			});
-		});
-	});
+	// K('input[name=thumb]').click(function() {
+	// 	editor.loadPlugin('image', function() {
+	// 		editor.plugin.imageDialog({
+	// 			imageUrl : K('input[name=thumb]').val(),
+	// 			clickFn : function(url, title, width, height, border, align) {
+	// 				editor.hideDialog();
+	// 				K('input[name=thumb]').val(url);
+	// 				K('#thumbimg').attr('src', url);
+	// 			}
+	// 		});
+	// 	});
+	// });
 
 	K('#thumbimg').dblclick(setThumbImg);
 	K('input[name=save]').click(save);
 });
+
+function loadImgPlugin() {
+	editor.loadPlugin('image', function() {
+		editor.plugin.imageDialog({
+			imageUrl : R('input[name=thumb]').value,
+			clickFn : function(url, title, width, height, border, align) {
+				editor.hideDialog();
+				R('input[name=thumb]').value = url;
+				R('#thumbimg').setAttribute('src', url);
+			}
+		});
+	});
+}
 
 
 function setThumbImg() {
@@ -405,7 +418,17 @@ function setThumbImg() {
 	oThumb.value = src;
 	R.id('thumbimg').src = oThumb.dataset.baseurl + src;
 }
-if (R('input[name="thumb"]').value=='') setThumbImg();
+
+function setImage() {
+	var src = R('input[name="thumb"]').value;
+	if (src=='') {
+		src = '/images/noimage.jpg';
+	}
+	R.id('thumbimg').src = src;
+}
+if (R('input[name="thumb"]').value=='') {
+	setImage();
+}
 
 
 
@@ -419,10 +442,20 @@ function panelHelp() {
 			height: 300,
 			html: '<ul class="text-left">\
 				<li>列表显示文章时，别名优先标题显示。</li>\
-				<li>单击微缩图文本框，上传或选择更换微缩图。</li>\
+				<li>单击`选择`微缩图，可上传也可选择微缩图。</li>\
 				<li>双击微缩图，可在微缩图库中随机更换。</li>\
 			',
 		});
+	}
+}
+
+
+function preview() {
+	var id = R('[name=articleid]').value;
+	if (id.length<10) {
+		panelMsg('请保存文章后，再浏览！');
+	} else {
+		window.location.href = '../../../article/'+id;
 	}
 }
 
@@ -438,7 +471,7 @@ function save() {
 	},'JSON');
 }
 
-R.move();
+R.ALL('form[name=editForm] input').move();
 R('input[name="title"]').focus();
 
 

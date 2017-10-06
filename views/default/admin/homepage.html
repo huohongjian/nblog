@@ -1,0 +1,120 @@
+{% extends "admin/layout.html" %}
+
+{% block toHead1 %}
+<style type="text/css">
+	.panel input {width:180px; padding:5px; margin-:3px;}
+
+</style>
+{% endblock %}
+
+
+
+{% block inRight %}
+<h3>首页栏目管理</h3>
+
+<table class="homepage-columns ml50">
+	<thead>
+		<tr>
+			<th>文章ID</th>
+			<th>标题</th>
+			<th>贡献者</th>
+			<th>状态</th>
+			<th>更新时间</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody id="listTbody">
+		{% for a in articles %}
+		<tr>
+			<td>{{a.articleid}}</td>
+			<td><a href="../../article/{{a.articleid}}">{{a.title}}</a></td>
+			<td>{{a.username}}</td>
+			<td>{{a.status}}</td>
+			<td>{{a.newtime}}</td>
+			<td>
+				<a href="javascript:renewid('{{a.articleid}}')">更改ID</a>
+				<a href="../../user/article/edit/{{a.articleid}}">编辑</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<input type="button" value="添加内容" onclick="add()" />
+
+<section>
+	<h3>说明</h3>
+	<ul>
+		<li>首页内容按文章ID排序，若要改变显示顺序，可更改文章ID，序号尽可能保持3位。</li>
+		<li>添加新内容时，文章ID按最大号+10进行编号。</li>
+		<li>点击`添加内容`按钮然后编辑，可直接在首页中显示文章内容和微缩图。</li>
+		<li>状态一般为隐藏，可不被搜索到。状态为删除时，不在首页显示。可通过编辑，更改状态</li>
+		<li>文章ID不得少于13位。</li>
+	</ul>
+</section>
+
+{% endblock %}
+
+
+{% block toBody %}
+<script type="text/javascript" src="../../../own/Pagination.js"></script>
+<script type="text/javascript">
+
+R.id('section-1').checked = true;
+
+function add() {
+	R.post('', {command: 'add'}, function(data) {
+		if (data.status==200) {
+			R.id('listTbody').appendChild(R.ce('tr', {
+				innerHTML: '<td>' + data.articleid + '</td>\
+							<td>' + data.title + '</td>\
+							<td>' + data.username + '</td>\
+							<td>隐藏</td>\
+							<td>' + data.newtime + '</td>\
+							<td>\
+								<a href="javascript:renewid(\''+data.articleid+'\')">更改ID</a>\
+								<a href="../../user/article/edit/'+data.articleid+'">编辑</a>\
+							</td>'
+			}));
+		}
+	}, 'JSON');
+}
+
+
+function renewid(oldID) {
+	var html='<p><label>原ID：</label><input type="text" value="'+oldID+'" readonly="true"/></p>\
+			<p><label>新ID：</label><input type="text" value="'+oldID+'" id="newID"/></p>\
+			<p><button type="button" onclick="doRenewId(\''+oldID+'\')">提交</button></p>';
+	panel(html);
+}
+function doRenewId(oldID) {
+	R.put('', { oldID: oldID, newID: R.id('newID').value }, function(data) {
+		if (data=='文章ID修改成功！') {
+			window.location.reload(true);
+		}
+	});
+}
+
+
+
+
+function panel(html) {
+	if (window.__panel && window.__panel.panel) {
+		__panel.setHTML('<br/>' + html);
+	} else {
+		window.__panel = new Panel({
+			title: '更改文章ID',
+			html: '<br/>' + html,
+			style: '.panel > header * {color:#ffffff;}',
+			width: 400,
+			height: 236,
+		});
+	}
+	R.id('newID').focus();
+}
+
+
+
+</script>
+
+{% endblock %}

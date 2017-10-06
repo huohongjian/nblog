@@ -1,0 +1,84 @@
+{% extends "admin/layout.html" %}
+
+
+
+
+{% block inRight %}
+<h3>捐赠管理</h3>
+
+
+<section class="inline-block">
+	<table class="donation ml50">
+		<thead>
+			<tr>
+				<th>捐赠人</th>
+				<th>捐赠款项</th>
+				<th>捐赠服务</th>
+				<th>备注</th>
+				<th>时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody id="donationTbody">
+		</tbody>
+	</table>
+
+	<p class="mt10 ml50 bolder">
+		<span id="pagination" data-peritem="{{pages.perItem}}" data-totitem="{{pages.totItem}}"></span>
+		<span class="float-right bsd mr20">捐赠合计：{{sum}}</span>
+	</p>
+</section>
+
+
+
+{% endblock %}
+
+
+{% block toBody %}
+<script type="text/javascript" src="../../../own/Pagination.js"></script>
+<script type="text/javascript">
+
+R.id('section-1').checked = true;
+
+var pagination = new Pagination({
+	container: '#pagination',
+	perItem: R.id('pagination').dataset.peritem,
+	totItem: R.id('pagination').dataset.totitem,
+	onclick: function(index){
+		get(index);
+	},
+});
+
+
+
+
+function get(page) {
+	R.post('', {page: page}, function(data) {
+
+		var o = R.id('donationTbody'),
+			d = data.donations;
+		o.innerHTML = '';
+
+		for (var i=0; i<d.length; i++) {
+			var tr = R.ce('tr');
+			o.appendChild(tr);
+
+			for (var j=0; j<d[i].length; j++) {
+				var s = d[i][j];
+				var	td = R.ce('td');
+				if (R.empty(s)) {
+					td.innerHTML = '-';
+					td.className = 'text-center';
+				} else {
+					td.innerHTML = s;
+				}
+				tr.appendChild(td);
+			}
+		}
+	}, 'JSON');
+}
+get(1);
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "admin/layout.html" %}
+
+
+
+{% block inRight %}
+<h3>类别设定</h3>
+
+<table class="category">
+	<thead>
+		<tr><th>名称</th><th>顺序</th><th>操作</th></tr>
+	</thead>
+	<tbody>
+		{% for cat in categories %}
+		<tr>
+			<td>{{cat.name}}</td>
+			<td>{{cat.odr}}</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+
+{% endblock %}
+
+
+{% block toBody %}
+<script type="text/javascript">
+	R('#section-1').checked = true;
+
+
+
+</script>
+
+{% endblock %}
