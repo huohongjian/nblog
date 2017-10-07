@@ -23,18 +23,18 @@
 	</p>
 	<p>
 		<label>登录名：</label>
-		<input type="text" name="login" required="required">
+		<input type="text" name="login" required="required"/>
 	</p>
 	<p>
 		<label>登录密码：</label>
-		<input type="password" id="pwd" required="required">
-		<input type="password" name="password" style="display: none;">
+		<input type="password" id="pwd" required="required"/>
+		<input type="password" name="password" hidden="true"/>
 	</p>
 	<p>
 	<p class="relative">
 		<label title="为避免混淆，验证码中没有数字0,1,2">验证码：</label>
-		<input type="text" name="captcha" required="required">
-		<img  title="点击刷新" src="{{ baseURL }}/captcha" align="absbottom" onclick="this.src='{{ baseURL }}/captcha?'+Math.random();">
+		<input type="text" name="captcha" required="required"/>
+		<img  title="点击刷新" src="./captcha" align="absbottom" onclick="this.src='./captcha?'+Math.random();">
 	</p>
 
 	<p class="text-center">
@@ -45,16 +45,16 @@
 
 
 {% block toBody %}
-<script type="text/javascript" src="{{ baseURL }}/js/rsa/RSA.js"></script>
-<script type="text/javascript" src="{{ baseURL }}/js/rsa/BigInt.js"></script>
-<script type="text/javascript" src="{{ baseURL }}/js/rsa/Barrett.js"></script>
-<script type="text/javascript" src="{{ baseURL }}/js/md5.min.js"></script>
-<script type="text/javascript" src="{{ baseURL }}/js/public_key.js"></script>
+<script type="text/javascript" src="./js/rsa/RSA.js"></script>
+<script type="text/javascript" src="./js/rsa/BigInt.js"></script>
+<script type="text/javascript" src="./js/rsa/Barrett.js"></script>
+<script type="text/javascript" src="./js/md5.min.js"></script>
+<script type="text/javascript" src="./js/public_key.js"></script>
 <script type="text/javascript">
 
 
 R.ALL('form input').move('[name=password]');
-R('[name=login]').focus();
+
 
 function displayMessage(msg) {
 	R('.message').innerHTML = msg ? '\
@@ -82,6 +82,6 @@ function doLogin() {
 		document.loginForm.submit();
 	}
 }
-	
+R('[name=login]').focus();
 </script>
 {% endblock %}

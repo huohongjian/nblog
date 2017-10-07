@@ -15,7 +15,12 @@
 					_.ONE(a).enter(function(){
 						while(_.ARR(ex).has(o[i+1])&&i<I){i++}
 						if(i>I-2)i=-1;
-						o[i+1].getAttribute('type').toUpperCase()=='TEXT'?o[i+1].select():o[i+1].focus();
+						var t=o[i+1].getAttribute('type').toUpperCase();
+						if(t=='TEXT'||t=='PASSWORD'){
+							o[i+1].select();
+						}else{
+							o[i+1].focus();
+						}
 					});
 				});
 			},

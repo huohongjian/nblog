@@ -45,8 +45,8 @@
 		</div>
 		<div class="flex1">
 			<p>
-				<label>更换头像：</label>
-				<img id="headphoto" class="pointer" src="{{user.photo}}" height="100" title="双击更换头像" />
+				<label>双击更换头像：</label>
+				<img id="headphoto" class="pointer" src="{{user.photo}}" height="100"/>
 				<input type="text" name="photo" value="{{user.photo}}" data-url="{{baseURL}}" hidden="true"/>
 			</p>
 			<p>
@@ -74,8 +74,8 @@
 <script type="text/javascript">
 R.id('section-1').setAttribute('checked', 'true');
 R('input[name=pwd0]').select();
-R.move('#pwd input');
-R.move('#info input');
+R.ALL('#pwd input').move();
+R.ALL('#info input').move;
 
 
 KindEditor.ready(function(K) {
@@ -89,7 +89,6 @@ KindEditor.ready(function(K) {
 				clickFn : function(url, title, width, height, border, align) {
 					K('input[name=photo]').val(url);
 					
-
 					editor.hideDialog();
 					R.id('headphoto').src=url;
 				}
@@ -115,10 +114,10 @@ function renewPassword() {
 		setMaxDigits(131);
 		var key  = new RSAKeyPair("10001", '', PUBLIC_KEY);
 
-		R.post('./renewpassword', R.FD().app({
+		R.put('', {
 			'pwd0': encryptedString(key, md5(pwd0)),
 			'pwd1': encryptedString(key, md5(pwd1)),
-		}).fd, function(data){
+		}, function(data){
 			panelMsg(data);
 		});
 	}
@@ -127,12 +126,6 @@ function renewPassword() {
 
 function renewInfo() {
 	R.post('', R.fd('#info'), function(data) {
-		panelMsg(data);
-	});
-}
-
-function renewCategories() {
-	R.post('', R.fd('#categories'), function(data) {
 		panelMsg(data);
 	});
 }

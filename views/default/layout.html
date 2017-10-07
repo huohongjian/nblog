@@ -27,15 +27,9 @@
 	</figure >
 </div>
 
-<div class="flex1">
+<div class="margin-left-auto flex">
+	<input type="text" name="search" placeholder="全站搜索">
 	{% include "public/login-bar.html" %}
-	<ul>
-		<li>
-			<i class="iconfont icon-search gray"></i>
-			<input type="text" name="search" placeholder="search">
-		</li>
-	</ul>
-
 </div>
 {% endblock %}</header>{% endblock %}
 
@@ -45,10 +39,10 @@
 {% block Nav %}<nav class="a">{% block inNav %}
 <ul class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80">
 	<li><a href="{{baseURL}}/">首页</a></li>
-	<li><a href="{{baseURL}}/suggest">建议</a></li>
 	<li><a href="{{baseURL}}/article/chinafreebsd-resouce">本站源</a></li>
 	<li><a href="{{baseURL}}/article/chinafreebsd-memorabilia">大事记</a></li>
-	<li><a href="{{baseURL}}/article/chinafreebsd-aboutus">关于我们</a></li>
+	<li><a href="{{baseURL}}/article/chinafreebsd-about">关于</a></li>
+	<li><a href="https://www.chinafreebsd.cn" target="_blank">WIKI</a></li>
 	<li><a href="{{baseURL}}/donation">捐赠</a></li>
 </ul>
 {% endblock %}</nav>{% endblock %}

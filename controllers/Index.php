@@ -71,14 +71,17 @@ function login($request, $response, $args) {
 		$post = $request->getParsedBody();
 
 		if (strtoupper($post['captcha']) == strtoupper(Session::get('ca'))) {
-			$user = DB::ins()->select('nb_user', ["login" => $post['login']], '',
-					'userid, login, password, roleid, name, photo')->one();
+			$user = DB::ins()->select('nb_user', ["login" => $post['login']])->one();
 			if ($user) {
 				$key = base64_encode(pack("H*", $post['password']));
 				$post['password'] = Rsa::privDecrypt($key, true);
 				if ($post['password'] == md5($post['captcha'].$user['password'].$post['captcha'])) {
-					unset($user['password']);
-					Session::set($user);
+					Session::set([
+						'userid' => (int)$user['userid'],
+						'roleid' => (int)$user['roleid'],
+						'login'  => $user['login'],
+						'name'	 => $user['name']
+					]);
 					return $response->withStatus(302)->withHeader('Location', '/user');
 				} else {
 					$message = '登录密码不正确!';

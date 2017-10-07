@@ -6,10 +6,11 @@ require_once('../vendor/autoload.php');
 
 
 $configuration = [
- 'settings' => [
- 'displayErrorDetails' => true,
- ],
+	'settings' => [
+	'displayErrorDetails' => true,
+	],
 ];
+
 $c = new \Slim\Container($configuration);
 $app = new \Slim\App($c);
 
@@ -41,7 +42,7 @@ $container['view'] = function($c) {
 	
 //	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
-	$view->getEnvironment()->addGlobal('sUser',   Session::all());
+	$view->getEnvironment()->addGlobal('sUser',   Session::get());
 	return $view;
 };
 
@@ -56,31 +57,26 @@ $app->any('/suggest',			'Index:suggest');
 $app->any('/donation',			'Index:donation');
 
 
-$app->get('/article/{articleid}',			Article::class.':index');
-$app->get('/article/search/[{key}]',		Article::class.':search');
-$app->any('/article/category/[{key}]',		Article::class.':category');
-
+$app->group('/article', function() use ($app) {
+	$app->get('/{articleid}',			Article::class.':index');
+	$app->get('/search/[{key}]',		Article::class.':search');
+	$app->any('/category/[{key}]',		Article::class.':category');
+});
 
 
 $app->group('/user', function() use ($app) {
-	$app->get ('', User::class.':index');
+	$app->any('',						User::class.':index');
+	$app->any('/edit/[{articleid}]', 	User::class.':edit');
 
-	$app->group('/article', function() use ($app) {
-		$app->get ('',							User::class.':index');
-		$app->get ('/[{category}]',				User::class.':index');
-		$app->get ('/edit/[{articleid}]', 		User::class.':editArticle');
-		$app->post('/save', 					User::class.':saveArticle');
-	});
 	$app->group('/manage', function() use ($app) {
-		$app->get('',					UserManage::class.':index');
-		$app->post('/renewpassword',	UserManage::class.':renewpassword');
+		$app->get('/',					UserManage::class.':index');
 		$app->any('/userinfo',			UserManage::class.':userinfo');
-		$app->get('/template',			UserManage::class.':template');
+		$app->any('/template',			UserManage::class.':template');
 		$app->any('/articles',			UserManage::class.':articles');
 		$app->any('/category',			UserManage::class.':category');
 	});
 })->add(function($request, $response, $next) {
-	if (empty(Session::all('login'))) {
+	if (empty(Session::get('login'))) {
 		return	$response->withStatus(302)->withHeader('Location', '/login');
 	}
 	$response = $next($request, $response);

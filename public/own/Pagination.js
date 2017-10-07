@@ -7,7 +7,7 @@ function Pagination(params){
 	this.ul;
 	this.container = 'body';
 	this.curPage = 1;	//当前页数
-	this.perPage = 3;	//显示页码个数
+	this.perPage = 9;	//显示页码个数
 	this.totPage = 9;	//总页数
 	this.perItem = 10;	//每页记录数
 	this.totItem = -1;	//总记录数
@@ -17,6 +17,14 @@ function Pagination(params){
 Pagination.Length = 0;
 Pagination.prototype = {
 	constructor: Pagination,
+
+	hide: function(){this.ul.style.display='none';},
+	show: function(){this.ul.style.display='inline';},
+	reset: function(params) {
+		this.set(params);
+		this.setLi(this.start);
+		this.setCurPage(this.curPage);
+	},
 
 	run: function(params) {
 		this.set(params);
@@ -48,6 +56,7 @@ Pagination.prototype = {
 		this.setLi(this.start);
 		this.setCurPage(this.curPage);
 		
+		
 		var self = this;
 		self.ul.addEventListener('click', function(e){
 			var o = (e || window.e).target;
@@ -75,12 +84,6 @@ Pagination.prototype = {
 				self.setCurPage(self.curPage);
 			}
 		});
-	},
-
-	refresh: function(params) {
-		this.set(params);
-		this.setLi(this.start);
-		this.setCurPage(this.curPage);
 	},
 
 	set: function(params) {

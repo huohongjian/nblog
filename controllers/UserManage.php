@@ -11,47 +11,42 @@ public function __construct(Interop\Container\ContainerInterface $container) {
 
 
 function index($request, $response, $args) {
+	$userid = Session::get('userid');
 
-	$this->container->get('view')->render($response, 'user/manage/index.html',[
+	return $this->container->get('view')->render($response, 'user/manage/index.html',[
 		'articleNum'=>DB::ins()->select('nb_user', ['userid'=>$userid], '', 'score')->val()
 	]);
-	return $response;
 }
 
 
-public function renewpassword($request, $response, $args) {
-	$post = $request->getParsedBody();
-	$userid = Session::all('userid');
-
-	$user = DB::ins()->select('nb_user', ['userid'=>$userid])->one();
-
-	$key = base64_encode(pack("H*", $post['pwd0']));
-	$pwd0 = Rsa::privDecrypt($key, true);
-
-	if ($pwd0 == $user['password']) {
-		$key = base64_encode(pack("H*", $post['pwd1']));
-		$pwd1 = Rsa::privDecrypt($key, true);
-		DB::ins()->update('nb_user', ['password'=>$pwd1], ['userid'=>$userid]);
-		return $response->getBody()->write('密码已修改!');
-	} else {
-		return $response->getBody()->write('原密码不正确!');
-	}
-}
-
-
-public function userinfo($request, $response, $args) {
-	$userid = Session::all('userid');
+function userinfo($request, $response, $args) {
+	$userid = Session::get('userid');
 
 	if ($request->isGet()) {
 		return $this->container->get('view')->render($response, 'user/manage/userinfo.html',[
 			'user' => DB::ins()->select('nb_user', ['userid'=>$userid])->one()
 		]);
 
-	} else {
+	} else if ($request->isPost()) {
 		$input = $request->getParsedBody();
 		unset($input['login']);
 		DB::ins()->update('nb_user', $input, ['userid'=>$userid]);
 		return $response->getBody()->write('用户信息已修改!');
+
+	} else if ($request->isPut()) {
+		$post = $request->getParsedBody();
+		$user = DB::ins()->select('nb_user', ['userid'=>$userid])->one();
+
+		$key = base64_encode(pack("H*", $post['pwd0']));
+		$pwd0 = Rsa::privDecrypt($key, true);
+		if ($pwd0 == $user['password']) {
+			$key = base64_encode(pack("H*", $post['pwd1']));
+			$pwd1 = Rsa::privDecrypt($key, true);
+			DB::ins()->update('nb_user', ['password'=>$pwd1], ['userid'=>$userid]);
+			return $response->getBody()->write('密码已修改!');
+		} else {
+			return $response->getBody()->write('原密码不正确!');
+		}
 	}
 }
 
@@ -67,28 +62,28 @@ function template($request, $response, $args) {
 
 
 function articles($request, $response, $args) {
-	$userid = Session::all('userid');
+	$userid = Session::get('userid');
+	$limit  = 10;
 
 	if ($request->isGet()) {
 		$c = DB::ins()->select('nb_user', ['userid'=>$userid], '', 'categories')->val();
 		return $this->container->get('view')->render($response, 'user/manage/articles.html',[
-			'categories' => explode(',', $c)
+			'categories'=> explode(',', $c),
+			'pages'		=> ['perItem'=>$limit]
 		]);
 
 	} else {
 		$input  = $request->getParsedBody();
 		$page   = $input['page'] ? (int)$input['page'] : 1;
-		$limit  = 10;
 		$offset = ($page-1) * $limit;
 		
 		if ($request->isPost()) {
 			
 			$where = DB::where([
 				'userid' => $userid,
-				'status' => $input['status'],
-				'category' => $input['category']
+				'category' => $input['category'],
+				'status' => $input['status']
 			]);
-
 			if (!empty($input['key'])) {
 				$where .= ' AND '.DB::like($input['range'], $input['key']);
 			}
@@ -101,7 +96,7 @@ function articles($request, $response, $args) {
 
 			return $response->withJson([
 				'articles' => DB::ins()->query($SQL)->rows(),
-				'pages' => ['perItem'=>$limit, 'totItem'=>DB::ins()->query($sql)->val()]
+				'pages'    => ['totItem'=>DB::ins()->query($sql)->val()]
 			]);
 
 		} else if ($request->isPut()) {
@@ -130,7 +125,7 @@ function articles($request, $response, $args) {
 
 
 function category($request, $response, $args) {
-	$userid = Session::all('userid');
+	$userid = Session::get('userid');
 
 	if ($request->isGet()) {
 		$c = DB::ins()->select('nb_user', ['userid'=>$userid], '', 'categories')->val();

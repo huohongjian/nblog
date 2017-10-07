@@ -13,7 +13,7 @@
 			<li><span>更新时间：{{article.newtime}}</span></li>
 
 			{% if article.userid == user.userid or (user.roleid and user.roleid < 3) %}
-			<li><a href="{{baseURL}}/user/article/edit/{{article.articleid}}">编辑</a></li>
+			<li><a href="../user/edit/{{article.articleid}}">编辑</a></li>
 			{% endif %}
 		</ul>
 	</header>

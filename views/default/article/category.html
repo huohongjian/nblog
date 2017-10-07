@@ -10,12 +10,13 @@
 
 
 {% block inRight %}
-<h4>您所浏览的类别 >> {{categoryName}}</h4>
+<h4>文章类别：{{categoryName}}</h4>
 
 <ul id="list" class="none"></ul>
 
 <span id="pagination" data-peritem="{{pages.perItem}}" data-totitem="{{pages.totItem}}"></span>
 {% endblock %}
+
 
 
 
@@ -29,11 +30,13 @@ var pagination = new Pagination({
 	totItem: R.id('pagination').dataset.totitem,
 	onclick: function(i){get(i)},
 });
-
+pagination.hide();
 
 
 function get(page) {
 	R.post('', {page: page}, function(data) {
+		pagination.reset(data.pages);
+		pagination.show();
 
 		var ul = R.id('list'),
 			ds = data.articles;

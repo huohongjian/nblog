@@ -1,50 +1,108 @@
 {% extends "layout.html" %}
 
 
-
-{% block inLeft %}
-
-
-<section class="text-center">
-	<img src="{{userphoto}}" />
-</section>
-
-
-<section>
-	<select>
-		<option value="title">标题</option>
-		<option value="keywords">关键字</option>
-		<option value="content">内容</option>
-	</select>
-	<input type="text" name="mysearch" placeholder="我的搜索" />
-</section>
-
-
-<section class="category">
-	<a href="{{baseURL}}/user/article/"><h3>我的类别</h3></a>
-	<ul class="hor p0">
-		{% for category in categories%}
-		<li><a href="{{baseURL}}/user/article/{{category}}">{{category}}</a></li>
-		{% endfor %}
-	</ul>
-</section>
+{% block toHead %}
+	<style type="text/css">
+		.userphoto{width:90%; max-width:150px;}
+	</style>
 {% endblock %}
 
+{% block inLeft %}
+<form id="mysearch">
+	<section class="text-center">
+		<img class="userphoto" src="{{userphoto}}" />
+	</section>
 
+
+	<section class="flex">
+		<select name="range">
+			<option value="title">标题</option>
+			<option value="content">内容</option>
+			<option value="keywords">关键字</option>
+		</select>
+		<input type="text" name="key" placeholder="我的搜索" class="flex-auto ml5"/>
+	</section>
+
+
+	<section>
+		<h3><a href="">我的类别</a></h3>
+		<ul id="categories" class="hor p0 poi">
+			{% for category in categories%}
+			<li>{{category}}</li>
+			{% endfor %}
+		</ul>
+	</section>
+
+	<input type="text" name="category" value="" hidden="true"/>
+	<input type="text" name="page" value="1" hidden="true"/>
+</form>
+{% endblock %}
 
 
 
 {% block inRight %}
-
-<h2>My Articles</h2>
-
-<ul class="none">
-{% for article in articles %}
-	<li><a href='{{baseURL}}/article/{{article.articleid}}'>{{article.title}}</a></li>
-{% endfor %}
-</ul>
+	<h4>文章类别：<span id="cat">全部</span></h4>
+	<ul id="list" class="none">
+		
+	</ul>
+	<span id="pagination" data-peritem={{pages.perItem}}></span>
 {% endblock %}
 
 
-	
 
+
+{% block toBody %}
+<script type="text/javascript" src="../../own/Pagination.js"></script>
+<script type="text/javascript">
+
+R.ONE('[name=key]').enter(function(e) {
+	getArticles(1);
+});
+
+R.id('categories').addEventListener('click', function(e) {
+	var o = (e||window.e).target;
+	if (o.tagName=='LI') {
+		var c = o.innerText;
+		R('[name=category]').value = c;
+		R.id('cat').innerHTML = c;
+		getArticles(1);
+	}
+}, false);
+
+
+var pagination = new Pagination({
+	container: '#pagination',
+	perItem: 	R.id('pagination').dataset.peritem,
+	onclick: 	function(i){ getArticles(i) },
+});
+pagination.hide();
+
+getArticles(1);
+
+function getArticles(page) {
+	R('[name=page]').value = page;
+
+	R.post('', R.fd('#mysearch'), function(data) {
+		pagination.reset(data.pages);
+		pagination.show();
+
+		var ul = R.id('list');
+		ul.innerHTML = '';
+		var articles = data.articles;
+		if (R.empty(articles)) return;
+
+		for (var i=0; i<articles.length; i++) {
+			var ca = articles[i];
+
+			var html = '<a href="../../article/' + ca[0] + '">';
+			html += R.empty(ca[2]) ? ca[1] : ca[2];
+			html += '</a>';
+
+			ul.appendChild(R.ce('li', {
+				innerHTML: html,
+			}));
+		}
+	}, 'json');
+}
+</script>
+{% endblock %}

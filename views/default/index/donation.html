@@ -79,7 +79,6 @@ var pagination = new Pagination({
 
 function get(page) {
 	R.post('', {page: page}, function(data) {
-//		pagination.refresh();
 
 		var o = R.id('donationTbody'),
 			d = data.donations;

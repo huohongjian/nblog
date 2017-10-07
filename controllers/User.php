@@ -2,37 +2,57 @@
 
 class User {
 
-	protected $container;
+protected $container;
 
-	// constructor receives container instance
-	public function __construct(Interop\Container\ContainerInterface $container) {
-		$this->container = $container;
-	}
+// constructor receives container instance
+public function __construct(Interop\Container\ContainerInterface $container) {
+	$this->container = $container;
+}
 
-	// 显示用户文章列表
-	public function index($request, $response, $args) {
-		$userid = Session::all('userid');
+// 用户文章列表
+function index($request, $response, $args) {
+	$userid = (int)Session::get('userid');
+	$limit = 20;
 
+	if ($request->isGet()) {
 		$user = DB::ins()->select('nb_user', ['userid'=>$userid], '', 'categories,photo')->one();
-		$arts = DB::ins()->select('nb_article', ['userid'=>$userid, 'category'=>$args['category']])->all();
-
 		return $this->container->get('view')->render($response, 'user/index.html', [
 			'userphoto' => $user['photo'],
 			'categories'=> explode(',', $user['categories']),
-			'articles' 	=> $arts
+			'pages'		=> ['perItem'=>$limit]
+		]);
+
+	} else if ($request->isPost()) {
+		$post = $request->getParsedBody();
+		$offset = ((int)$post['page'] - 1) * $limit;
+
+		$where = DB::where([
+			'userid'	=> $userid,
+			'category' 	=> $post['category'],
+		]) . " AND status<>'删除'";
+		if (!empty($post['key'])) {
+			$where .= ' AND '. DB::like($post['range'], $post['key']);
+		}
+		$sql = "SELECT count(*) FROM nb_article {$where}";
+		$SQL = "SELECT articleid, title, alias FROM nb_article {$where}
+				ORDER BY artid DESC LIMIT {$limit} OFFSET {$offset}";
+
+		return $response->withJson([
+			'articles' => DB::ins()->query($SQL)->rows(),
+			'pages' => ['totItem'=>DB::ins()->query($sql)->val()]
 		]);
 	}
 
-	public function manage($request, $response, $args) {
-		return $this->container->get('view')->render($response, 'user/layout.html', [
-			
-		]);
-		return $response;
-	}
 
-	public function editArticle($request, $response, $args) {
-		$roleid = Session::all('roleid') ?? 6;
-		$userid = Session::all('userid');
+}
+
+
+
+function edit($request, $response, $args) {
+	$roleid = Session::get('roleid') ?? 6;
+	$userid = Session::get('userid');
+
+	if ($request->isGet()) {
 		$id = $args['articleid'];
 
 		if (strlen($id)<13) {
@@ -40,31 +60,26 @@ class User {
 		} else {
 			$article = DB::ins()->select('nb_article', ['articleid'=>$id])->one();
 			if ($article['userid'] != $userid and $roleid>2) {
-				
-				return	$response->withStatus(303)->withHeader('Location', '/user/article/edit/new');
+				return	$response->withStatus(303)->withHeader('Location', '/user/edit/new');
 			}
 		}
 
 		$cats = DB::ins()->select('nb_user', ['userid'=>$userid], '', 'categories')->val();
-
-		$this->container->get('view')->render($response, 'user/bsdeditor.html', [
+		return $this->container->get('view')->render($response, 'user/bsdeditor.html', [
 			'categories' => explode(',', $cats),
 			'article' => $article,
-			'maxnum'  => 12,
+			'maxnum'  => 13,
 		]);
-		return $response;
-	}
 
-
-	public function saveArticle($request, $response, $args) {
+	} else if ($request->isPost()) {
 		$post = $request->getParsedBody();
 		
 		if (strlen($post['articleid'])<13) {
-			$post['userid'] = Session::all('userid');
-			$post['articleid'] = uniqid();
 			$sql = "UPDATE nb_user SET score=score+1 WHERE userid=$1";
-			DB::ins()->query2($sql, [$post['userid']]);
+			DB::ins()->query2($sql, [$userid]);
 
+			$post['userid'] = $userid;
+			$post['articleid'] = uniqid();
 			$articleid = DB::ins()->insert('nb_article', $post, 'RETURNING articleid')->val();
 			return $response->withJson([
 				'status'	=> 200,
@@ -73,8 +88,9 @@ class User {
 			]);
 		} else {
 			$post['newtime'] = date("Y-m-d h:i:s");
-			if ( DB::ins()->update('nb_article', $post, ['articleid'=>$post['articleid']])
-						  ->affectedRows() ) {
+			$r = DB::ins()->update('nb_article', $post, ['articleid'=>$post['articleid']])
+					->affectedRows();
+			if ($r>0) {
 				return $response->withJson([
 					'status'	=> 200,
 					'msg'		=> '文章保存成功!',
@@ -83,13 +99,12 @@ class User {
 			}
 				
 		}
-		return $response->withJson([
-				'status'	=> 400,
-				'msg'		=> '文章添加/保存失败!'
-			]);
-		return $response; //必须返回上一行
 	}
 
+
+
+
+}
 
 
    

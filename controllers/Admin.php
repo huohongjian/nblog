@@ -26,15 +26,17 @@ public function users($request, $response, $args) {
 
 
 function articles($request, $response, $args) {
-	$userid = (int)$GLOBALS['session']->userid;
+	$userid = Session::get('userid');
+	$limit  = 10;
 
 	if ($request->isGet()) {
-		return $this->container->get('view')->render($response, 'admin/articles.html', []);
+		return $this->container->get('view')->render($response, 'admin/articles.html', [
+			'pages' => ['perItem'=>$limit]
+		]);
 
 	} else {
 		$post  = $request->getParsedBody();
 		$page   = $post['page'] ?? 1;
-		$limit  = 10;
 		$offset = ($page-1) * $limit;
 		
 		if ($request->isPost()) {
@@ -61,7 +63,7 @@ function articles($request, $response, $args) {
 
 			return $response->withJson([
 				'articles' => DB::ins()->query($SQL)->rows(),
-				'pages' => ['perItem'=>$limit, 'totItem'=>DB::ins()->query($sql)->val()]
+				'pages' => ['totItem'=>DB::ins()->query($sql)->val()]
 			]);
 
 		} else if ($request->isPut()) {
@@ -147,7 +149,7 @@ function homepage($request, $response, $args) {
 		$n = ((int)substr($maxid, 20) + 10);
 		$newid = 'chinafreebsd-column-' . $n;
 		$title = 'column-' . $n;
-		$userid= Session::all('userid');
+		$userid= Session::get('userid');
 
 		$sql = "INSERT INTO nb_article (articleid, title, userid, columns, status) VALUES
 				('{$newid}', '{$title}', {$userid}, '首页栏目', '隐藏')

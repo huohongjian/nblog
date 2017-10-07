@@ -5,34 +5,25 @@ session_start();
 class Session {
     
 	static private $life = 60 * 60 * 6;
-	static private $params = false;
+	static private $data = false;
 
-	static function all($key='') {
-		if (self::$params===false) {
+	static function get($key='', $reload=false) {
+		if (self::$data===false or $reload===true) {
 			$time = date("Y-m-d H:i:s", time() - self::$life);
 			$SID  = session_id();
 			$sql  = "UPDATE nb_session SET logintime = current_timestamp 
 					 WHERE sessionid='$SID' AND logintime>'$time' 
 					 RETURNING data";
-			$json = DB::ins()->query($sql)->val();
-			self::$params = json_decode($json, true);
+			$v = DB::ins()->query($sql)->val();
+			self::$data = json_decode($v, true);
 		}
-		return $key=='' ? self::$params : self::$params[$key];
-	}
-
-	static function get($key) {
-		$time = date("Y-m-d H:i:s", time() - self::$life);
-		$SID  = session_id();
-		$sql  = "UPDATE nb_session SET logintime = current_timestamp 
-				 WHERE sessionid=$1 AND logintime>$2 
-				 RETURNING data->>$3";
-		return DB::ins()->query2($sql, [$SID, $time, $key])->val();
+		return $key=='' ? self::$data : self::$data[$key];
 	}
 	
 
-	static function set(array $kvs) {
+	static function set(array $params) {
 		$SID  = session_id();
-		$json = pg_escape_string(json_encode($kvs));
+		$json = pg_escape_string(json_encode($params));
 	    $sql  = "SELECT nb_session_upsert('$SID', '$json')";
 	    return DB::ins()->query($sql);
 	}
@@ -48,9 +39,9 @@ class Session {
 
 
 	static function clear() {
-		self::gc();
-		$SID = session_id();
-		$sql = "DELETE FROM nb_session WHERE sessionid='$SID'";
+		$SID  = session_id();
+		$time = date("Y-m-d H:i:s", time() - self::$life);
+		$sql  = "DELETE FROM nb_session WHERE sessionid='$SID' OR logintime<'{$time}'";
 		return DB::ins()->query($sql);
 	}
 	

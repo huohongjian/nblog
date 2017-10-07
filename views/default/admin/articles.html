@@ -75,7 +75,7 @@
 	</table>
 </form>
 
-<span id="pagination" data-curpage='1'></span>
+<span id="pagination" data-peritem={{pages.perItem}}></span>
 
 
 
@@ -97,12 +97,10 @@ R.one('[name=key]').focus();
 
 var pagination = new Pagination({
 	container: '#pagination',
-	perItem: 10,
-	onclick: function(index){
-		getArticles(index);
-	},
+	perItem: 	R.id('pagination').dataset.peritem,
+	onclick: 	function(i){ getArticles(i) },
 });
-
+pagination.hide();
 
 
 
@@ -110,7 +108,8 @@ function getArticles(page) {
 	R('[name=page]').value = page;
 
 	R.post('', R.fd('#searchForm'), function(data) {
-		pagination.refresh(data.pages);
+		pagination.reset(data.pages);
+		pagination.show();
 
 		var tbody = R.id('articles');
 		tbody.innerHTML = '';

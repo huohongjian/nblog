@@ -1,0 +1,54 @@
+html, body {margin: 0;}
+main.a {padding: 0 6px;}
+input[name=title],
+input[name=alias],
+input[name=caption],
+input[name=thumb], 
+textarea[name=caption] { width: 100%; box-sizing: border-box;}
+textarea[name=caption] { height:80px; }
+select,
+input[name=category] { width: 120px; }
+input[type=text]{padding:5px;}
+
+form[name=editForm] {overflow: hidden;}
+form[name=editForm] > p {margin:6px 0;}
+form[name=editForm] > p:first-child { margin: 0; }
+form[name=editForm] img { width: 200px; height: 150px; cursor: pointer; }
+
+.panel ul.text-left li { margin: 5px; }
+
+
+
+
+
+.ke-icon-bsdh1 {
+    background-image: url(/images/bsd.png);
+    background-position: 0, 0;
+    width: 24px;
+    height: 16px;
+}
+.ke-icon-bsdbox {
+    background-image: url(/images/bsd.png);
+    background-position: -24px, 0;
+    width: 24px;
+    height: 16px;
+}
+.ke-icon-bsdfmt{
+    background-image: url(/images/bsd.png);
+    background-position: -48px, 0;
+    width: 24px;
+    height: 16px;
+}
+.ke-icon-bsdclear{
+    background-image: url(/images/bsd.png);
+    background-position: -72px, 0;
+    width: 24px;
+    height: 16px;
+}
+.ke-icon-bsdhelp{
+    background-image: url(/images/bsd.png);
+    background-position: -96px, 0;
+    width: 24px;
+    height: 16px;
+}
+

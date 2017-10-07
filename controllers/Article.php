@@ -20,8 +20,8 @@ function index($request, $response, $args) {
 
 	return $this->container->get('view')->render($response, 'article/index.html', [
 		'article'=>$article,
-		'user' => [ 'userid'=>Session::all('userid'),
-					'roleid'=>Session::all('roleid')
+		'user' => [ 'userid'=>Session::get('userid'),
+					'roleid'=>Session::get('roleid')
 				  ]
 	]);
 }
@@ -57,11 +57,19 @@ function category($request, $response, $args) {
 	} else if ($request->isPost()) {
 		$page  = $request->getParsedBody()['page'];
 		$offset= ((int)$page - 1) * $limit;
-		
-		$rs = DB::ins()->select('nb_article', ['category'=>$args['key'], 'status'=>'公开'],
-				'ORDER BY articleid DESC LIMIT '.$limit.' OFFSET '.$offset, 'articleid, title, alias')->rows();
+
+		$where = DB::where([
+			'category'  =>$args['key'],
+			'status'	=>'公开',
+			'approved'  => 't'
+		]);
+		$sql = "SELECT count(*) FROM nb_article {$where}";
+		$SQL = "SELECT articleid, title, alias FROM nb_article {$where}
+				ORDER BY artid DESC LIMIT {$limit} OFFSET {$offset}";
+
 		return $response->withJson([
-			'articles' 	=> $rs
+			'articles' 	=> DB::ins()->query($SQL)->rows(),
+			'pages' 	=> ['totItem'=> DB::ins()->query($sql)->val()]
 		]);
 	}
 

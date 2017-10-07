@@ -24,17 +24,15 @@ header.a figure {display:table; margin:0;}
 header.a figure img {width:60px; margin:8px 8px 2px;}
 header.a figcaption {display:table-cell; vertical-align:middle; font-size: 28px;}
 
-header.a ul {float:right; position:relative; margin:3px;}
+header.a ul {margin:3px;}
 header.a li {margin-right:8px;}
-
-header.a [name=search] {height:12px; width:96px; font-size:12px; padding-right:20px;}
-header.a .icon-search { position:absolute; left:143px; bottom:0;}
+header.a [name=search] {height:12px; width:90px; font-size:12px; margin:4px;}
 
 
 nav.a {
 	border-bottom: 1px solid #BBBBBB;
-	background-image: -webkit-linear-gradient(to bottom, #F7F7F7, #DFDFDF);
-	background-image: linear-gradient(to bottom, #F7F7F7, #DFDFDF);
+	background-image:-webkit-linear-gradient(to bottom, #F7F7F7, #DFDFDF);
+	background-image:linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 }
 nav.a ul {padding: 4px;}
 nav.a li:not(:first-child):before{content:'|'; margin:20px;}
@@ -42,25 +40,25 @@ nav.a a {font-weight: bold;}
 nav.a {margin-bottom: 15px;}
 
 main.a section li a {
-	text-overflow:ellipsis;display:block;overflow:hidden;white-space:nowrap;
+	text-overflow:ellipsis; display:block; overflow:hidden; white-space:nowrap;
 }
 
 
 main.a img.home-thumb {
-	float: left; width: 120px; margin:8px 5px 5px 0;
+	float:left; width:120px; margin:8px 5px 5px 0;
 }
 
 
 
 
-footer.a {text-align: center;}
+
 
 
 /* for admin-page edit-page */
 .admin-page header { padding: 10px; }
-.admin-page .left-frame header { text-align: center; }
-.admin-page header ul { margin: 0; padding: 0; }
-.admin-page header ul li { display: inline; text-align: center; padding: 0 10px;}
+.admin-page .left-frame header { text-align:center; }
+.admin-page header ul { margin:0; padding:0; }
+.admin-page header ul li { display:inline; text-align:center; padding:0 10px;}
 
 
 
@@ -80,18 +78,12 @@ article.detail > section {margin: 0 2%;}
 
 /*home-page section*/
 section {padding:5px 12px; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
-/*.left section img {width:150px;}
-.left section input {width: calc(100% - 80px);}
-
-section.category > a > h3 {border-bottom:1px solid gray; padding:0 8px 10px;}*/
-
-
 
 
 
 /* for user/manage/userinfo */
 .right fieldset{margin: 20px;}
-.right fieldset label {width:90px; display: inline-block; text-align: right;}
+.right fieldset label {width:120px; display: inline-block; text-align: right;}
 
 
 /* for admin article manage*/
