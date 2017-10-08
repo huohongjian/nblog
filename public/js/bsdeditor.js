@@ -152,8 +152,8 @@ KindEditor.plugin('bsdbox', function(K) {
 			click : function() {click('<div class="screen"></div>');}
 		});
 		menu.addItem({
-			title : '命令行格式',
-			click : function() {click('<div class="screen"><pre></pre></div>');}
+			title : '命令输入行格式',
+			click : function() {click('<strong class="userinput"><code></code></strong>');}
 		});
 
 	});
