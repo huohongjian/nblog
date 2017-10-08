@@ -119,14 +119,14 @@ body address {
 	line-height: 1.2;
 }*/
 
-/*@media screen {
+@media screen {
 	html body { font-family: sans-serif; }
 }
 
 @media print {
 	html body { font-family: serif; }
 }
-*/
+
 .legalnotice {
 	font-size: small;
 	font-variant: small-caps;
@@ -286,7 +286,7 @@ html {
 }
 div.screen,
 pre.screen {
-/*	white-space: pre;*/
+	white-space: pre;
 	overflow: auto;
 	font-family: monospace;
 	padding: 1em;
