@@ -209,6 +209,8 @@ KindEditor.ready(function(K) {
 		uploadJson : 		'../../js/kindeditor/php/upload_json.php',
 		fileManagerJson : 	'../../js/kindeditor/php/file_manager_json.php',
 		allowFileManager : true,
+
+		filterMode : false,
 		cssData: 'html {background:#FBFBFB; height:100%;}\
 				  body{ background: #fff;\
 					border:1px solid #CCCCCC;\
