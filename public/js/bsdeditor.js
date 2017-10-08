@@ -188,9 +188,8 @@ KindEditor.plugin('bsdfmt', function(K) {
 		});
 		menu.addItem({
 			title : '文件名',
-			click : function() {click('<span class="filename"></span>');}
+			click : function() {click('<code class="filename"></code>');}
 		});		
-
 
 	});
 });

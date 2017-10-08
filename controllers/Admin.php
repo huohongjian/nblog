@@ -97,7 +97,7 @@ function categories($request, $response, $args) {
 	if ($request->isGet()) {
 
 		return $this->container->get('view')->render($response, 'admin/categories.html', [
-			'categories' => DB::ins()->select('nb_column', ['parentid'=>3], 'ORDER BY odr,columnid', 'name')->all()
+			'categories' => DB::ins()->select('nb_category', [], 'ORDER BY categoryid', 'name')->all()
 		]);
 
 
