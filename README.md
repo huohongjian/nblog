@@ -52,3 +52,11 @@
 
 
 ### 安装nblog
+
+1. 下载 git clone git://github.com/huohongjian/nblog
+2. cd nblog
+3. 安装依赖 composer install
+4. 设置数据库用户密码
+	psql -U pgsql -d postgres
+	postgres=# \password pgsql
+5. 安装数据

@@ -1,6 +1,6 @@
 /*
 	database: 	nblog
-	date:		2017-09-12
+	date:		2017-10-08
 	author:		huohongjian
 */
 
@@ -57,20 +57,17 @@ INSERT INTO nb_donation(donor, amount, donations, remark) VALUES
 
 
 
-/*
+
 DROP TABLE IF EXISTS nb_suggest CASCADE;
 DROP SEQUENCE IF EXISTS nb_suggest_seq;
 CREATE SEQUENCE nb_suggest_seq;
 CREATE TABLE IF NOT EXISTS nb_suggest (
 	suggestid 	integer NOT NULL DEFAULT nextval('nb_suggest_seq'),
-	content 	varchar(32) NOT NULL default '',
-	money		
+	content 	varchar(128) NOT NULL default '',
 	answer		text NOT NULL default '',
 	addtime		timestamp(0) without time zone NOT NULL DEFAULT now(),
 	CONSTRAINT nb_suggest_pkey PRIMARY KEY (suggestid)
 );
-
-*/
 
 
 
@@ -144,7 +141,6 @@ INSERT INTO nb_category (name) VALUES
 
 
 
-
 DROP TABLE IF EXISTS nb_column CASCADE;
 DROP SEQUENCE IF EXISTS nb_column_seq;
 CREATE SEQUENCE nb_column_seq;
@@ -158,27 +154,6 @@ INSERT INTO nb_column (name) VALUES
 ('首页栏目'),
 ('系统文章'),
 ('其他');
-
-/*
-
-
-DROP TABLE IF EXISTS nb_status CASCADE;
-DROP SEQUENCE IF EXISTS nb_status_seq;
-CREATE SEQUENCE nb_status_seq;
-CREATE TABLE IF NOT EXISTS nb_status (
-	statusid 	integer NOT NULL DEFAULT nextval('nb_status_seq'),
-	name 		varchar(32) NOT NULL default '',
-	remark		text,
-	CONSTRAINT nb_status_pkey PRIMARY KEY (statusid)
-);
-
-INSERT INTO nb_status (name, remark) VALUES
-('推荐', '向管理员推荐此文，并在用户推荐栏中显示。'),
-('公开', '任何人都可浏览、可搜索。'),
-('隐藏', '只有用户可浏览、可搜索，其他人不可浏览、不可搜索。'),
-('删除', '用户也不可浏览、不可搜索，但可通过文章管理更改状态。');
-
-
 
 
 
@@ -196,6 +171,8 @@ CREATE TABLE IF NOT EXISTS nb_comment (
 	CONSTRAINT nb_comment_pkey PRIMARY KEY (commentid)
 );
 CREATE INDEX nb_comment_artid ON nb_comment (artid);
+
+
 
 
 DROP TABLE IF EXISTS nb_session CASCADE;
@@ -227,6 +204,8 @@ $body$ LANGUAGE 'plpgsql';
 
 
 
+
+
 DROP TABLE IF EXISTS nb_role CASCADE;
 DROP SEQUENCE IF EXISTS nb_role_seq;
 CREATE SEQUENCE nb_role_seq;
@@ -246,7 +225,7 @@ INSERT INTO nb_role VALUES
 (6,'anon',		'匿名用户');
 
 
-*/
+
 
 
 -- TABLE: nb_user  用户表
@@ -285,6 +264,14 @@ INSERT INTO nb_user(name, login, password, roleid, email)  VALUES
 
 UPDATE nb_user SET 
 categories='系统手册,环境变量,桌面应用,服务应用,网络应用,内核模块,存储安全,脚本工具,源码实例,其他';
+
+
+
+
+
+
+
+
 
 
 

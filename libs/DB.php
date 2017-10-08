@@ -23,8 +23,8 @@ class DB {
 		$cns =  ['default' =>  'host 	= 127.0.0.1
 				 				port 	= 5432
 				 				dbname	= nblog
-				 				user 	= postgres
-				 				password = '
+				 				user 	= pgsql
+				 				password = pgsql;'
 				];
 		try {
 			$this->conn = @pg_connect($cns[$f]);
