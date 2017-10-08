@@ -111,3 +111,17 @@ table.article tr td:nth-child(5),
 table.article tr td:nth-child(7),
 table.article tr td:nth-child(10){text-align:center;}
 
+
+
+
+/*返回顶部*/
+.back-to-top {
+	opacity: 0;
+	color: #990000;
+	position: fixed;
+	bottom: 40px;
+	right: 40px;
+	font-size: 30px;
+	cursor: pointer;
+	transition: opacity 0.8s ease 0s;
+}

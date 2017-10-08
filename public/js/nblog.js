@@ -11,8 +11,31 @@ if (R.one('header.a input[name=search]')) {
 	R.ONE('header.a input[name=search]').enter(function(e){
 		window.location.href = '/article/search/' + e.target.value;
 	});
-	R.one('header.a input[name=search]').focus();
+//	R.one('header.a input[name=search]').focus();
 }
 
+
+
+(function(){
+	var o=R.id('gotop');
+	if(o){
+		o.onclick = function(){
+			var a = R.getScrollTop();
+			var int = setInterval(function(){
+				a = a>200 ? a-200 : 0;
+				if(a==0) clearInterval(int);
+				R.setScrollTop(a);
+			},20);
+		};
+
+		window.onscroll = function() {
+			if(R.getScrollTop() > 100){
+				o.style.opacity = 0.4;
+			}else{
+				o.style.opacity = 0;
+			}
+		};
+	}
+})();
 
 
