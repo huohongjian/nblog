@@ -33,22 +33,21 @@ KindEditor.plugin('bsdh1', function(K) {
 	function click(value) {
 
 		
-		var body = self.edit.doc.body,
-			scrollTop = body.scrollTop;
+		// var body = self.edit.doc.body,
+		// 	scrollTop = body.scrollTop;
 
 
-		self.exec('formatblock', '<' + value + '>').hideMenu();
+		// self.exec('formatblock', '<' + value + '>').hideMenu();
 
-		var range = self.cmd.range;
-		range.startContainer.className = 'title';
-		body.scrollTop = scrollTop;
+		// var range = self.cmd.range;
+		// range.startContainer.className = 'title';
+		// body.scrollTop = scrollTop;
 
-		return;
+		// return;
 
 
 		var cmd = self.cmd;
-//		self.select().exec('formatblock', '<h2>').hideMenu();
-		cmd.wrap(value).select();
+		cmd.wrap(value);
 		cmd.select();
 		self.hideMenu();
 	}
@@ -59,23 +58,23 @@ KindEditor.plugin('bsdh1', function(K) {
 		});
 		menu.addItem({
 			title : '章节主标题',
-			click : function() {click('h2');}
+			click : function() {click('<h2 class="title"></h2>');}
 		});
 		menu.addItem({
 			title : '章节二级标题',
-			click : function() {click('h3');}
+			click : function() {click('<h3 class="title"></h3>');}
 		});
 		menu.addItem({
 			title : '章节三级标题',
-			click : function() {click('h4');}
+			click : function() {click('<h4 class="title"></h4>');}
 		});		
 		menu.addItem({
 			title : '章节四级标题',
-			click : function() {click('h5');}
+			click : function() {click('<h5 class="title"></h5>');}
 		});
 		menu.addItem({
 			title : '章节五级标题',
-			click : function() {click('h6');}
+			click : function() {click('<h6 class="title"></h6>');}
 		});
 		menu.addItem({
 			title : '正文',
@@ -154,11 +153,7 @@ KindEditor.plugin('bsdbox', function(K) {
 		});
 		menu.addItem({
 			title : '命令行格式',
-			click : function() {
-				// self.insertHtml('<b>'+self.selectedHtml() +'</b>').hideMenu();
-				// return;
-
-				click('<b></b>');}
+			click : function() {click('<div class="screen"><pre></pre></div>');}
 		});
 
 	});
