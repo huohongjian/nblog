@@ -39,9 +39,9 @@ nav.a li:not(:first-child):before{content:'|'; margin:20px;}
 nav.a a {font-weight: bold;}
 nav.a {margin-bottom: 15px;}
 
-main.a section li a {
+/*main.a section li a {
 	text-overflow:ellipsis; display:block; overflow:hidden; white-space:nowrap;
-}
+}*/
 
 
 main.a img.home-thumb {

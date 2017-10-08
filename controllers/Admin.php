@@ -181,22 +181,27 @@ function homepage($request, $response, $args) {
 
 
 function install($request, $response, $args) {
-	echo '开始初始化数据库...<br><br><br>';
 
-	$content = "";
-	$handle = fopen("..//sql//install.sql", "r");
-//		$handle = fopen("..//sql//article.sql", "r");
-	while (!feof($handle)) {
-		$content .= fread($handle, 4096); //4096B
-	}
-	fclose($handle);
-	$content = str_replace("\r", "\n", $content);
+	echo '请与管理员联系...';
+	return false;
 
-	DB::ins()->query($content);
 
-	echo '数据库初始化完毕<br>';
 
-	return $response;
+	// echo '开始初始化数据库...<br><br><br>';
+
+	// $content = "";
+	// $handle = fopen("..//sql//install.sql", "r");
+	// while (!feof($handle)) {
+	// 	$content .= fread($handle, 4096); //4096B
+	// }
+	// fclose($handle);
+	// $content = str_replace("\r", "\n", $content);
+
+	// DB::ins()->query($content);
+
+	// echo '数据库初始化完毕<br>';
+
+	// return $response;
 }
 
    

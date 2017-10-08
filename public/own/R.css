@@ -1,6 +1,8 @@
-@import url(http://fonts.googleapis.com/css?family=Quicksand:300,400,700);
-body{font-family: Quicksand, sans-serif; font-size:16px; }
+/*@import url(http://fonts.googleapis.com/css?family=Quicksand:300,400,700);*/
+
+body{font-family: Quicksand, sans-serif; font-size:16px;}
 body,a{color:#575757;}
+body,li{ line-height: 1.4;}
 a{text-decoration:none;transition:all 0.1s ease-in 0s;}
 h1{margin:18px 0;}h2{margin:16px 0;}h3{margin:14px 0;}h4{margin:12px 0;}h5{margin:10px 0;}h6{margin:8px 0;}
 textarea,input{border:1px solid #ddd;padding:3px;}textarea{resize:vertical;}
@@ -11,6 +13,7 @@ select{border:1px solid #ddd;}
 	color:#fff;border:0;cursor:pointer;background-color:#337ab7;
 	padding:4px 15px;margin:4px;font-weight:bold;width:auto;border-radius: 3px
 }
+
 /* horizontal display*/
 ul.hor, ul.none, ul.circle {padding:0; margin:0;}
 ul.hor>li {list-style-type:circle; display:inline-block; padding:1px 8px 1px 0;}

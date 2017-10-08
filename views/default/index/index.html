@@ -11,7 +11,6 @@
 
 {% block inLeft %}
 
-
 <section>
 	<h3>系统下载</h3>
 	FreeBSD 11.1-RELEASE <br/>
@@ -39,41 +38,21 @@
 {% endblock %}
 
 
+
+
 {% block inRight %} {% autoescape false %}
 
 <div class="flex">
-
 	{% for c in columns if c.content %}
 	<section class="a-1-1 d-1-2 f-1-3">
 		{% if c.thumb!='' %} <img src="{{c.thumb}}" class="home-thumb"/> {% endif %}
 		{{c.content}}
 	</section>
 	{% endfor %}
-
 </div>
+
 <div>
-
-{% include "public/site-navigation.html" %}
-
-
-<!-- 
-
-	<section class="a-1-1">
-		<h3>资源链接</h3>
-		<ul class="hor">
-			<li><a href="http://pubs.vmware.com/vsphere-50/index.jsp" target="_blank">
-			vSphere 5 文档中心</a></li>
-			<li><a href="http://wiki.ubuntu.org.cn" target="_blank">ubuntu</a></li>
-			<li><a href="http://blog.csdn.net/zhjhwer/article/details/51470185"> php pgsql的常用函数 </a></li>
-			<li><a href="http://m.blog.csdn.net/u011630575/article/details/49153597">使用字体</a></li>
-			<li><a href="http://www.cnblogs.com/zhouhuan/p/vertical_center.html">CSS垂直居中的11种实现方式</a></li>
-			<li><a href="http://www.cnblogs.com/hz1124/p/6090835.html">HTML5新增标签与属性</a></li>
-			<li><a href="http://kindeditor.net/docs/index.html">kindeditor文档</a></li>
-			<li><a href="http://wiki.ubuntu.org.cn/">ubuntu</a></li>
-				<li><a href="https://www.chinafreebsd.cn/index.php?title=WiKi%E8%AF%AD%E6%B3%95">freebsd样式</a></li>
-		</ul>
-	</section>
- -->
+	{% include "public/site-navigation.html" %}
 </div>
 
 {% endautoescape %} {% endblock %}

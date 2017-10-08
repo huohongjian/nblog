@@ -212,9 +212,9 @@ KindEditor.ready(function(K) {
 		cssData: 'html {background:#FBFBFB; height:100%;}\
 				  body{ background: #fff;\
 					border:1px solid #CCCCCC;\
-					height:auto; min-height:calc(100% - 122px);\
-					margin:30px 4%;\
-					padding:30px 6%;\
+					height:auto; min-height:80%;\
+					margin:20px 4%;\
+					padding:20px 6%;\
 				}',
 		items : ['source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
 		'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',

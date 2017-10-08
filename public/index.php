@@ -37,7 +37,7 @@ $container['view'] = function($c) {
 	$port 	 = $uri->getPort() ;
 	if ($port) $port = ':'.$port;
 
-	$scheme = 'https';
+//	$scheme = 'https';
 	$baseUrl = $scheme."://".$host.$port.$path;
 	
 //	echo dirname($_SERVER['PHP_SELF']) . '/';
