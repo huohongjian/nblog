@@ -10,7 +10,7 @@
 
 ### 安装配置PHP
 
-1. pkg install php71 php71-extensions
+1. pkg install php71 php71-extensions php71-gd
 2. vi /usr/local/etc/nginx/nginx.conf
 3. echo 'php_fpm_enable="YES" >> /etc/rc.conf'
 4. service php-fpm onestart
@@ -59,4 +59,8 @@
 4. 设置数据库用户密码
 	psql -U pgsql -d postgres
 	postgres=# \password pgsql
-5. 安装数据
+5. 创建数据库
+	CREATE DATABASE nblog OWNER pgsql;
+6. 安装数据
+	http://localhost/admin/install
+

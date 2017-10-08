@@ -1,3 +1,4 @@
 /vendor/*
 /cache/*
+/public/upload/*
 composer.lock
