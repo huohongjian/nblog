@@ -148,6 +148,10 @@ KindEditor.plugin('bsdbox', function(K) {
 			click : function() {click('<div class="caution"></div>');}
 		});
 		menu.addItem({
+			title : '程序配置框',
+			click : function() {click('<pre class="programlisting"></pre>');}
+		});
+		menu.addItem({
 			title : '命令输出框',
 			click : function() {click('<pre class="screen"></pre>');}
 		});
@@ -206,7 +210,6 @@ KindEditor.ready(function(K) {
 
 		filterMode : false,
 		cssData: 'html {background:#FBFBFB; height:100%;}\
-				  body,li{line-height:1.4;}\
 				  body{ background: #fff;\
 					border:1px solid #CCCCCC;\
 					height:auto; min-height:80%;\
