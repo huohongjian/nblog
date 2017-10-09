@@ -215,6 +215,10 @@ KindEditor.ready(function(K) {
 					height:auto; min-height:80%;\
 					margin:20px 4%;\
 					padding:20px 6%;\
+					display:block;\
+				}\
+				a:link {color:#0645AD; text-decoration:underline;}\
+				a:visited,a:hover,a:active{color:#663366; text-decoration:underline;\
 				}',
 		items : ['source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
 		'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',

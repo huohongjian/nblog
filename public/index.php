@@ -41,8 +41,9 @@ $container['view'] = function($c) {
 	// $baseUrl = $scheme."://".$host.$port.$path;
 
 	$url = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-	$baseUrl = strstr($url, 'index.php', true);
-	
+
+
+	$baseUrl = strstr($url, '/index.php', true);
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
 	$view->getEnvironment()->addGlobal('sUser',   Session::get());
 	return $view;

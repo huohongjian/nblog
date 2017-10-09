@@ -34,7 +34,7 @@ nav.a {
 	background-image:-webkit-linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 	background-image:linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 }
-nav.a ul {padding: 4px;}
+nav.a ul {padding: 2px;}
 nav.a li:not(:first-child):before{content:'|'; margin:20px;}
 nav.a a {font-weight: bold;}
 nav.a {margin-bottom: 15px;}

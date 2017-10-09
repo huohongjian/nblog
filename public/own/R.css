@@ -1,8 +1,7 @@
 /*@import url(http://fonts.googleapis.com/css?family=Quicksand:300,400,700);*/
 
-body{font-family: Quicksand, sans-serif; font-size:16px;}
 body,a{color:#575757;}
-body,li{ line-height:1.4;}
+body,li{line-height:1.2;}
 a{text-decoration:none;transition:all 0.1s ease-in 0s;}
 h1{margin:18px 0;}h2{margin:16px 0;}h3{margin:14px 0;}h4{margin:12px 0;}h5{margin:10px 0;}h6{margin:8px 0;}
 textarea,input{border:1px solid #ddd;padding:3px;}textarea{resize:vertical;}

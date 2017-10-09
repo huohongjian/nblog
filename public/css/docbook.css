@@ -34,15 +34,15 @@
 	font-weight: bold;
 }
 
-/*a:link {
+article.detail a:link {
 	color:#0645AD;
 	text-decoration: underline;
 }
 
-a:visited, a:hover, a:active {
+article.detail a:visited, a:hover, a:active {
 	color:#663366;
 	text-decoration: underline;
-}*/
+}
 
 div.blockquote-title {
 	font-weight: bold;
@@ -114,10 +114,10 @@ body address {
 	margin: .6em 0;
 }
 
-/*html body {
-	margin: 1em 8% 1em 10%;
+html body {
+/*	margin: 1em 8% 1em 10%;*/
 	line-height: 1.2;
-}*/
+}
 
 @media screen {
 	html body { font-family: sans-serif; }
@@ -401,7 +401,7 @@ pre.programlisting {
 	font-family: monospace;
 	font-style:  italic;
 }
-div.screen strong, /*hhj add*/
+
 pre.screen strong {
 	font-family: monospace;
 	font-weight: normal;
