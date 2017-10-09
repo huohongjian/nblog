@@ -29,18 +29,20 @@ $container['view'] = function($c) {
 	$basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
 	$view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
 
-	$request = $c->request;
-	$uri 	 = $request->getUri();
-	$scheme  = $uri->getScheme();
-	$host 	 = $uri->getHost();
-	$path 	 = $uri->getBasePath();
-	$port 	 = $uri->getPort() ;
-	if ($port) $port = ':'.$port;
+	// $request = $c->request;
+	// $uri 	 = $request->getUri();
+	// $scheme  = $uri->getScheme();
+	// $host 	 = $uri->getHost();
+	// $path 	 = $uri->getBasePath();
+	// $port 	 = $uri->getPort() ;
+	// if ($port) $port = ':'.$port;
 
-	$scheme = 'https';
-	$baseUrl = $scheme."://".$host.$port.$path;
+	// $scheme = 'https';
+	// $baseUrl = $scheme."://".$host.$port.$path;
+
+	$url = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+	$baseUrl = strstr($url, 'index.php', true);
 	
-//	echo dirname($_SERVER['PHP_SELF']) . '/';
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
 	$view->getEnvironment()->addGlobal('sUser',   Session::get());
 	return $view;

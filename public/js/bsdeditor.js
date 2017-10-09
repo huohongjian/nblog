@@ -149,7 +149,7 @@ KindEditor.plugin('bsdbox', function(K) {
 		});
 		menu.addItem({
 			title : '命令输出框',
-			click : function() {click('<div class="screen"></div>');}
+			click : function() {click('<pre class="screen"></pre>');}
 		});
 		menu.addItem({
 			title : '命令输入行格式',
@@ -206,6 +206,7 @@ KindEditor.ready(function(K) {
 
 		filterMode : false,
 		cssData: 'html {background:#FBFBFB; height:100%;}\
+				  body,li{line-height:1.4;}\
 				  body{ background: #fff;\
 					border:1px solid #CCCCCC;\
 					height:auto; min-height:80%;\
