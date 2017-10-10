@@ -1,10 +1,10 @@
 <ul class="login-bar p0">
-	{% if sUser.login %}
-	<li><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"></i> {{sUser.login}}</a></li>
+	{% if USER.login %}
+	<li><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"></i> {{USER.login}}</a></li>
 	<li><a href="{{baseURL}}/user/edit/new">添加</a></li>
 	<li><a href="{{baseURL}}/user/manage/">管理</a></li>
 
-	{% if sUser.roleid<=2 %}
+	{% if USER.roleid<=2 %}
 	<li><a href="{{baseURL}}/admin/">系统</a></li>
 	{% endif %}
 

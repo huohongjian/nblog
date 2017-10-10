@@ -219,8 +219,13 @@ class DB {
 	}
 
 
-	static function like($k, $v) {
-		return self::clear($k) . ' LIKE ' . self::escape('%'.$v.'%');
+	static function like($k, $v, $ignore=true) {
+		if ($ignore) {
+			return self::clear($k) . ' ~* ' . self::escape($v);
+		} else {
+			return self::clear($k) . ' LIKE ' . self::escape('%'.$v.'%');
+		}
+		
 	}
 
 	static function struck(array $data, $exEmpty=false) {

@@ -5,8 +5,6 @@ header.a,footer.a{flex: 0 0 auto;}
 main{flex:1 0 auto;}
 
 
-
-
 header.a li,
    nav.a li{list-style-type:circle; display:inline-block;}
 
@@ -19,8 +17,9 @@ header.a, .panel > header {
 
 
 header.a a:link, header.a a:visited, header.a a:hover, header.a a:active{
-	color:#fff; font-weight:bolder; text-decoration:none;
+	color:#fff; font-weight:bolder; text-decoration:none; background: inherit;
 }
+
 
 header.a figure {display:table; margin:0;}
 header.a figure img {width:60px; margin:8px 8px 2px;}
@@ -28,7 +27,8 @@ header.a figcaption {display:table-cell; vertical-align:middle; font-size: 28px;
 
 header.a ul {margin:4px;}
 header.a li {margin-right:8px;}
-header.a [name=search] {height:12px; width:90px; font-size:12px; margin:4px;}
+header.a form{margin:0;}
+header.a [name=key] {height:12px; width:90px; font-size:12px; margin:4px;}
 
 
 nav.a {
@@ -44,25 +44,20 @@ main.a section > img.home-thumb {
 	float:left; width:120px; margin:8px 5px 5px 0;
 }
 
-main > .left, main > .right, section {
+main.a > .left, main.a > .right, section {
 	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;
 	padding:10px;
 }
+main.b > .left {
+	padding: 0;
+}
 
-/*home-page section*/
-/*section.news {
-	padding:10px; 
-	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;
-}*/
 
 
 
 /* for user/manage/userinfo */
 .right fieldset{margin: 20px;}
 .right fieldset label {width:120px; display: inline-block; text-align: right;}
-
-
-
 
 
 

@@ -19,7 +19,7 @@
 <body>
 
 
-{% block Header %}<header class="a flex decoration-none">{% block inHeader %}
+{% block Header %}<header class="a flex">{% block inHeader %}
 <div class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80 g-m-120">
 	<figure>
 		<img src="{{baseURL}}/images/logo1.png">
@@ -28,7 +28,9 @@
 </div>
 
 <div class="margin-left-auto flex">
-	<input type="text" name="search" placeholder="全站搜索">
+	<form action="/search">
+		<input type="text" name="key" placeholder="标题搜索"/>
+	</form>
 	{% include "public/login-bar.html" %}
 </div>
 {% endblock %}</header>{% endblock %}
@@ -39,7 +41,7 @@
 {% block Nav %}<nav class="a decoration-none">{% block inNav %}
 <ul class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80 g-m-120">
 	<li><a href="{{baseURL}}/">首页</a></li>
-	<li><a href="{{baseURL}}/article/category/">文档</a></li>
+	<li><a href="{{baseURL}}/search">文档</a></li>
 	<li><a href="{{baseURL}}/article/chinafreebsd-resouce">本站源</a></li>
 	<li><a href="{{baseURL}}/article/chinafreebsd-memorabilia">大事记</a></li>
 	<li><a href="{{baseURL}}/article/chinafreebsd-about">关于</a></li>

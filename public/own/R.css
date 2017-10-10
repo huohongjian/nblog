@@ -3,12 +3,14 @@
 body,a{color:#575757;}
 li{line-height:1.3;}
 
-.decoration-none a:link{color:#575757;text-decoration:none;transition:all 0.1s ease-in 0s;}
-@media screen {  /* hide from IE3 */
-	.decoration-none a[href]:hover { background: inherit; }
-}
+.decoration-none a:link,
+.decoration-none a:visited,
+.decoration-none a:hover,
+.decoration-none a:active {color:#575757; text-decoration:none;}
+@media screen{.decoration-none a[href]:hover{background: inherit;}}
 
-h1{margin:18px 0;}h2{margin:16px 0;}h3{margin:14px 0;}h4{margin:12px 0;}h5{margin:10px 0;}h6{margin:8px 0;}
+
+h1{margin:16px 0;}h2{margin:14px 0;}h3{margin:12px 0;}h4{margin:10px 0;}h5{margin:8px 0;}h6{margin:6px 0;}
 textarea,input{border:1px solid #ddd;padding:3px;}textarea{resize:vertical;}
 
 select{border:1px solid #ddd;}

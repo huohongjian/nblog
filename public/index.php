@@ -44,7 +44,7 @@ $container['view'] = function($c) {
 	$baseUrl = strstr($url, '/index.php', true);
 
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
-	$view->getEnvironment()->addGlobal('sUser',   Session::get());
+	$view->getEnvironment()->addGlobal('USER',   Session::get());
 	return $view;
 };
 
@@ -58,15 +58,16 @@ $app->post('/checkLoginName',	'Index:hasSameUser');
 $app->any('/suggest',			'Index:suggest');
 $app->any('/donation',			'Index:donation');
 
+$app->get('/article/{articleid}', 'Index:article');
 $app->any('/category[/{key}]',	'Index:category');
 $app->any('/search',			'Index:search');
 
 
-$app->group('/article', function() use ($app) {
-	$app->get('/{articleid}',			Article::class.':index');
-	$app->get('/search/[{key}]',		Article::class.':search');
-	$app->any('/category/[{key}]',		Article::class.':category');
-});
+// $app->group('/article', function() use ($app) {
+// 	$app->get('/{articleid}',			Article::class.':index');
+// 	$app->get('/search/[{key}]',		Article::class.':search');
+// 	$app->any('/category/[{key}]',		Article::class.':category');
+// });
 
 
 $app->group('/user', function() use ($app) {

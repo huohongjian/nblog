@@ -1,7 +1,6 @@
 <section>
-	<h3>站点导航</h3>
+	<h3 class="decoration-none"><a href="{{baseURL}}/search">站点导航</a></h3>
 	<ul class="hor">
-		<li><a href="{{baseURL}}/search">全部类别</a></li>
 		{% for a in categories %}
 		<li><a href="{{baseUrl}}/search?category={{a.name}}">{{a.name}}</a></li>
 		{% endfor %}

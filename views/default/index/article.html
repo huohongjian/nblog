@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+
+
+{% block inMain %} {% autoescape false %}
+
+<article class="detail mt30 b-p-5 c-p-20 d-p-50 e-p-80 f-p-120">
+	<header>
+		<h2>{{article.title}}</h2>
+		<ul class="hor border-tl p0 pt20">
+			<li><span>贡献者：{{article.username}}</span></li>
+			<li><span>阅读：{{article.counter}}</span></li>
+			<li><span>更新时间：{{article.newtime}}</span></li>
+
+			{% if article.userid == USER.userid or (USER.roleid and USER.roleid < 3) %}
+			<li><a href="../user/edit/{{article.articleid}}">编辑</a></li>
+			{% endif %}
+		</ul>
+	</header>
+
+	<section>
+		{{ article.content }}
+	</section>
+</article>
+
+
+{% endautoescape %} {% endblock %}

@@ -7,12 +7,12 @@
 // });
 
 
-if (R.one('header.a input[name=search]')) {
-	R.ONE('header.a input[name=search]').enter(function(e){
-		window.location.href = '/article/search/' + e.target.value;
-	});
-//	R.one('header.a input[name=search]').focus();
-}
+// if (R.one('header.a input[name=search]')) {
+// 	R.ONE('header.a input[name=search]').enter(function(e){
+// 		window.location.href = '/article/search/' + e.target.value;
+// 	});
+// //	R.one('header.a input[name=search]').focus();
+// }
 
 
 
