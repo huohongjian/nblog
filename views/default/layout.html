@@ -19,8 +19,8 @@
 <body>
 
 
-{% block Header %}<header class="a flex">{% block inHeader %}
-<div class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-70">
+{% block Header %}<header class="a flex decoration-none">{% block inHeader %}
+<div class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80 g-m-120">
 	<figure>
 		<img src="{{baseURL}}/images/logo1.png">
 		<figcaption><a href="{{baseURL}}">China FreeBSD</a></figcaption>
@@ -36,8 +36,8 @@
 
 
 
-{% block Nav %}<nav class="a">{% block inNav %}
-<ul class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80">
+{% block Nav %}<nav class="a decoration-none">{% block inNav %}
+<ul class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80 g-m-120">
 	<li><a href="{{baseURL}}/">首页</a></li>
 	<li><a href="{{baseURL}}/article/category/">文档</a></li>
 	<li><a href="{{baseURL}}/article/chinafreebsd-resouce">本站源</a></li>
@@ -50,7 +50,7 @@
 
 
 
-{% block Main %}<main class="a flex b-m-0 c-m-5 d-m-50 e-m-80">{% block inMain %}
+{% block Main %}<main class="a flex a-m-0 d-m-50 e-m-80 f-m-120 g-m-180">{% block inMain %}
 <div class="left a-1-1 c-1-3 d-1-4 e-1-5 f-1-6">
 	{% block inLeft %}{% endblock %}
 </div>

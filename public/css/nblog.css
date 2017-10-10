@@ -18,13 +18,15 @@ header.a, .panel > header {
 
 
 
-header.a a {color:#fff; font-weight:bolder;}
+header.a a:link, header.a a:visited, header.a a:hover, header.a a:active{
+	color:#fff; font-weight:bolder; text-decoration:none;
+}
 
 header.a figure {display:table; margin:0;}
 header.a figure img {width:60px; margin:8px 8px 2px;}
 header.a figcaption {display:table-cell; vertical-align:middle; font-size: 28px;}
 
-header.a ul {margin:3px;}
+header.a ul {margin:4px;}
 header.a li {margin-right:8px;}
 header.a [name=search] {height:12px; width:90px; font-size:12px; margin:4px;}
 
@@ -34,24 +36,42 @@ nav.a {
 	background-image:-webkit-linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 	background-image:linear-gradient(to bottom, #F7F7F7, #DFDFDF);
 }
-nav.a ul {padding: 2px;}
+nav.a ul {padding:3px;}
 nav.a li:not(:first-child):before{content:'|'; margin:20px;}
 nav.a a {font-weight: bold;}
-nav.a {margin-bottom: 15px;}
 
-/*main.a section li a {
-	text-overflow:ellipsis; display:block; overflow:hidden; white-space:nowrap;
-}*/
-
-
-main.a img.home-thumb {
+main.a section > img.home-thumb {
 	float:left; width:120px; margin:8px 5px 5px 0;
 }
 
+main > .left, main > .right, section {
+	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;
+	padding:10px;
+}
+
+/*home-page section*/
+/*section.news {
+	padding:10px; 
+	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;
+}*/
+
+
+
+/* for user/manage/userinfo */
+.right fieldset{margin: 20px;}
+.right fieldset label {width:120px; display: inline-block; text-align: right;}
 
 
 
 
+
+
+/* for aside-left section */
+section.search select[name=category] { width:85px;}
+section.search select[name=range] { width:65px;}
+section.search p {margin:5px 0;}
+section.search input {padding:3px 2px;}
+section.search input[type=submit] {padding:2px 10px; margin:0; border-radius:0;}
 
 
 /* for admin-page edit-page */
@@ -69,21 +89,11 @@ article.detail > header li {padding: 5px;}
 article.detail > section {margin: 0 2%;}
 
 
-
-
-.left {
-	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;
-	padding-right:20px;
+/* for article search */
+#articleList li {width:300px;}
+#articleList li a {
+	width:inherit; text-overflow:ellipsis; display:inline-block; overflow:hidden; white-space:nowrap;
 }
-
-/*home-page section*/
-section {padding:5px 12px; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
-
-
-
-/* for user/manage/userinfo */
-.right fieldset{margin: 20px;}
-.right fieldset label {width:120px; display: inline-block; text-align: right;}
 
 
 /* for admin article manage*/

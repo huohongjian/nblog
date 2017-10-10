@@ -68,6 +68,15 @@
 		}
 	}
 
+	_.SEL = function(q,o) {
+		var O =_(q,o);
+		return {
+			set: function(v){
+				_.ALL('option',O).each(function(a){if(a.value==v)return a.selected='true'})
+			},
+		}
+	}
+
 	_.ARR = function(arr){
 		return {
 			arr: arr,
@@ -104,7 +113,7 @@
 				}
 				return j;
 			},
-			get:function(k){return h.match(new RegExp('(/?|&)'+k+'=([^&]*)(&|$)'))[2]},
+			get:function(k){var r=h.match(new RegExp('(/?|&)'+k+'=([^&]*)(&|$)'));return r?r[2]:'';},
 			set:function(k,v){
 				m=k+'='+v;
 				if(h.indexOf('?')>0){

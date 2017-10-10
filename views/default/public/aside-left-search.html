@@ -1,0 +1,32 @@
+
+
+<section class="search">
+	<h3>全站搜索</h3>
+	<form name="searchForm" action="/search">
+		<select name="category">
+			<option value="">全部类别</option>
+			{% for a in categories %}
+			<option value="{{a.name}}">{{a.name}}</option>
+			{% endfor %}
+		</select>
+		<select name="range">
+			<option value="title">标题</option>
+			<option value="content">内容</option>
+			<option value="keywords">关键字</option>
+		</select>
+		<p class="flex">
+			<input type="text" name="key" placeholder="关键字" class="flex-auto"/>
+			<input type="submit" value="搜索"/>
+		</p>
+	</form>
+</section>
+
+<section>
+	<h3>文档分类</h3>
+	<ul class="hor">
+		<li><a href="{{baseURL}}/search">全部类别</a></li>
+		{% for a in categories %}
+		<li><a href="{{baseUrl}}/search?category={{a.name}}">{{a.name}}</a></li>
+		{% endfor %}
+	</ul>
+</section>

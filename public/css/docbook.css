@@ -34,12 +34,12 @@
 	font-weight: bold;
 }
 
-article.detail a:link {
+a:link {
 	color:#0645AD;
 	text-decoration: underline;
 }
 
-article.detail a:visited, a:hover, a:active {
+a:visited, a:hover, a:active {
 	color:#663366;
 	text-decoration: underline;
 }
@@ -115,7 +115,7 @@ body address {
 }
 
 html body {
-/*	margin: 1em 8% 1em 10%;*/
+/* 	margin: 1em 8% 1em 10%; */
 	line-height: 1.2;
 }
 
@@ -132,9 +132,9 @@ html body {
 	font-variant: small-caps;
 }
 
-/*body div {
+body div {
 	margin: 0;
-}*/
+}
 
 dl {
 	margin: .4em 0 0 0;
@@ -156,8 +156,7 @@ div.list-of-examples div.toc-title {
 
 div.calloutlist dt {
 	float: left;
-	width: 1em;
-}
+width: 1em;}
 
 div.calloutlist dd {
 	clear: right;
@@ -201,22 +200,19 @@ div.list-of-examples div.toc-title {
 }
 
 h1.title, h2.title {
-	margin: .8em 0 0 -2%;
+	margin: .8em 0 0 -4%;
 }
 
-h3.title {
-	margin: .8em 0 0 -1.5%;
-}
-
-h4.title {
-	margin: .8em 0 0 -1%;
+h3.title, h4.title {
+	margin: .8em 0 0 -3%;
 }
 
 h5.title {
-	margin: .8em 0 0 -0.5%;
+	margin: .8em 0 0 -2%;
 }
+
 h6.title {
-	margin: .8em 0 0 0;
+	margin: .8em 0 0 -1%;
 }
 
 body hr {
@@ -306,7 +302,7 @@ pre.programlisting {
 }
 
 @media screen {  /* hide from IE3 */
-/*	a[href]:hover { background: #ffa }*/
+	a[href]:hover { background: #ffa }
 }
 
 .informaltable, .table th {

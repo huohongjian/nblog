@@ -41,9 +41,8 @@ $container['view'] = function($c) {
 	// $baseUrl = $scheme."://".$host.$port.$path;
 
 	$url = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-
-
 	$baseUrl = strstr($url, '/index.php', true);
+
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
 	$view->getEnvironment()->addGlobal('sUser',   Session::get());
 	return $view;
@@ -58,6 +57,9 @@ $app->any('/regist',			'Index:regist');
 $app->post('/checkLoginName',	'Index:hasSameUser');
 $app->any('/suggest',			'Index:suggest');
 $app->any('/donation',			'Index:donation');
+
+$app->any('/category[/{key}]',	'Index:category');
+$app->any('/search',			'Index:search');
 
 
 $app->group('/article', function() use ($app) {
@@ -80,7 +82,7 @@ $app->group('/user', function() use ($app) {
 	});
 })->add(function($request, $response, $next) {
 	if (empty(Session::get('login'))) {
-		return	$response->withStatus(302)->withHeader('Location', '/login');
+		return $response->withStatus(302)->withHeader('Location', '/login');
 	}
 	$response = $next($request, $response);
 	return $response;
@@ -96,6 +98,17 @@ $app->group('/admin', function() use ($app) {
 	$app->any('/donations', 	Admin::class.':donations');
 	$app->any('/homepage',		Admin::class.':homepage');
 
+})->add(function($request, $response, $next) {
+	if (empty(Session::get('roleid')) or Session::get('roleid')>2) {
+		$response->getBody()->write('
+			请以管理员身份登录！
+			<a href="/">首页</a>
+			<a href="/login">登录</a>'
+		);
+		return $response;
+	}
+	$response = $next($request, $response);
+	return $response;
 });
 
 

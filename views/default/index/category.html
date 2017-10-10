@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+
+
+
+{% block inLeft %}
+	{% include "public/aside-left-search.html" %}
+
+{% endblock %}
+
+
+{% block inRight %}
+<h4>本次共检索到 <span id="totItem" class="red">0</span> 篇文章。</h4>
+
+<ul id="list" class="none"></ul>
+
+<span id="pagination" data-peritem="{{pages.perItem}}" data-totitem="{{pages.totItem}}"></span>
+{% endblock %}
+
+
+
+
+{% block toBody %}
+<script type="text/javascript" src="../../../own/Pagination.js"></script>
+<script type="text/javascript">
+
+var pagination = new Pagination({
+	container: '#pagination',
+	perItem: R.id('pagination').dataset.peritem,
+	totItem: R.id('pagination').dataset.totitem,
+	onclick: function(i){get(i)},
+});
+pagination.hide();
+
+
+function get(page) {
+	R.post('', {page: page}, function(data) {
+		R.id('totItem').innerText = data.pages.totItem;
+		pagination.reset(data.pages);
+		pagination.show();
+
+		var ul = R.id('list'),
+			ds = data.articles;
+		ul.innerHTML = '';
+
+		for (var i=0; i<ds.length; i++) {
+			var t = ds[i][2]=='' ? ds[i][1] : ds[i][2];
+
+			ul.appendChild(R.ce('li', {
+				innerHTML: '<a href="./article/' + ds[i][0] + '">' + t + '</a>',
+			}));
+		
+		}
+
+
+	}, 'JSON');
+}
+get(1);
+
+
+
+
+</script>
+{% endblock %}

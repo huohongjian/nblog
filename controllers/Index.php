@@ -142,4 +142,89 @@ function donation($request, $response, $args) {
 }
 
 
+function category($request, $response, $args) {
+	$limit = 15;
+
+	if ($request->isGet()) {
+		return $this->container->get('view')->render($response, 'index/search.html', [
+			'pages' 	=> ['perItem'=>$limit],
+			'categories'=> DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all()
+		]);
+
+	} else if ($request->isPost()) {
+		$page  = $request->getParsedBody()['page'];
+		$offset= ((int)$page - 1) * $limit;
+
+		$where = DB::where([
+			'category'  =>$args['key'],
+			'status'	=>'公开',
+			'approved'  => 't'
+		]);
+		$sql = "SELECT count(*) FROM nb_article {$where}";
+		$SQL = "SELECT articleid, title, alias FROM nb_article {$where}
+				ORDER BY artid DESC LIMIT {$limit} OFFSET {$offset}";
+
+		return $response->withJson([
+			'articles' 	=> DB::ins()->query($SQL)->rows(),
+			'pages' 	=> ['totItem'=> DB::ins()->query($sql)->val()]
+		]);
+	}
+}
+
+
+
+function search($request, $response, $args) {
+	$limit = 48;
+
+	if ($request->isGet()) {
+		return $this->container->get('view')->render($response, 'index/search.html', [
+			'pages' 	=> ['perItem'=>$limit],
+			'categories'=> DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all()
+		]);
+
+	} else if ($request->isPost()) {
+		$post  = $request->getParsedBody();
+		$offset= ((int)$post['page'] - 1) * $limit;
+
+		$where = DB::where([
+			'category'  =>$post['category'],
+			'status'	=>'公开',
+			'approved'  => 't'
+		]);
+		if ($post['key']!='') {
+			$where .= ' AND ' . DB::clear($post['range']) . ' ~* ' . DB::escape($post['key']);
+
+		}
+		$sql = "SELECT count(*) FROM nb_article {$where}";
+		$SQL = "SELECT articleid, title, alias FROM nb_article {$where}
+				ORDER BY artid DESC LIMIT {$limit} OFFSET {$offset}";
+
+		return $response->withJson([
+			'articles' 	=> DB::ins()->query($SQL)->rows(),
+			'pages' 	=> ['totItem'=> DB::ins()->query($sql)->val()]
+		]);
+	}
+}
+
+
+
+// 显示文章内容
+function article($request, $response, $args) {
+	$id = pg_escape_string($args['articleid']);
+	$sql = "UPDATE nb_article SET counter=counter+1 WHERE articleid='$id';
+			SELECT a.*, b.name AS username FROM nb_article AS a
+			LEFT JOIN nb_user AS b ON a.userid=b.userid
+			WHERE a.articleid='$id'";
+	$article = DB::ins()->query($sql)->one();
+
+	return $this->container->get('view')->render($response, 'article/index.html', [
+		'article'=>$article,
+		'user' => [ 'userid'=>Session::get('userid'),
+					'roleid'=>Session::get('roleid')
+				  ]
+	]);
+}
+
+
+
 }

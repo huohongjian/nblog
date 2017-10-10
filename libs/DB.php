@@ -24,7 +24,7 @@ class DB {
 				 				port 	= 5432
 				 				dbname	= nblog
 				 				user 	= pgsql
-				 				password = pgsql;'
+				 				password = chinafreebsd'
 				];
 		try {
 			$this->conn = @pg_connect($cns[$f]);

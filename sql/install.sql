@@ -5,6 +5,8 @@
 */
 
 
+/*
+
 DROP TABLE IF EXISTS nb_donation CASCADE;
 DROP SEQUENCE IF EXISTS nb_donation_seq;
 CREATE SEQUENCE nb_donation_seq;
@@ -264,6 +266,16 @@ INSERT INTO nb_user(name, login, password, roleid, email)  VALUES
 
 UPDATE nb_user SET 
 categories='系统手册,环境变量,桌面应用,服务应用,网络应用,内核模块,存储安全,脚本工具,源码实例,其他';
+
+
+
+
+*/
+
+
+
+
+
 
 
 
