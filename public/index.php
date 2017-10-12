@@ -29,6 +29,7 @@ $container['view'] = function($c) {
 	$basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
 	$view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
 
+
 	// $request = $c->request;
 	// $uri 	 = $request->getUri();
 	// $scheme  = $uri->getScheme();
@@ -58,16 +59,9 @@ $app->post('/checkLoginName',	'Index:hasSameUser');
 $app->any('/suggest',			'Index:suggest');
 $app->any('/donation',			'Index:donation');
 
-$app->get('/article/{articleid}', 'Index:article');
-$app->any('/category[/{key}]',	'Index:category');
-$app->any('/search',			'Index:search');
-
-
-// $app->group('/article', function() use ($app) {
-// 	$app->get('/{articleid}',			Article::class.':index');
-// 	$app->get('/search/[{key}]',		Article::class.':search');
-// 	$app->any('/category/[{key}]',		Article::class.':category');
-// });
+$app->get('/article/{articleid}',	'Index:article');
+$app->any('/category[/{key}]',		'Index:category');
+$app->any('/search',				'Index:search');
 
 
 $app->group('/user', function() use ($app) {
@@ -88,6 +82,7 @@ $app->group('/user', function() use ($app) {
 	$response = $next($request, $response);
 	return $response;
 });
+
 
 
 $app->group('/admin', function() use ($app) {

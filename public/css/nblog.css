@@ -91,6 +91,11 @@ article.detail > section {margin: 0 2%;}
 }
 
 
+/* for admin donations */
+table.donation {}
+table.donation tr td:nth-child(2){text-align:right;}
+
+
 /* for admin article manage*/
 table.article {border-collapse: collapse;}
 table.article,

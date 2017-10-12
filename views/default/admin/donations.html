@@ -1,14 +1,28 @@
 {% extends "admin/layout.html" %}
 
-
+{% block toHead1 %}
+<style>
+	#donationTable th,
+	#donationTable td{padding:2px; line-height:20px;} 
+	#donationTable tr td:nth-child(1){width:100px;}
+	#donationTable tr td:nth-child(2){width:80px;}
+	#donationTable tr td:nth-child(3){width:120px;}
+	#donationTable tr td:nth-child(4){width:100px;}
+	#donationTable tr td:nth-child(5){width:100px;}
+	#donationTable tr td:nth-child(6) span{cursor:pointer;}
+	#donationTable input{font-size:small; color:#990000; padding:0;}
+</style>
+{% endblock %}
 
 
 {% block inRight %}
-<h3>捐赠管理</h3>
+<h3 class="inline-block pl30 pr30">捐赠管理</h3>
+<input type="button" value="新增" onclick="add()"/>
+<br/>
 
 
 <section class="inline-block">
-	<table class="donation ml50">
+	<table id="donationTable" class="donation ml50">
 		<thead>
 			<tr>
 				<th>捐赠人</th>
@@ -44,12 +58,8 @@ var pagination = new Pagination({
 	container: '#pagination',
 	perItem: R.id('pagination').dataset.peritem,
 	totItem: R.id('pagination').dataset.totitem,
-	onclick: function(index){
-		get(index);
-	},
+	onclick: function(i){get(i);},
 });
-
-
 
 
 function get(page) {
@@ -60,10 +70,12 @@ function get(page) {
 		o.innerHTML = '';
 
 		for (var i=0; i<d.length; i++) {
-			var tr = R.ce('tr');
+			var tr = R.ce('tr', {
+				att: {'data-id': d[i][0]},
+			});
 			o.appendChild(tr);
 
-			for (var j=0; j<d[i].length; j++) {
+			for (var j=1; j<d[i].length; j++) {
 				var s = d[i][j];
 				var	td = R.ce('td');
 				if (R.empty(s)) {
@@ -74,10 +86,96 @@ function get(page) {
 				}
 				tr.appendChild(td);
 			}
+			tr.appendChild(R.ce('td', {
+				innerHTML: '<span onclick="update(this)">更新</span>\
+							<span onclick="del(this)">删除</span>',
+			}));
 		}
 	}, 'JSON');
 }
 get(1);
+
+
+var currentTd;
+R.id('donationTable').addEventListener('click', function(e) {
+	var o = (e||window.e).target;
+	if (o.tagName=='TD') {
+		
+		var i = R.TD(o).indexOf();
+		if (i>-1 && i<5) {
+			if (currentTd) {
+				currentTd.innerHTML = currentTd.children[0].value;
+			}
+			currentTd = o;
+			var input = R.ce('input', {
+							value: o.innerHTML,
+							style: {width:'inherit'},
+							className: 'border-box',
+						});
+			o.innerHTML = '';
+			o.appendChild(input);
+			input.focus();
+		}
+	}
+}, false);
+
+
+
+function update(span) {
+	var tr = span.parentNode.parentNode;
+	var tds = tr.children;
+	var input = R('input', tr);
+	if (input) {
+		input.parentNode.innerHTML = input.value;
+	}
+
+	R.put('', {
+		donationid: tr.dataset.id,
+		donor:		tds[0].innerHTML,
+		amount:		tds[1].innerHTML,
+		donations:	tds[2].innerHTML.replace(/^-$/,''),
+		remark:		tds[3].innerHTML.replace(/^-$/,''),
+		day:		tds[4].innerHTML,
+	}, function(data) {
+		if (data.status==200) {
+			panelMsg('捐赠信息更新成功!');
+			tr.setAttribute('data-id', data.donationid);
+		}
+	}, 'json');
+}
+
+
+function add() {
+	var tbody = R.id('donationTbody');
+	var input = R('input', tbody);
+	if (input) {
+		input.parentNode.innerHTML = input.value;
+	}
+
+	var tr = R.ce('tr', {
+		innerHTML: '<td><input type="text" class="w100"/></td><td></td><td></td><td></td><td></td><td><span onclick="update(this)">更新</span> <span onclick="del(this)">删除</span></td>',
+		att: {'data-id': '-1'},
+	});
+	tbody.insertBefore(tr, tbody.firstChild); 
+	tbody.removeChild(tbody.lastChild);
+	currentTd = tr.firstChild;
+}
+
+
+function del(span) {
+	var tr = span.parentNode.parentNode;
+	var donationid = tr.dataset.id;
+	if (window.confirm('删除不可恢复，请再次确认?')) {
+		R.delete('', {donationid: donationid}, function(data) {
+			if (data=='ok'){
+				tr.parentNode.removeChild(tr);
+				panelMsg('删除成功!');
+			} else {
+				panelMsg('删除成功!');
+			}
+		}, false);
+	}
+}
 
 </script>
 

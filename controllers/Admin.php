@@ -19,7 +19,7 @@ public function index($request, $response, $args) {
 public function users($request, $response, $args) {
 
 	$this->container->get('view')->render($response, 'admin/users.html', [
-		'users' => DB::ins()->select('nb_user', [], 'ORDER BY userid')->all()
+			'users' => DB::ins()->select('nb_user', [], 'ORDER BY userid')->all()
 		]);
 	return $response;
 }
@@ -119,9 +119,40 @@ function donations($request, $response, $args) {
 		$page  = $request->getParsedBody()['page'];
 		$offset= ((int)$page - 1) * $limit;
 		$rs = DB::ins()->select('nb_donation', [], 'ORDER BY donationid DESC LIMIT '
-			.$limit.' OFFSET '.$offset, 'donor,amount,donations,remark,day')->rows();
-
+			.$limit.' OFFSET '.$offset, 'donationid,donor,amount,donations,remark,day')->rows();
 		return $response->withJson(['donations' => $rs]);
+
+	} else if ($request->isPut()) {
+		$post = $request->getParsedBody();
+		$donationid = (int)$post['donationid'];
+		$amount		= (int)$post['amount'];
+		$donor		= DB::escape($post['donor']);
+		$donations	= DB::escape($post['donations']);
+		$remark		= DB::escape($post['remark']);
+		$day		= DB::escape($post['day']);
+		if ($donationid==-1) {
+			$sql = "INSERT INTO nb_donation (donor,amount,donations,remark) VALUES
+					($donor, $amount, $donations, $remark) RETURNING donationid";
+		} else {
+			$sql = "UPDATE nb_donation SET
+						donor=$donor, amount=$amount,
+						donations=$donations, remark=$remark, day=$day
+					WHERE donationid=$donationid
+					RETURNING donationid";
+		}
+		return $response->withJson([
+			status => 200,
+			donationid => DB::ins()->query($sql)->val()
+		]);
+
+	} else if ($request->isDelete()) {
+		$donationid = (int)$request->getParsedBody()['donationid'];
+		if (DB::ins()->delete('nb_donation',['donationid'=>$donationid])) {
+			return $response->getBody()->write('ok');
+		} else {
+			return $response->getBody()->write('error');
+		}
+
 	}
 
 }

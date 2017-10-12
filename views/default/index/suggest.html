@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
 
 
+{% block inLeft %}
+	{% include "public/aside-left-search.html" %}
+
+{% endblock %}
+
+
 
 {% block inRight %}
 
@@ -9,7 +15,7 @@
 		<tr><th>时间</th><th>建议</th></tr>
 	</thead>
 	<tbody>
-		{% for suggest in suggests %}
+		{% for suggest in suggests if suggest.content %}
 		<tr><td>{{suggest.addtime}}</td><td>{{suggest.content}}</td></tr>
 		{% endfor %}
 	</tbody>

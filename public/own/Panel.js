@@ -141,7 +141,6 @@ function panelMsg(msg) {
 	} else {
 		window.__panelMsg = new Panel({
 			html: '<p><br><br>' + msg + '</p>',
-			style: '.panel > header * {color:#ffffff;}',
 		});
 	}
 	__panelMsg.twinkle(2000);

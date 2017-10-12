@@ -106,17 +106,17 @@ function logout($request, $response, $args) {
 
 
 function suggest($request, $response, $args) {
-	if ($request->isPost()) {
+	if ($request->isGet()) {
+		$sql = 'SELECT * FROM nb_suggest ORDER BY suggestid DESC';
+		return $this->container->get('view')->render($response, 'index/suggest.html', [
+			'suggests' => DB::ins()->query($sql)->all(),
+			'categories'=>DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all()
+		]);
+	} else if ($request->isPost()) {
 		$post = $request->getParsedBody();
 		DB::ins()->insert('nb_suggest', $post);
 		return $response->getBody()->write('感谢您的宝贵建议!');
-	} else {
-		$sql = 'SELECT * FROM nb_suggest ORDER BY suggestid DESC';
-		return $this->container->get('view')->render($response, 'index/suggest.html', [
-			'suggests' => DB::ins()->query($sql)->all()
-		]);
 	}
-	
 }
 
 
@@ -140,37 +140,6 @@ function donation($request, $response, $args) {
 	}
 	
 }
-
-
-// function category($request, $response, $args) {
-// 	$limit = 15;
-
-// 	if ($request->isGet()) {
-// 		return $this->container->get('view')->render($response, 'index/search.html', [
-// 			'pages' 	=> ['perItem'=>$limit],
-// 			'categories'=> DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all()
-// 		]);
-
-// 	} else if ($request->isPost()) {
-// 		$page  = $request->getParsedBody()['page'];
-// 		$offset= ((int)$page - 1) * $limit;
-
-// 		$where = DB::where([
-// 			'category'  =>$args['key'],
-// 			'status'	=>'公开',
-// 			'approved'  => 't'
-// 		]);
-// 		$sql = "SELECT count(*) FROM nb_article {$where}";
-// 		$SQL = "SELECT articleid, title, alias FROM nb_article {$where}
-// 				ORDER BY artid DESC LIMIT {$limit} OFFSET {$offset}";
-
-// 		return $response->withJson([
-// 			'articles' 	=> DB::ins()->query($SQL)->rows(),
-// 			'pages' 	=> ['totItem'=> DB::ins()->query($sql)->val()]
-// 		]);
-// 	}
-// }
-
 
 
 function search($request, $response, $args) {
