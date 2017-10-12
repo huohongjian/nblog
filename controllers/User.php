@@ -12,7 +12,7 @@ public function __construct(Interop\Container\ContainerInterface $container) {
 // 用户文章列表
 function index($request, $response, $args) {
 	$userid = (int)Session::get('userid');
-	$limit = 20;
+	$limit = 48;
 
 	if ($request->isGet()) {
 		$user = DB::ins()->select('nb_user', ['userid'=>$userid], '', 'categories,photo')->one();

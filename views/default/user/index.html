@@ -4,36 +4,47 @@
 {% block toHead %}
 	<style type="text/css">
 		.userphoto{width:90%; max-width:150px;}
+		#mySearchForm > section{padding-top:0;}
+		#categories li {cursor:pointer;}
 	</style>
 {% endblock %}
 
 {% block inLeft %}
-<form id="mysearch">
+
+<form id="mySearchForm">
 	<section class="text-center">
 		<img class="userphoto" src="{{userphoto}}" />
 	</section>
-
-
-	<section class="flex">
+		
+	<section class="search">
+		<h3>我的搜索</h3>
+		<select name="category">
+			<option value="">全部类别</option>
+			{% for a in categories %}
+			<option value="{{a}}">{{a}}</option>
+			{% endfor %}
+		</select>
 		<select name="range">
 			<option value="title">标题</option>
 			<option value="content">内容</option>
 			<option value="keywords">关键字</option>
 		</select>
-		<input type="text" name="key" placeholder="我的搜索" class="flex-auto ml5"/>
+		<p class="flex">
+			<input type="text" id="skey" name="key" placeholder="关键字" class="flex-auto"/>
+			<input type="button" value="搜索" onclick="getArticles(1)"/>
+		</p>
 	</section>
 
-
 	<section>
-		<h3><a href="">我的类别</a></h3>
-		<ul id="categories" class="hor p0 poi">
-			{% for category in categories%}
-			<li>{{category}}</li>
+		<h3>我的分类</h3>
+		<ul id="categories" class="hor">
+			<li>全部类别</li>
+			{% for a in categories %}
+			<li>{{a}}</li>
 			{% endfor %}
 		</ul>
 	</section>
 
-	<input type="text" name="category" value="" hidden="true"/>
 	<input type="text" name="page" value="1" hidden="true"/>
 </form>
 {% endblock %}
@@ -41,21 +52,18 @@
 
 
 {% block inRight %}
-	<h4>文章类别：<span id="cat">全部</span></h4>
-	<ul id="list" class="none">
-		
-	</ul>
-	<span id="pagination" data-peritem={{pages.perItem}}></span>
+	<h4>本次共检索到 <span id="totItem" class="red"></span> 篇文章</h4>
+	<ul id="articleList" class="hor"></ul>
+	<span id="pagination" data-peritem="{{pages.perItem}}"></span>
 {% endblock %}
-
 
 
 
 {% block toBody %}
 <script type="text/javascript" src="../../own/Pagination.js"></script>
 <script type="text/javascript">
-
-R.ONE('[name=key]').enter(function(e) {
+R.one('#skey').focus();
+R.ONE('#skey').enter(function(e) {
 	getArticles(1);
 });
 
@@ -63,8 +71,7 @@ R.id('categories').addEventListener('click', function(e) {
 	var o = (e||window.e).target;
 	if (o.tagName=='LI') {
 		var c = o.innerText;
-		R('[name=category]').value = c;
-		R.id('cat').innerHTML = c;
+		R.SEL('[name=category]').set(c=='全部类别'?'':c);
 		getArticles(1);
 	}
 }, false);
@@ -77,16 +84,18 @@ var pagination = new Pagination({
 });
 pagination.hide();
 
-getArticles(1);
 
+
+getArticles(1);
 function getArticles(page) {
 	R('[name=page]').value = page;
 
-	R.post('', R.fd('#mysearch'), function(data) {
+	R.post('', R.fd('#mySearchForm'), function(data) {
+		R.id('totItem').innerHTML = data.pages.totItem;
 		pagination.reset(data.pages);
 		pagination.show();
 
-		var ul = R.id('list');
+		var ul = R.id('articleList');
 		ul.innerHTML = '';
 		var articles = data.articles;
 		if (R.empty(articles)) return;

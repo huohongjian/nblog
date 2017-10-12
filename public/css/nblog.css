@@ -65,8 +65,8 @@ main.b > .left {
 section.search select[name=category] { width:85px;}
 section.search select[name=range] { width:65px;}
 section.search p {margin:5px 0;}
-section.search input {padding:3px 2px;}
-section.search input[type=submit] {padding:2px 10px; margin:0; border-radius:0;}
+section.search input:nth-child(1){padding:3px;}
+section.search input:nth-child(2){padding:2px 10px; margin:0; border-radius:0;}
 
 
 /* for admin-page edit-page */

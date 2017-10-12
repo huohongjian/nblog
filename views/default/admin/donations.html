@@ -3,12 +3,12 @@
 {% block toHead1 %}
 <style>
 	#donationTable th,
-	#donationTable td{padding:2px; line-height:20px;} 
-	#donationTable tr td:nth-child(1){width:100px;}
-	#donationTable tr td:nth-child(2){width:80px;}
-	#donationTable tr td:nth-child(3){width:120px;}
-	#donationTable tr td:nth-child(4){width:100px;}
-	#donationTable tr td:nth-child(5){width:100px;}
+	#donationTable td{padding:2px 5px; line-height:20px;} 
+	#donationTable tr td:nth-child(1){width:90px;}
+	#donationTable tr td:nth-child(2){width:70px;}
+	#donationTable tr td:nth-child(3){width:100px;}
+	#donationTable tr td:nth-child(4){width:90px;}
+	#donationTable tr td:nth-child(5){width:90px;}
 	#donationTable tr td:nth-child(6) span{cursor:pointer;}
 	#donationTable input{font-size:small; color:#990000; padding:0;}
 </style>
@@ -140,6 +140,7 @@ function update(span) {
 		if (data.status==200) {
 			panelMsg('捐赠信息更新成功!');
 			tr.setAttribute('data-id', data.donationid);
+			currentTd = null;
 		}
 	}, 'json');
 }
@@ -153,7 +154,10 @@ function add() {
 	}
 
 	var tr = R.ce('tr', {
-		innerHTML: '<td><input type="text" class="w100"/></td><td></td><td></td><td></td><td></td><td><span onclick="update(this)">更新</span> <span onclick="del(this)">删除</span></td>',
+		innerHTML: '<td><input type="text" class="w100"/></td>\
+				<td></td><td></td><td></td><td></td>\
+				<td><span onclick="update(this)">更新</span>\
+				<span onclick="del(this)">删除</span></td>',
 		att: {'data-id': '-1'},
 	});
 	tbody.insertBefore(tr, tbody.firstChild); 
