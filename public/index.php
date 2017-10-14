@@ -59,7 +59,8 @@ $app->post('/checkLoginName',	'Index:hasSameUser');
 $app->any('/suggest',			'Index:suggest');
 $app->any('/donation',			'Index:donation');
 
-$app->get('/article/{articleid}',	'Index:article');
+// $app->any('/book[/{articleid}]',	'Index:book');
+$app->any('/article/{articleid}',	'Index:article');
 $app->any('/category[/{key}]',		'Index:category');
 $app->any('/search',				'Index:search');
 

@@ -36,7 +36,7 @@
 	</section>
 
 	<section>
-		<h3>我的分类</h3>
+		<h3>我的类别</h3>
 		<ul id="categories" class="hor">
 			<li>全部类别</li>
 			{% for a in categories %}
@@ -52,7 +52,7 @@
 
 
 {% block inRight %}
-	<h4>本次共检索到 <span id="totItem" class="red"></span> 篇文章</h4>
+	<h4 class="mt20">本次共检索到<span id="totItem"></span>篇文章</h4>
 	<ul id="articleList" class="hor"></ul>
 	<span id="pagination" data-peritem="{{pages.perItem}}"></span>
 {% endblock %}

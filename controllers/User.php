@@ -62,9 +62,10 @@ function edit($request, $response, $args) {
 			if ($article['userid'] != $userid and $roleid>2) {
 				return	$response->withStatus(303)->withHeader('Location', '/user/edit/new');
 			}
+			$userid = $article['userid'];
 		}
-
-		$cats = DB::ins()->select('nb_user', ['userid'=>$userid], '', 'categories')->val();
+		$cats = DB::ins()->select('nb_user', ['userid'=>$userid],
+				'', 'categories')->val();
 		return $this->container->get('view')->render($response, 'user/bsdeditor.html', [
 			'categories' => explode(',', $cats),
 			'article' => $article,
@@ -97,7 +98,6 @@ function edit($request, $response, $args) {
 					'articleid' => $post['articleid']
 				]);
 			}
-				
 		}
 	}
 

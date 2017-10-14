@@ -17,7 +17,7 @@
 	{% block toHead %}{% endblock %}
 </head>
 <body>
-
+{% block inBody %}
 
 {% block Header %}<header class="a flex">{% block inHeader %}
 <div class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80 g-m-120">
@@ -72,10 +72,12 @@
 
 {% endblock %}</footer>{% endblock %}
 
+{% endblock %}
 
 <script type="text/javascript" src="{{baseURL}}/own/R.js?v=1.0.0"></script>
 <script type="text/javascript" src="{{baseURL}}/own/Panel.js?v=1.0.0"></script>
 <script type="text/javascript" src="{{baseURL}}/js/nblog.js?v=1.0.0"></script>
 {% block toBody %}{% endblock %}
+
 </body>
 </html>

@@ -84,7 +84,9 @@ article.detail > header li {padding: 5px;}
 article.detail > section {margin: 0 2%;}
 
 
-/* for article search */
+/* for /search /user */
+#mySearchForm{padding:0;}
+#totItem {color:red; min-width:20px; display:inline-block; text-align:center; padding:0 5px;}
 #articleList li {width:300px;}
 #articleList li a {
 	width:inherit; text-overflow:ellipsis; display:inline-block; overflow:hidden; white-space:nowrap;

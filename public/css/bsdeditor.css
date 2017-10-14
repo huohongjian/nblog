@@ -3,12 +3,14 @@ main.a {padding: 0 6px;}
 input[name=title],
 input[name=alias],
 input[name=caption],
-input[name=thumb], 
 textarea[name=caption] { width: 100%; box-sizing: border-box;}
 textarea[name=caption] { height:80px; }
 select,
 input[name=category] { width: 120px; }
 input[type=text]{padding:5px;}
+
+[name=keywords],
+[name=thumb] {width:60%;}
 
 form[name=editForm] {overflow: hidden;}
 form[name=editForm] > p {margin:6px 0;}

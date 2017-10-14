@@ -179,16 +179,47 @@ function search($request, $response, $args) {
 
 // 显示文章内容
 function article($request, $response, $args) {
-	$id = pg_escape_string($args['articleid']);
-	$sql = "UPDATE nb_article SET counter=counter+1 WHERE articleid='$id';
-			SELECT a.*, b.name AS username FROM nb_article AS a
+	$sql = 'UPDATE nb_article SET counter=counter+1 WHERE articleid=$1';
+	$SQL = 'SELECT a.*, b.name AS username FROM nb_article AS a
 			LEFT JOIN nb_user AS b ON a.userid=b.userid
-			WHERE a.articleid='$id'";
+			WHERE a.articleid=$1';
 
-	return $this->container->get('view')->render($response, 'index/article.html', [
-		'article' => DB::ins()->query($sql)->one()
-	]);
+	if ($request->isGet()) {
+		$id = $args['articleid'];
+		DB::ins()->query2($sql, [$id]);
+		$article = DB::ins()->query2($SQL, [$id])->one();
+
+		$roleid = Session::get('roleid');
+		if ($article['userid']==Session::get('userid') || ($roleid && $roleid<3)){
+			$article['editable'] = true;
+		} else {
+			$article['editable'] = false;
+		}
+
+		if ($article['category']=='电子书') {
+			$templet = 'index/book.html';
+		} else {
+			$templet = 'index/article.html';
+		}
+		return $this->container->get('view')->render($response, $templet, $article);
+
+	} else if ($request->isPost()) {
+		$id = $request->getParsedBody()['articleid'];
+		DB::ins()->query2($sql, [$id]);
+		$article = DB::ins()->query2($SQL, [$id])->one();
+
+		$roleid = Session::get('roleid');
+		if ($article['userid']==Session::get('userid') || ($roleid && $roleid<3)){
+			$article['editable'] = true;
+		} else {
+			$article['editable'] = false;
+		}
+
+		return $response->withJson($article);
+	}
+
 }
+
 
 
 

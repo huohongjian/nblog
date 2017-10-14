@@ -55,15 +55,14 @@
 				<input name="title" type="text" value="{{article.title}}" required="required" placeholder="必填" />
 			</p>
 			<p><label>别名：<input name="alias" type="text" value="{{article.alias}}"></label></p>
-			<p><label>摘要：<textarea name="caption">{{article.abstract}}</textarea></label></p>
+			<p><label>摘要：<textarea name="caption">{{article.caption}}</textarea></label></p>
 			<p>
-				<input type="text" name="keywords" class="float-right" placeholder="关键字" />
-				<label>电子书格式：<input type="checkbox" name="isbook" /></label>
+				<label>关键字：<input type="text" name="keywords" value="{{article.keywords}}" /></label>
 			</p>
 			<p>
-				<label>微缩图：</label>
-				<a href="javascript:loadImgPlugin()">选择</a>
-				<input type="text" name="thumb" value="{{article.thumb}}" data-maxnum="{{maxnum}}" data-baseurl="{{baseURL}}" title="双击此框，上传或更换微缩图，尺寸200x150" onchange="setImage()" />
+				<label>微缩图：<input type="text" name="thumb" value="{{article.thumb}}" data-maxnum="{{maxnum}}" data-baseurl="{{baseURL}}" title="尺寸200x150" onchange="setImage()" />
+					<a href="javascript:loadImgPlugin()">选择</a>
+				</label>
 			</p>
 			<p class="text-center" style="height: 150px;">
 				<img id="thumbimg" src="{{baseURL}}{{article.thumb}}" title="双击图片随机更换微缩图" />
