@@ -1,35 +1,10 @@
 {% extends "layout.html" %}
 
-{% block toHead %}
-	<style>
-		html, body, main{height:100%;}
-		.left, .right {max-height: 100%; overflow: auto;}
-		.left section ul,
-		.left section ol {padding-left:15px;}
-		.left section li {line-height: 1.4;}
-
-	.shadow {
-		box-shadow: 0 0 40px #CCC;
-		-webkit-box-shadow: 0 0 40px #CCC;
-		-moz-box-shadow: 0 0 40px #CCC;
-		border-right: 1px solid #BBB;
-	}
-
-		.right ul.menu-bar {
-			position: fixed;
-			top: 10px;
-			right:15px;
-		}
-
-
-
-	</style>
-{% endblock %}
 
 {% block inBody %}
 {% autoescape false %}
 
-<main class="a flex a-m-0">
+<main class="a book flex a-m-0">
 	<div class="left a-1-1 c-1-3 e-1-4 f-1-5 g-1-6 shadow">
 		<div class="c-fixed1 shadow1">
 			<article class="detail">
@@ -44,7 +19,7 @@
 					</ul>
 				</header>
 
-				<section>
+				<section id="catalog">
 					{{content}}
 				</section>
 			</article>
@@ -52,15 +27,11 @@
 	</div>
 
 
-
 	<div class="right a-1-1 c-2-3 e-3-4 f-4-5 g-5-6">
-		<ul class="hor menu-bar">
-			<li><a href="/">首页</a></li>
-		</ul>
 		
-		<article class="detail border-box a-p-0 c-p-5 d-p-20 e-p-30 f-p-50 g-p-80">
+		<article class="detail border-box a-p-0 c-p-5 d-p-10 e-p-30 f-p-50">
 			<header>
-				<h2 id="title">内容摘要</h2>
+				<h2 id="title">内容提要</h2>
 				<ul class="hor border-tl p0 pt20">
 					<li><span id="username"></span></li>
 					<li><span id="counter"></span></li>
@@ -74,42 +45,25 @@
 				{{caption}}
 			</section>
 		</article>
+
+
+		<ul id="book-menu" class="none menu-bar">
+			<li>💡</li>
+			<li>首页</li>
+			<li>主页</li>
+			<li>上一章</li>
+			<li>下一章</li>
+		</ul>
+		<b class="back-to-top" id="gotop" data-query='.right'>︽</b>
 	</div>
 </main>
 
 
 
 {% endautoescape %}
-
 {% endblock %}
 
+
 {% block toBody %}
-
-<script>
-	
-renderDocument(window.location.hash);
-window.onhashchange = function() {renderDocument(window.location.hash)};
-
-function renderDocument(hash) {
-	if (hash) {
-		var o = R.id('content');
-		o.innerHTML = '<b>loading...</b>';
-		R.post('', {articleid: hash.substr(1)}, function(data) {
-			R.id('title').innerHTML		= data.title;
-			R.id('username').innerHTML	= '贡献者：'   + data.username;
-			R.id('counter').innerHTML	= '阅读：' 	   + data.counter;
-			R.id('category').innerHTML	= '类别：' 	   + data.category;
-			R.id('newtime').innerHTML	= '更新时间：' + data.newtime;
-			if (data.editable) {
-				R.id('editable').innerHTML =
-				'<a href="../user/edit/' + data.articleid + '">编辑</a>';
-			}
-			o.innerHTML	= data.content;
-		}, 'json');
-	}
-}
-
-
-
-</script>
+<script style="text/javascript" src="../js/book.js"></script>
 {% endblock %}

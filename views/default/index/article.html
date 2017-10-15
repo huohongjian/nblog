@@ -6,12 +6,16 @@
 
 <article class="detail mt30 b-p-5 c-p-20 d-p-50 e-p-80 f-p-120">
 	<header>
-		<h2>{{title}}</h2>
+		<h2 id="title">{{title}}</h2>
 		<ul class="hor border-tl p0 pt20">
 			<li><span>贡献者：{{username}}</span></li>
 			<li><span>阅读：{{counter}}</span></li>
 			<li><span>类别：{{category}}</span></li>
 			<li><span>更新时间：{{newtime}}</span></li>
+
+			{% if USER %}
+			<li class="decoration-none"><a href="javascript:addToBook()"><b class="bsd" title="添加至我的电子书">书</b></a></li>
+			{% endif %}
 
 			{% if editable %}
 			<li><a href="../user/edit/{{articleid}}">编辑</a></li>
@@ -26,3 +30,7 @@
 
 
 {% endautoescape %} {% endblock %}
+
+{% block toBody %}
+<script type="text/javascript" src="../js/article.js"></script>
+{% endblock %}

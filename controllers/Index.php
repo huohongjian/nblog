@@ -220,6 +220,34 @@ function article($request, $response, $args) {
 
 }
 
+/* for index/article.html <script> ajax */
+function book($request, $response, $args) {
+	$userid = Session::get('userid');
+
+	if ($request->isGet()) {
+		$sql = "SELECT articleid, title, alias FROM nb_article
+				WHERE userid={$userid} AND category='电子书' AND status<>'删除'
+				ORDER BY articleid DESC";
+		return $response->withJson(DB::ins()->query($sql)->rows());
+
+	} else if ($request->isPost()) {
+		$post = $request->getParsedBody();
+		$title = pg_escape_string($post['title']);
+		$bookid = pg_escape_string($post['bookid']);
+		$articleid = pg_escape_string($post['articleid']);
+
+		$appcontent = '<p><a href="#'.$articleid.'">'.$title.'</a></p>';
+		$sql = "UPDATE nb_article SET
+				content = content || '{$appcontent}'
+				WHERE articleid = '{$bookid}'";
+		$n = DB::ins()->query($sql)->affectedRows();
+		if ($n>0) {
+			return $response->getBody()->write('成功添加至电子书!');
+		} else {
+			return $response->getBody()->write('添加至电子书失败!');
+		}
+	}
+}
 
 
 

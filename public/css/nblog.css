@@ -137,3 +137,29 @@ table.article tr td:nth-child(10){text-align:center;}
 	cursor: pointer;
 	transition: opacity 0.8s ease 0s;
 }
+
+
+/* for book.html */
+main.book{height:100%;}
+.book .left,
+.book .right {max-height: 100%; overflow: auto;}
+.book .left section ul,
+.book .left section ol {padding-left:15px;}
+.book .left section li {line-height: 1.4;}
+.book .left section p{margin: 4px 0;}
+
+.book .shadow {
+	box-shadow: 0 0 40px #CCC;
+	-webkit-box-shadow: 0 0 40px #CCC;
+	-moz-box-shadow: 0 0 40px #CCC;
+	border-right: 1px solid #BBB;
+}
+
+.book .right ul.menu-bar {position:fixed; top: 0; right:20px; width:20px; overflow:hidden; color:#990000;}
+.book .menu-bar li {margin-top:10px; cursor:pointer;}
+
+.book .left section a.current {
+	font-weight: bolder;
+	background: #ffa;
+	color: #990000;
+}

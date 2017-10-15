@@ -19,17 +19,19 @@
 (function(){
 	var o=R.id('gotop');
 	if(o){
+		var scr = R.SCR(o.dataset.query);
+
 		o.onclick = function(){
-			var a = R.getScrollTop();
+			var a = scr.get();
 			var int = setInterval(function(){
 				a = a>200 ? a-200 : 0;
 				if(a==0) clearInterval(int);
-				R.setScrollTop(a);
+				scr.set(a);
 			},20);
 		};
 
-		window.onscroll = function() {
-			if(R.getScrollTop() > 100){
+		scr.ele().onscroll = function() {
+			if(scr.get() > 100){
 				o.style.opacity = 0.4;
 			}else{
 				o.style.opacity = 0;

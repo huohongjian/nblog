@@ -146,3 +146,18 @@ function panelMsg(msg) {
 	__panelMsg.twinkle(2000);
 }
 
+
+function panel(innerHTML, twinkleTime, params) {
+	if (window.__panel__ && window.__panel__.panel) {
+		__panel__.setHTML(innerHTML);
+	} else {
+		params = params || {};
+		params.html = innerHTML;
+		window.__panel__ = new Panel(params);
+	}
+	if (twinkleTime) {
+		__panel__.twinkle(twinkleTime);
+	} else {
+		__panel__.show();
+	}
+}

@@ -138,7 +138,7 @@
 			},
 		}
 	}
-	_.fd=function(f){return _.empty  (f)?new FormData():_.type(f)=='FormData'?f:new FormData(_(f))}
+	_.fd=function(f){return _.empty(f)?new FormData():_.type(f)=='FormData'?f:new FormData(_(f))}
 	_.FD=function(f){f=_.fd(f);
 		return {
 			fd :f,
@@ -199,6 +199,14 @@
 	_.getScrollTop=function(){return D.documentElement.scrollTop||W.pageYOffset||D.body.scrollTop}
 	_.setScrollTop=function(n){D.documentElement.scrollTop=W.pageYOffset=D.body.scrollTop=n}
 
+	_.SCR=function(q){
+		var o = q ? _(q) : W;
+		return {
+			ele:function(){return o;},
+			get:function(){return o.scrollTop||D.documentElement.scrollTop||W.pageYOffset||D.body.scrollTop;},
+			set:function(n){o.scrollTop=D.documentElement.scrollTop=W.pageYOffset=D.body.scrollTop=n},
+		}
+	}
 
 	var xhr={
 		xhrs:[],

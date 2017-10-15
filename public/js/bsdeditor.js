@@ -272,14 +272,7 @@ if (R('input[name="thumb"]').value=='') {
 
 
 function panelHelp() {
-	if (window._panelHelp && window._panelHelp.panel) {
-		window._panelHelp.show();
-	} else {
-		window._panelHelp = new Panel({
-			title: '帮助',
-			width: 500,
-			height: 300,
-			html: '<ul class="text-left">\
+	var html = '<ul class="text-left">\
 				<li>列表显示文章时，别名优先标题显示。</li>\
 				<li>单击`选择`微缩图，可上传也可选择微缩图。</li>\
 				<li>双击微缩图，可在微缩图库中随机更换。</li>\
@@ -289,9 +282,13 @@ function panelHelp() {
 						<li>删除：本人也不可浏览、不可搜索，但可通过文章管理更改状态</li>\
 					</ul>\
 				</li>\
-				</ul>',
+				<li>如何添加电子书：<br>首先在用户文章类别管理中，增加`电子书`类别。<br>然后添加文档，选择`电子书`类别即可。</li>\
+				</ul>';
+	panel(html, false, {
+			title: '帮助',
+			width: 600,
+			height: 350,
 		});
-	}
 }
 
 
