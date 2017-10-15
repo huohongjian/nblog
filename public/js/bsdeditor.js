@@ -216,7 +216,9 @@ KindEditor.ready(function(K) {
 					margin:20px 4%;\
 					padding:20px 6%;\
 					display:block;\
-				} body{font: 16px/1.4 "sans serif",tahoma,verdana,helvetica;}\
+				}\
+				body{font: 16px/1.4 "sans serif",tahoma,verdana,helvetica;}\
+				p{margin:16px 0;}\
 				a:link {color:#0645AD; text-decoration:underline;}\
 				a:visited,a:hover,a:active{color:#663366; text-decoration:underline;\
 				}',
