@@ -22,7 +22,7 @@ select{border:1px solid #ddd;}
 
 /* horizontal display*/
 ul.hor, ul.none, ul.circle {padding:0; margin:0;}
-ul.hor>li {list-style-type:circle; display:inline-block; padding:1px 8px 1px 0;}
+ul.hor>li {list-style-type:circle; display:inline-block; padding:1px 6px 1px 0;}
 ul.none>li{list-style-type:none; padding:1px 0;}
 ul.circle>li{list-style-type:circle;}
 ul.poi>li{cursor: pointer;}
