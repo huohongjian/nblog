@@ -127,7 +127,7 @@ function donation($request, $response, $args) {
 		$items 	= DB::ins()->select('nb_donation', [], '', 'count(*)')->val();
 		return $this->container->get('view')->render($response, 'index/donation.html', [
 			'pages'	=> ['perItem'=>$limit, 'totItem'=>$items],
-			'sum'	=> DB::ins()->select('nb_donation', [], '', 'sum(amount)')->val()
+			'donas'	=> DB::ins()->select('nb_donation', [], '', 'count(*) AS count, sum(amount)')->one()
 		]);
 
 	} else if ($request->isPost()) {

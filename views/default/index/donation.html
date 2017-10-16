@@ -13,10 +13,10 @@
 
 {% block inLeft %}
 
-<section class="donation">
-	<img src="./images/pay_ali.jpg" class="mt20">
+<section class="donation text-center">
+	<img src="./images/pay_ali.png" class="mt20">
 	<img src="./images/pay_qq.jpg">
-	<img src="./images/pay_wx.jpg">
+	<img src="./images/pay_wx.png">
 </section>
 {% endblock %}
 
@@ -54,7 +54,7 @@
 	</table>
 	<p class="mt10 ml50 bolder">
 		<span id="pagination" data-peritem="{{pages.perItem}}" data-totitem="{{pages.totItem}}"></span>
-		<span class="float-right bsd mr20">捐赠合计：{{sum}}</span>
+		<span class="float-right bsd mr20">共计{{donas.count}}人次捐赠，金额合计：{{donas.sum}}元</span>
 	</p>
 </section>
 
