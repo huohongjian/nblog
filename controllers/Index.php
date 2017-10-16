@@ -236,7 +236,7 @@ function book($request, $response, $args) {
 		$bookid = pg_escape_string($post['bookid']);
 		$articleid = pg_escape_string($post['articleid']);
 
-		$appcontent = '<p><a href="#'.$articleid.'">'.$title.'</a></p>';
+		$appcontent = '<li><a href="#'.$articleid.'">'.$title.'</a></li>';
 		$sql = "UPDATE nb_article SET
 				content = content || '{$appcontent}'
 				WHERE articleid = '{$bookid}'";

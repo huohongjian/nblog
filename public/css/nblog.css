@@ -141,12 +141,12 @@ table.article tr td:nth-child(10){text-align:center;}
 
 /* for book.html */
 main.book{height:100%;}
-.book .left,
-.book .right {max-height: 100%; overflow: auto;}
+.book .left {max-height: 100%; overflow: auto;}
 .book .left section ul,
 .book .left section ol {padding-left:15px;}
 .book .left section li {line-height: 1.4;}
 .book .left section p{margin: 4px 0;}
+.book .right {max-height: 100%; overflow-x: auto;overflow-y:scroll;}
 
 .book .shadow {
 	box-shadow: 0 0 40px #CCC;
