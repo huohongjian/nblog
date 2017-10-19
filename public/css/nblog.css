@@ -44,7 +44,9 @@ main.a section > img.home-thumb {
 	float:left; width:120px; margin:8px 5px 5px 0;
 }
 
-main.a > .left, main.a > .right, section {
+main.a > .left,
+main.a > .right,
+section {
 	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;
 	padding:10px;
 }
@@ -162,4 +164,37 @@ main.book{height:100%;}
 	font-weight: bolder;
 	background: #ffa;
 	color: #990000;
+}
+
+
+
+
+
+
+/* 下拉菜单 */
+ul.dropdown{list-style:none; margin:0; padding:0;}  
+ul.dropdown li{margin:3px 0; display:inline-block; cursor:pointer; position:relative; z-index:10002;}  
+ul.dropdown li a{ text-decoration:none; color:#000; display:block;padding:0px 10px;}  
+ul.dropdown li a:hover{ color:#FFF; background:#333}  
+ul.dropdown li ul{border:1px solid #CCCCCC; position:absolute; display:none; margin:0; padding:0; background:#F1F1F1;}  
+ul.dropdown li ul li{margin:0; padding:0; display:inline-block; white-space:nowrap; width:100%;}  
+ul.dropdown li ul li a{ width:100%; padding: 5px 30px 5px 15px; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}  
+ul.dropdown li ul li a:hover{ background-color:#06f;}  
+ul.dropdown li:hover ul{ display:block}
+ul.dropdown li div,
+ul.dropdown li pre {margin:0; padding:0; width:100%; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
+
+
+
+/* 修正 wangEditor */
+.w-e-text code {
+    display: block !important;
+    background-color: inherit !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.w-e-toolbar, .w-e-menu-panel, .w-e-toolbar *, .w-e-menu-panel * {
+    padding: 0;
+    margin: 0;
 }

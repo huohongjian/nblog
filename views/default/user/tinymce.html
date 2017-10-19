@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+
+
+
+{% block toHead %}
+<link rel="stylesheet" href="/libs/Trumbowyg/dist/ui/trumbowyg.min.css"/>
+{% endblock %}
+
+
+{% block Header %}{% endblock %}
+{% block Nav %}{% endblock %}
+
+
+{% block Main %}
+
+
+
+<textarea>
+  <p style="text-align: center;">
+    <img title="TinyMCE Logo" src="//www.tinymce.com/images/glyph-tinymce@2x.png" alt="TinyMCE Logo" width="110" height="97" />
+  </p>
+
+  <h1 style="text-align: center;">Welcome to the TinyMCE editor demo!</h1>
+
+  <p>
+    Please try out the features provided in this basic example.<br>
+    Note that any <strong>MoxieManager</strong> file and image management functionality in this example is part of our commercial offering – the demo is to show the integration.
+  </p>
+
+  <h2>Got questions or need help?</h2>
+
+  <ul>
+    <li>Our <a href="https://www.tinymce.com/docs/">documentation</a> is a great resource for learning how to configure TinyMCE.</li>
+    <li>Have a specific question? Visit the <a href="https://community.tinymce.com/forum/" target="_blank">Community Forum</a>.</li>
+    <li>We also offer enterprise grade support as part of <a href="www.tinymce.com/pricing">TinyMCE Enterprise</a>.</li>
+  </ul>
+
+  <h2>A simple table to play with</h2>
+
+  <table style="text-align: center;">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Cost</th>
+        <th>Really?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>TinyMCE</td>
+        <td>Free</td>
+        <td>YES!</td>
+      </tr>
+      <tr>
+        <td>Plupload</td>
+        <td>Free</td>
+        <td>YES!</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Found a bug?</h2>
+
+  <p>
+    If you think you have found a bug please create an issue on the <a href="https://github.com/tinymce/tinymce/issues">GitHub repo</a> to report it to the developers.
+  </p>
+
+  <h2>Finally ...</h2>
+
+  <p>
+    Don't forget to check out our other product <a href="http://www.plupload.com" target="_blank">Plupload</a>, your ultimate upload solution featuring HTML5 upload support.
+  </p>
+  <p>
+    Thanks for supporting TinyMCE! We hope it helps you and your users create great content.<br>All the best from the TinyMCE team.
+  </p>
+</textarea>
+{% endblock %}
+
+
+{% block Footer %}{% endblock %}
+{% block toBody %}
+<script type="text/javascript" src="../own/Pagination.js"></script>
+<script type="text/javascript" src="../libs/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+
+tinymce.init({
+  selector: "textarea",
+  height: 500,
+  plugins: [
+    "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak",
+    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+    "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
+  ],
+
+  toolbar1: "newdocument fullpage | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect fontselect fontsizeselect",
+  toolbar2: "cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor",
+  toolbar3: "table | hr removeformat | subscript superscript | charmap emoticons | print fullscreen | ltr rtl | visualchars visualblocks nonbreaking template pagebreak restoredraft",
+  content_css: [
+    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+    '//www.tinymce.com/css/codepen.min.css'],
+
+  menubar: false,
+  toolbar_items_size: 'small',
+
+  style_formats: [{
+    title: 'Bold text',
+    inline: 'b'
+  }, {
+    title: 'Red text',
+    inline: 'span',
+    styles: {
+      color: '#ff0000'
+    }
+  }, {
+    title: 'Red header',
+    block: 'h1',
+    styles: {
+      color: '#ff0000'
+    }
+  }, {
+    title: 'Example 1',
+    inline: 'span',
+    classes: 'example1'
+  }, {
+    title: 'Example 2',
+    inline: 'span',
+    classes: 'example2'
+  }, {
+    title: 'Table styles'
+  }, {
+    title: 'Table row 1',
+    selector: 'tr',
+    classes: 'tablerow1'
+  }],
+
+  templates: [{
+    title: 'Test template 1',
+    content: 'Test 1'
+  }, {
+    title: 'Test template 2',
+    content: 'Test 2'
+  }]
+});
+
+
+
+</script>
+{% endblock %}

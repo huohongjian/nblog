@@ -251,4 +251,17 @@ function book($request, $response, $args) {
 
 
 
+function editor($request, $response, $args) {
+	return $this->container->get('view')->render($response, 'user/wangEditor.html', []);
+}
+
+function trumbowyg($request, $response, $args) {
+	return $this->container->get('view')->render($response, 'user/trumbowyg.html', []);
+}
+
+function tinymce($request, $response, $args) {
+	return $this->container->get('view')->render($response, 'user/tinymce.html', []);
+}
+
+
 }

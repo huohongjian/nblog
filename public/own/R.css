@@ -3,6 +3,7 @@
 body,a{color:#575757;}
 li{line-height:1.3;}
 
+.decoration-none a,
 .decoration-none a:link,
 .decoration-none a:visited,
 .decoration-none a:hover,
@@ -22,7 +23,7 @@ select{border:1px solid #ddd;}
 
 /* horizontal display*/
 ul.hor, ul.none, ul.circle {padding:0; margin:0;}
-ul.hor>li {list-style-type:circle; display:inline-block; padding:1px 6px 1px 0;}
+ul.hor>li {list-style-type:circle; display:inline-block; padding:1px 8px 0px 0;}
 ul.none>li{list-style-type:none; padding:1px 0;}
 ul.circle>li{list-style-type:circle;}
 ul.poi>li{cursor: pointer;}
@@ -78,6 +79,9 @@ ul.poi>li{cursor: pointer;}
 .flex-auto{flex:1 1 auto; width:1px;}.flex1{flex:1;}.flex2{flex:2;}.flex3{flex:3;}.flex4{flex:4;}.flex5{flex:5;}
 .margin-left-auto{margin-left:auto;}.margin-right-auto{margin-right:auto;}/*自动填充空白*/
 
+.vflex{display:flex; flex-direction:column;}
+.vflex1{flex:1 0 auto; height:1px;}
+.vflex0{flex:0 0 auto;}
 
 
 @media(min-width:0){
@@ -182,4 +186,7 @@ ul.poi>li{cursor: pointer;}
 	.g-m-0{margin:0;}.g-m-3{margin:0 3px;}.g-m-5{margin:0 5px;}.g-m-10{margin:0 10px;}.g-m-15{margin:0 15px;}.g-m-20{margin:0 20px;}.g-m-30{margin:0 30px;}
 	.g-m-50{margin:0 50px;}.g-m-80{margin:0 80px;}.g-m-100{margin:0 100px;}.g-m-120{margin:0 120px;}.g-m-150{margin:0 150px;}.g-m-180{margin:0 180px;}.g-m-200{margin:0 200px;}
 }
+
+
+
 

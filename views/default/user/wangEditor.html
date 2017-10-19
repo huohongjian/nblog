@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+
+
+{% block toHead %}
+<link rel="stylesheet" href="../css/wangEditor.css"/>
+{% endblock %}
+
+
+{% block Header %}{% endblock %}
+{% block Nav %}{% endblock %}
+
+
+{% block Main %}
+<main class="a edit flex">
+	<div class="left vflex a-1-1 c-1-5">
+		<h3 class="vflex0">添加 / 修改文章</h3>
+		<form name="editForm" class="vflex1">
+			
+			<p>
+				<label>
+					状态：
+					<select name="status" data-val="{{article.status}}">
+						<option value="公开" selected="true">公开</option>
+						<option value="隐藏">隐藏</option>
+						<option value="删除">删除</option>
+					</select>
+				</label>
+				<select name="category" class="margin-left-auto" data-val="{{article.category}}">
+					<option value="其他">--请选择类别--</option>
+					{% for category in categories %}
+					<option value="{{category}}">{{category}}</option>
+					{% endfor %}
+				</select>
+			</p>
+			<p>
+				<label>标题：</label>
+				<input class="flex-auto" name="title" type="text" value="{{article.title}}" required="required" placeholder="必填" />
+			</p>
+			<p>
+				<label>别名：</label>
+				<input name="alias" type="text" value="{{article.alias}}">
+			</p>
+			<p>
+				<label>摘要：</label>
+				<textarea name="caption">{{article.caption}}</textarea>
+			</p>
+			<p>
+				<label>关键字：</label>
+				<input type="text" name="keywords" value="{{article.keywords}}" />
+				
+			</p>
+			<P>
+				<label><a href="javascript:loadImgPlugin()">微缩图</a>：</label>
+				<input type="text" name="thumb" value="{{article.thumb}}" data-maxnum="{{maxnum}}" data-baseurl="{{baseURL}}" title="尺寸200x150" onchange="setImage()" />
+			</p>
+			<div class="text-center">
+				<img id="thumbimg" src="{% if article.thumb %}{{baseURL}}{{article.thumb}}{% else %}../images/noimage.jpg{% endif %}"/>
+			</div>
+			<input type="text" name="articleid" value="{{article.articleid}}" class="hide" />
+		
+		
+		<p>
+			<a href="https://www.kancloud.cn/wangfupeng/wangeditor3/332599" target="_blank">wangEditor3使用手册</a><br>
+			<a href="https://www.kancloud.cn/wangfupeng/wangeditor2/113975" target="_blank">wangEditor2使用手册</a><br>
+		    <a href="https://www.kancloud.cn/wangfupeng/wangeditor/81159" target="_blank">上传图片</a>
+		    <a href="http://www.jq22.com/yanshi345" target="_blank">修改网页</a>
+		</p>		
+		
+		</form>
+
+
+	</div>
+
+
+	<div class="right vflex a-1-1 c-4-5">
+
+		<div id="editor-head" class="vflex0">
+
+			<ul class="dropdown bsd-title">
+				<li><a href="javascript:save()">保存</a></li>
+				<li><a href="javascript:preview()">预览</a></li>
+				<li><a href="javascript:void(0)">标题▾</a>
+					<ul>
+						<li><a href="javascript:wrap('h2', 'title', true)"><h2 class="title">章节主标题</h2></a></li>
+						<li><a href="javascript:wrap('h3', 'title', true)"><h3 class="title">章节二级标题</h3></a></li>
+						<li><a href="javascript:wrap('h4', 'title', true)"><h4 class="title">章节三级标题</h4></a></li>
+						<li><a href="javascript:wrap('h5', 'title', true)"><h5 class="title">章节四级标题</h5></a></li>
+						<li><a href="javascript:wrap('h6', 'title', true)"><h6 class="title">章节五级标题</h6></a></li>
+						<li><a href="javascript:clearHTML()">正文</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:void(0)">彩框▾</a>
+					<ul>
+						<li><a href="javascript:wrap('h3', 'admontitle', true)"><h3 class="admontitle">框内标题</h3></a></li>
+						<li><div class="important"><a href="javascript:wrap('div','important')">重要框</a></div></li>
+						<li><div class="note"><a href="javascript:wrap('div','note')">注意框</a></div></li>
+						<li><div class="warning"><a href="javascript:wrap('div','warning')">警告框</a></div></li>
+						<li><div class="example"><a href="javascript:wrap('div','example')">示例框</a></div></li>
+						<li><div class="tip"><a href="javascript:wrap('div','tip')">技巧框</a></div></li>
+						<li><div class="caution"><a href="javascript:wrap('div','caution')">小心框</a></div></li>
+						<li><pre class="programlisting"><a href="javascript:wrap('pre','programlisting')">程序框</a></pre></li>
+						<li><pre class="screen"><a href="javascript:wrap('pre','screen')">命令框</a></pre></li>
+						<li><strong class="userinput"><code><a href="javascript:setUserInput()">命令行</a></code></strong></li>
+					</ul>
+				</li>
+				<li><a href="javascript:void(0)">格式▾</a>
+					<ul>
+						<li><a href="javascript:wrap('span', 'authorgroup', true)"><span class="authorgroup">作者</span></a></li>
+						<li><span class="package"><a href="javascript:wrap('span', 'authorgroup', true)">软件包</a></span></li>
+						<li><a href="javascript:wrap('span', 'filename', true)"><span class="filename">文件名</span></a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:clearHTML()">清理</a></li>
+				<li><a href="#">帮助</a></li>
+			</ul>
+
+			<div>
+				<div id="editor-title"></div>
+			</div>
+		</div>
+
+
+		<div id="editor-body" class="flex vflex1">
+			<div id="editor-content" class="a-1-1 c-1-2">
+				<p>欢迎使用 <b>wangEditor</b> 富文本<br>编辑器</p>
+			</div>
+			<textarea id="editor-source" class="a-1-1 c-1-2 border-box"></textarea>
+		</div>
+
+	</div>
+</main>
+{% endblock %}
+
+
+{% block Footer %}{% endblock %}
+
+
+{% block toBody %}
+<script type="text/javascript" src="../own/Pagination.js"></script>
+<script type="text/javascript" src="../libs/wangEditor/release/wangEditor.js"></script>
+<script type="text/javascript" src="../js/wangEditor.js"></script>
+{% endblock %}

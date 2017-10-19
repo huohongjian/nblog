@@ -64,6 +64,10 @@ $app->any('/article/{articleid}',	'Index:article');
 $app->any('/category[/{key}]',		'Index:category');
 $app->any('/search',				'Index:search');
 
+$app->any('/editor',				'Index:editor');
+$app->any('/trumbowyg',				'Index:trumbowyg');
+$app->any('/tinymce',				'Index:tinymce');
+
 
 $app->group('/user', function() use ($app) {
 	$app->any('',						User::class.':index');
