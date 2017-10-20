@@ -38,7 +38,7 @@ function index($request, $response, $args) {
 				ORDER BY artid DESC LIMIT {$limit} OFFSET {$offset}";
 
 		return $response->withJson([
-			'articles' => DB::ins()->query($SQL)->rows(),
+			'articles' => DB::ins()->query($SQL)->data(),
 			'pages' => ['totItem'=>DB::ins()->query($sql)->val()]
 		]);
 	}
@@ -59,8 +59,6 @@ function edit($request, $response, $args) {
 		if ($editor!='wangeditor' && $editor!='kindeditor') {
 			$editor = 'trumbowyg';
 		}
-		
-		
 
 		if (strlen($id)<13) {
 			$article = array();
@@ -111,17 +109,6 @@ function edit($request, $response, $args) {
 
 
 
-}
-
-
-
-
-function wangeditor($request, $response, $args) {
-	return $this->container->get('view')->render($response, 'user/wangEditor.html', []);
-}
-
-function trumbowyg($request, $response, $args) {
-	return $this->container->get('view')->render($response, 'user/trumbowyg.html', []);
 }
 
 

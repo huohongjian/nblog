@@ -1,200 +1,28 @@
-{% extends "layout.html" %}
-
-{% block title %} KindEditor {% endblock%}
-
-{% block toHead %}
-	<link rel="stylesheet" href="{{baseURL}}/js/kindeditor/themes/default/default.css" />
-	<link rel="stylesheet" href="{{baseURL}}/js/kindeditor/plugins/code/prettify.css" />
-	<style>
-		html, body {margin: 0;}
-
-		input[name=title],
-		input[name=alias],
-		input[name=caption],
-		input[name=thumb], 
-		textarea[name=caption] { width: 100%; box-sizing: border-box;}
-		textarea[name=caption] { height: 90px; }
-		select,
-		input[name=category] { width: 120px; }
-		 
-		form[name=editForm] { padding: 10px; overflow: hidden;}
-		form[name=editForm] > p { margin: 6px 0;}
-		form[name=editForm] > p:first-child { margin: 0; }
-		form[name=editForm] img { width: 200px; height: 150px; cursor: pointer; }
-
-		.panel ul.text-left li { margin: 5px; }
-
-	</style>
-{% endblock %}
-
-{% block Header %}
-<header class="a flex">
-	<div class="a-1-1 d-1-3 e-1-4 f-1-5 text-center">
-		<h3 class="white">添加 / 修改文章</h3>
-	</div>
-	<div class="a-1-1 d-2-3 e-3-4 f-4-5 text-middle">
-		<ul class="pl10">
-			<li><a href="{{baseURL}}/"><i class="iconfont icon-home"></i> 首页</a></li>
-			<li><a href="javascript:panelHelp()"><i class="iconfont icon-home"></i> 帮助</a></li>
-
-			<li class="float-right"><a href="{{baseURL}}/logout">退出</a></li>
-			<li class="float-right"><a href="{{baseURL}}/user/manage">管理</a></li>
-			<li class="float-right"><a href="{{baseURL}}/user/article/edit">添加</a></li>
-			<li class="float-right"><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"> </i> {{login}}</a></li>
-		</ul>
-	</div>
-</header>
-{% endblock %}
+{% extends "user/layout-edit.html" %}
 
 
-{% block Nav %}{% endblock %}
-
-
-{% block Main %}
-<main class="a flex">
-	<div class="left a-1-1 d-1-3 e-1-4 f-1-5">
-		<form name="editForm">
-			<p>
-				<label>
-					状态：
-					<select name="status" data-val="{{article.status ?: 2}}">
-						<option value="1">推荐</option>
-						<option value="2">公开</option>
-						<option value="3">隐藏</option>
-						<option value="4">删除</option>
-					</select>
-				</label>
-				<select name="category" class="float-right" data-val="{{article.category}}">
-					<option value="未分类">--请选择类别--</option>
-					{% for category in categories %}
-					<option value="{{category}}">{{category}}</option>
-					{% endfor %}
-				</select>
-			</p>
-			<p>
-
-				<label>标题：</label>
-				<input name="title" type="text" value="{{article.title}}" required="required" placeholder="必填" />
-			</p>
-			<p><label>别名：<input name="alias" type="text" value="{{article.alias}}"></label></p>
-			<p><label>摘要：<textarea name="caption">{{article.caption}}</textarea></label></p>
-			<p>
-				<input type="text" name="keywords" class="float-right" placeholder="关键字" />
-				<label>电子书格式：<input type="checkbox" name="isbook" /></label>
-			</p>
-			<p>
-				<label>微缩图：</label>
-				<input type="text" name="thumb" value="{{article.thumb}}" data-maxnum="{{maxnum}}" data-baseurl="{{baseURL}}" readonly="true" title="双击此框，上传或更换微缩图，尺寸200x150" />
-			</p>
-			<p class="text-center" style="height: 150px;">
-				<img id="thumbimg" title="双击图片随机更换微缩图" />
-			</p>
-			<p>
-				<input type="button" name="save" value="保存" class="float-right" />
-			</p>
-
-			<input type="text" name="articleid" value="{{article.articleid}}" class="hide" />
-		</form>
-	</div>
-
-	<div class="right a-1-1 d-2-3 e-3-4 f-4-5">
-		<form name="editForm">
-			<textarea name="content" style="width:100%; height:550px; box-sizing:border-box; visibility:hidden;">
-				{{article.content}}
-			</textarea>
-		</form>
-	</div>
-</main>
-{% endblock %}
-
-
-
-
-{% block toBody %}
-<script src="{{baseURL}}/js/kindeditor/kindeditor-all-min.js"></script>
-<script src="{{baseURL}}/js/kindeditor/plugins/code/prettify.js"></script>
-<script type="text/javascript">
-	var oStatus = R('select[name="status"]');
-	var oCategory = R('select[name="category"]');
-	R.ONE(oStatus).setSelect(oStatus.dataset.val);
-	R.ONE(oCategory).setSelect(oCategory.dataset.val);
-
-
-
-	var editor;
-	KindEditor.ready(function(K) {
-		editor = K.create('textarea[name=content]', {
-			cssPath : 			'../../../js/kindeditor/plugins/code/prettify.css',
-			uploadJson : 		'../../../js/kindeditor/php/upload_json.php',
-			fileManagerJson : 	'../../../js/kindeditor/php/file_manager_json.php',
-			allowFileManager : true,
-			cssData: 'body {font-family:"微软雅黑"; font-size:18px;}',
-		});
-		prettyPrint();
-
-
-		K('input[name=thumb]').click(function() {
-			editor.loadPlugin('image', function() {
-				editor.plugin.imageDialog({
-					imageUrl : K('input[name=thumb]').val(),
-					clickFn : function(url, title, width, height, border, align) {
-						K('input[name=thumb]').val(url);
-						editor.hideDialog();
-
-						var img = R.id('thumbimg');
-						img.src = url;
-					}
-				});
-			});
-		});
-
-		K('#thumbimg').dblclick(setThumbImg);
-		K('input[name=save]').click(save);
-	});
-
-
-	function setThumbImg() {
-		var oThumb = R('input[name="thumb"]');
-		var max = parseInt(oThumb.dataset.maxnum);
-		var rnd = Math.ceil(Math.random()*max);
-		var src = '/thumbs/' + rnd + '.jpg';
-		oThumb.value = src;
-		R.id('thumbimg').src = oThumb.dataset.baseurl + src;
+{% block toHead1 %}
+	<link rel="stylesheet" href="{{baseURL}}/libs/kindeditor/themes/default/default.css"/>
+<style>
+	#editor {
+		width:100%;
+		height:calc(100% - 2px);
+		box-sizing:border-box;
+		visibility:hidden;
 	}
-	if (R('input[name="thumb"]').value=='') setThumbImg();
-
-
-
-	function panelHelp() {
-		if (window._panelHelp && window._panelHelp.panel) {
-			window._panelHelp.show();
-		} else {
-			window._panelHelp = new Panel({
-				title: '帮助',
-				width: 500,
-				height: 300,
-				html: '<ul class="text-left">\
-					<li>列表显示文章时，别名优先标题显示。</li>\
-					<li>单击微缩图文本框，上传或选择更换微缩图。</li>\
-					<li>双击微缩图，可在微缩图库中随机更换。</li>\
-				',
-			});
-		}
-	}
-
-
-
-
-	function save() {
-		R.post('../save', R.FD('form[name=editForm]').app({content: editor.html()}).fd, function(data){
-			if (data.status == 200) {
-				R('[name=articleid]').value = data.articleid;
-				panelMsg(data.msg);
-			}
-		},'JSON');
-	}
-
-	R.move();
-	R('input[name="title"]').focus();
-</script>
+</style>
 {% endblock %}
+
+
+
+{% block Editor %}
+	<textarea id="editor">{{article.content}}</textarea>
+{% endblock %}
+
+
+{% block toBody1 %}
+<script src="{{baseURL}}/libs/kindeditor/kindeditor-all.js"></script>
+<script src="{{baseURL}}/libs/kindeditor/plugins/code/prettify.js"></script>
+<script src="{{baseURL}}/js/kindeditor.js"></script>
+{% endblock %}
+

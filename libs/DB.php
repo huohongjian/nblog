@@ -140,7 +140,7 @@ class DB {
 	}
 
 	/* 相当于以编号为键值的all() */
-	function rows() {
+	function data() {
 		$ds = array();
 		while($row = @pg_fetch_row($this->result)) {
 			$ds[]=$row;

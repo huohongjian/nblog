@@ -62,7 +62,7 @@ function articles($request, $response, $args) {
 					ORDER BY a.artid DESC LIMIT $limit OFFSET $offset";
 
 			return $response->withJson([
-				'articles' => DB::ins()->query($SQL)->rows(),
+				'articles' => DB::ins()->query($SQL)->data(),
 				'pages' => ['totItem'=>DB::ins()->query($sql)->val()]
 			]);
 
@@ -119,7 +119,7 @@ function donations($request, $response, $args) {
 		$page  = $request->getParsedBody()['page'];
 		$offset= ((int)$page - 1) * $limit;
 		$rs = DB::ins()->select('nb_donation', [], 'ORDER BY donationid DESC LIMIT '
-			.$limit.' OFFSET '.$offset, 'donationid,donor,amount,donations,remark,day')->rows();
+			.$limit.' OFFSET '.$offset, 'donationid,donor,amount,donations,remark,day')->data();
 		return $response->withJson(['donations' => $rs]);
 
 	} else if ($request->isPut()) {

@@ -47,7 +47,7 @@ ul.poi>li{cursor: pointer;}
 .clear-left:{clear:left;}.clear-right{clear:right;}.clear{clear:both;}
 
 .hide{display:none;}.show,.block{display:block;}.inline-block{display:inline-block;}
-.gray{color:#555;}.red{color:red;}.green{color:green;}.blue{color:blue;}.white{color:white;}.yellow{color:#eeaa66;}
+.black{color:#000;}.gray{color:#555;}.red{color:red;}.green{color:green;}.blue{color:blue;}.white{color:white;}.yellow{color:#eeaa66;}
 .bsd{color:#990000;}
 
 .ellipsis{text-overflow:ellipsis;display:block;overflow:hidden;white-space:nowrap;}

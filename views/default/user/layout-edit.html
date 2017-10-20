@@ -1,8 +1,13 @@
 {% extends "layout.html" %}
 
+{% block toHead %}
+	<link rel="stylesheet" href="../../css/edit.css"/>
+	{% block toHead1 %}{% endblock %}
+{% endblock %}
 
 {% block Header %}{% endblock %}
 {% block Nav %}{% endblock %}
+
 {% block Main %}
 <main class="a edit flex">
 	<div class="left vflex a-1-1 c-1-5">
@@ -46,25 +51,18 @@
 				<label><a href="javascript:loadImgPlugin()">微缩图</a>：</label>
 				<input type="text" name="thumb" value="{{article.thumb}}" data-maxnum="{{maxnum}}" data-baseurl="{{baseURL}}" title="尺寸200x150" onchange="setImage()" />
 			</p>
-			<div class="text-center">
-				<img id="thumbimg" src="{% if article.thumb %}{{baseURL}}{{article.thumb}}{% else %}../../images/noimage.jpg{% endif %}"/>
+			<div class="text-center p10">
+				<img id="thumbimg" src="{% if article.thumb %}{{baseURL}}{{article.thumb}}{% else %}../../images/noimage.png{% endif %}"/>
 			</div>
 			<input type="text" name="articleid" value="{{article.articleid}}" class="hide" />
 			<p>
 				<label>编辑器切换：</label>
 				<ul>
-					<li><a href="javascript:switchEditor()">Trumbowyg编辑器</a></li>
+					<li><a href="javascript:switchEditor('?trumbowyg')">Trumbowyg编辑器</a></li>
 					<li><a href="javascript:switchEditor('?wangeditor')">WangEditor编辑器</a></li>
-					<li><a href="javascript:switchEditor('?kindeditor')">KindEditor编辑器</a></li>
+<!-- <li><a href="javascript:switchEditor('?kindeditor')">KindEditor编辑器</a></li> -->
 				</ul>
 			</p>
-		
-			<p>
-				<a href="https://www.kancloud.cn/wangfupeng/wangeditor3/332599" target="_blank">wangEditor3使用手册</a>
-				<a href="https://www.kancloud.cn/wangfupeng/wangeditor/81159" target="_blank">上传图片</a>
-				<a href="http://www.jq22.com/yanshi345" target="_blank">修改网页</a>
-			</p>		
-		
 		</form>
 	</div>
 
@@ -72,52 +70,60 @@
 	<div class="right vflex a-1-1 c-4-5">
 
 		<div id="editor-head" class="vflex0">
-			<ul class="hor float-right p5">
-				<li><a href="../../">首页</a></li>
-				<li><a href="../../user">主页</a></li>
-			</ul>
-			<ul class="dropdown">
-				<li><a href="javascript:save()">保存</a></li>
-				<li><a href="javascript:previewArticle()">预览</a></li>
-				<li><a href="javascript:void(0)">标题▾</a>
-					<ul>
-						<li><a href="javascript:wrap('h2', 'title', true)"><h2 class="title">章节主标题</h2></a></li>
-						<li><a href="javascript:wrap('h3', 'title', true)"><h3 class="title">章节二级标题</h3></a></li>
-						<li><a href="javascript:wrap('h4', 'title', true)"><h4 class="title">章节三级标题</h4></a></li>
-						<li><a href="javascript:wrap('h5', 'title', true)"><h5 class="title">章节四级标题</h5></a></li>
-						<li><a href="javascript:wrap('h6', 'title', true)"><h6 class="title">章节五级标题</h6></a></li>
-						<li><a href="javascript:clearHTML()">正文</a></li>
-					</ul>
-				</li>
-				<li><a href="javascript:void(0)">彩框▾</a>
-					<ul>
-						<li><a href="javascript:wrap('h3', 'admontitle', true)"><h3 class="admontitle">框内标题</h3></a></li>
-						<li><div class="important"><a href="javascript:wrap('div','important')">重要框</a></div></li>
-						<li><div class="note"><a href="javascript:wrap('div','note')">注意框</a></div></li>
-						<li><div class="warning"><a href="javascript:wrap('div','warning')">警告框</a></div></li>
-						<li><div class="example"><a href="javascript:wrap('div','example')">示例框</a></div></li>
-						<li><div class="tip"><a href="javascript:wrap('div','tip')">技巧框</a></div></li>
-						<li><div class="caution"><a href="javascript:wrap('div','caution')">小心框</a></div></li>
-						<li><pre class="programlisting"><a href="javascript:wrap('pre','programlisting')">程序框</a></pre></li>
-						<li><pre class="screen"><a href="javascript:wrap('pre','screen')">命令框</a></pre></li>
-						<li><strong class="userinput"><code><a href="javascript:setUserInput()">命令行</a></code></strong></li>
-					</ul>
-				</li>
-				<li><a href="javascript:void(0)">格式▾</a>
-					<ul>
-						<li><a href="javascript:wrap('span', 'authorgroup', true)"><span class="authorgroup">作者</span></a></li>
-						<li><span class="package"><a href="javascript:wrap('span', 'authorgroup', true)">软件包</a></span></li>
-						<li><a href="javascript:wrap('span', 'filename', true)"><span class="filename">文件名</span></a></li>
-					</ul>
-				</li>
-				<li><a href="javascript:clearHTML()">清理</a></li>
-				<li><a href="#">帮助</a></li>
-			</ul>
-			{% block EditorHead %}{% endblock %}
+			
+			<div id="editor-head1" class="flex">
+				<ul class="dropdown">
+					<li><a href="javascript:save()">保存</a></li>
+					<li><a href="javascript:previewArticle()">预览</a></li>
+					<li><a href="javascript:void(0)">标题▾</a>
+						<ul>
+							<li><a href="javascript:wrap('h2', 'title', true)"><h2 class="title">章节主标题</h2></a></li>
+							<li><a href="javascript:wrap('h3', 'title', true)"><h3 class="title">章节二级标题</h3></a></li>
+							<li><a href="javascript:wrap('h4', 'title', true)"><h4 class="title">章节三级标题</h4></a></li>
+							<li><a href="javascript:wrap('h5', 'title', true)"><h5 class="title">章节四级标题</h5></a></li>
+							<li><a href="javascript:wrap('h6', 'title', true)"><h6 class="title">章节五级标题</h6></a></li>
+							<li><a href="javascript:clearHTML()">正文</a></li>
+						</ul>
+					</li>
+					<li><a href="javascript:void(0)">彩框▾</a>
+						<ul>
+							<li><a href="javascript:wrap('h3', 'admontitle', true)"><h3 class="admontitle">框内标题</h3></a></li>
+							<li><div class="important"><a href="javascript:wrap('div','important')">重要框</a></div></li>
+							<li><div class="note"><a href="javascript:wrap('div','note')">注意框</a></div></li>
+							<li><div class="warning"><a href="javascript:wrap('div','warning')">警告框</a></div></li>
+							<li><div class="example"><a href="javascript:wrap('div','example')">示例框</a></div></li>
+							<li><div class="tip"><a href="javascript:wrap('div','tip')">技巧框</a></div></li>
+							<li><div class="caution"><a href="javascript:wrap('div','caution')">小心框</a></div></li>
+							<li><pre class="programlisting"><a href="javascript:wrap('pre','programlisting')">程序框</a></pre></li>
+							<li><pre class="screen"><a href="javascript:wrap('pre','screen')">命令框</a></pre></li>
+							<li><strong class="userinput"><code><a href="javascript:setUserInput()">命令行</a></code></strong></li>
+						</ul>
+					</li>
+					<li><a href="javascript:void(0)">格式▾</a>
+						<ul>
+							<li><a href="javascript:wrap('span', 'authorgroup', true)"><span class="authorgroup">作者</span></a></li>
+							<li><span class="package"><a href="javascript:wrap('span', 'authorgroup', true)">软件包</a></span></li>
+							<li><a href="javascript:wrap('span', 'filename', true)"><span class="filename">文件名</span></a></li>
+						</ul>
+					</li>
+					<li><a href="javascript:clearHTML()">清理</a></li>
+					<li><a href="javascript:help()">帮助</a></li>
+				</ul>
+
+				<ul class="hor">
+					<li><a href="../../">首页</a></li>
+					<li><a href="../../user">主页</a></li>
+					<li><a href="javascript:addArticle()">添加</a></li>
+				</ul>
+			</div>
+
+			<div id="editor-head2">
+				{% block EditorHead %}{% endblock %}
+			</div>
 		</div>
 
-		<div id="editor-body" class="vflex1" style="overflow:auto;">
-			{% autoescape false %}{% block Editor %}{% endblock %}{% endautoescape %}
+		<div id="editor-body" class="vflex1 flex">
+			{% block Editor %}{% endblock %}
 		</div>
 	</div>
 </main>

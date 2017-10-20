@@ -2,22 +2,17 @@
 
 
 
-{% block toHead %}
+{% block toHead1 %}
 <link rel="stylesheet" href="../../libs/Trumbowyg/dist/ui/trumbowyg.min.css"/>
 <style>
-	#editor {
-		height: calc(100vh - 110px);
-	}
-
+	#editor { height: calc(100% - 18px); }
 </style>
 {% endblock %}
 
 
 
 {% block Editor %}
-{% autoescape false %}
-	<div id="editor">{{article.content}}</div>
-{% endautoescape %}
+	<div id="editor">{% autoescape false %}{{article.content}}{% endautoescape %}</div>
 {% endblock %}
 
 

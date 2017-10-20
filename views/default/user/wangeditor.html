@@ -2,12 +2,11 @@
 
 
 
-{% block toHead %}
-<link rel="stylesheet" href="../css/wangEditor.css"/>
+{% block toHead1 %}
 <style>
-	#editor {
-
-	}
+	.panel {z-index:10003;}
+	.w-e-text,
+	#editor-source {padding:10px !important;}
 
 </style>
 {% endblock %}
@@ -22,13 +21,8 @@
 
 
 {% block Editor %}
-{% autoescape false %}
-
-	<div class="flex" style="height:100%;">
-		<div id="editor-content" class="a-1-1 c-1-2">{{article.content}}</div>
-		<textarea id="editor-source" class="a-1-1 c-1-2 border-box"></textarea>
-	</div>
-{% endautoescape %}
+<div id="editor-content" class="a-1-1 c-1-2"></div>
+<textarea id="editor-source" class="a-1-1 c-1-2 border-box">{{article.content}}</textarea>
 {% endblock %}
 
 

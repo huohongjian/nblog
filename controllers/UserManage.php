@@ -95,7 +95,7 @@ function articles($request, $response, $args) {
 					ORDER BY artid DESC LIMIT $limit OFFSET $offset";
 
 			return $response->withJson([
-				'articles' => DB::ins()->query($SQL)->rows(),
+				'articles' => DB::ins()->query($SQL)->data(),
 				'pages'    => ['totItem'=>DB::ins()->query($sql)->val()]
 			]);
 

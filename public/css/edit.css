@@ -1,0 +1,123 @@
+
+
+/* 下拉菜单 */
+ul.dropdown{list-style:none; margin:0; padding:2px;}  
+ul.dropdown li{margin:3px 0; display:inline-block; cursor:pointer; position:relative; z-index:10002;}  
+ul.dropdown li a{ text-decoration:none; color:#000; display:block;padding:0 10px;}  
+ul.dropdown li a:hover{ color:#FFF; background:#333}  
+ul.dropdown li ul{border:1px solid #CCCCCC; position:absolute; display:none; margin:0; padding:0; background:#F1F1F1;}  
+ul.dropdown li ul li{margin:0; padding:0; display:inline-block; white-space:nowrap; width:100%;}  
+ul.dropdown li ul li a{ width:100%; padding: 5px 30px 5px 15px; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}  
+ul.dropdown li ul li a:hover{ background-color:#06f;}  
+ul.dropdown li:hover ul{ display:block}
+ul.dropdown li div,
+ul.dropdown li pre {margin:0; padding:0; width:100%; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
+
+
+
+
+/* for layout-edit.html */
+main.edit > .left {
+	padding-right: 0;
+}
+
+main.edit > .left > h3 {
+	text-align:center;
+	background:#990000;
+	color:#FFFFFF;
+	margin:0;
+	padding:10px;
+}
+
+main.edit [name=editForm] {margin:0; overflow:auto;}
+main.edit [name=editForm] > p {
+	margin: 8px 0;
+	flex-flow:row wrap; display:-webkit-box; display:-moz-box; display:-ms-flexbox; display:-webkit-flex; display:flex;
+}
+main.edit label {display: inline-block;}
+main.edit [name=editForm] > p > input,
+main.edit [name=editForm] > p > textarea {flex:1 1 auto; width:1px;}
+main.edit [name=editForm] [name=status] {width: 80px;}
+main.edit [name=editForm] [name=caption] {height: 100px;}
+main.edit [name=editForm] img { max-width:200px; height: 150px;}
+
+
+
+#editor-head {
+	border:1px solid #CCCCCC;
+	border-bottom: 0;
+	background:#ECF0F1;
+	padding:0;
+}
+#editor-head1 li {margin:3px 0;}
+#editor-head1 > ul:nth-child(2){margin-left:auto; padding:2px;}
+#editor-head1 > ul:nth-child(2) li a {text-decoration:none; color:#000; display:block;padding:0 5px;}
+#editor-head1 > ul:nth-child(2) li a:hover{color:#FFF; background:#333}  
+
+#editor-body {overflow:auto;}
+#editor-content {
+	height: 100%;
+	border:1px solid #CCCCCC;
+	border-right: 0;
+}
+
+#editor-source {
+	height: 100%;
+	margin: 0;
+	border: 0;
+	resize: none;
+	padding:10px;
+	overflow-y:scroll;
+	border:1px solid #CCCCCC;
+}
+
+
+
+
+/* 修正 wangEditor */
+.w-e-toolbar {
+	border-top:1px solid #CCCCCC;
+}
+.w-e-text {padding:10px !important;}
+.w-e-text code {
+    display: block !important;
+    background-color: inherit !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.w-e-toolbar, .w-e-menu-panel, .w-e-toolbar *, .w-e-menu-panel * {
+    padding: 0;
+    margin: 0;
+}
+
+/* 修正 Trumbowyg */
+.trumbowyg-textarea {display:none !important;}
+.trumbowyg-box {
+	margin:0 auto !important;
+	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
+.trumbowyg-button-group::before,
+.trumbowyg-button-pane {
+	min-height:28px !important;
+	height:33px !important;
+}
+.trumbowyg-button-pane::after {
+	content:none !important;
+}
+.trumbowyg-open-dropdown::after {
+    top: 20px !important;
+}
+.trumbowyg-button-pane button{
+	width:28px !important;
+	height:28px !important;
+	color:#575757;
+}
+.trumbowyg-editor, .trumbowyg-textarea {
+	padding: 20px 6% 0 6% !important;
+}
+
+
+
+
+
+

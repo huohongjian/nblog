@@ -71,9 +71,12 @@
 	_.SEL = function(q,o) {
 		var O =_(q,o);
 		return {
-			set: function(v){
+			set:function(v){
 				_.ALL('option',O).each(function(a){if(a.value==v)return a.selected='true'})
 			},
+			get:function(){
+				return _('option:selected',O).value;
+			}
 		}
 	}
 

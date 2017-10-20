@@ -134,7 +134,7 @@ function donation($request, $response, $args) {
 		$page  = $request->getParsedBody()['page'];
 		$offset= ((int)$page - 1) * $limit;
 		$rs = DB::ins()->select('nb_donation', [], 'ORDER BY donationid DESC LIMIT '
-			.$limit.' OFFSET '.$offset, 'donor,amount,donations,remark,day')->rows();
+			.$limit.' OFFSET '.$offset, 'donor,amount,donations,remark,day')->data();
 
 		return $response->withJson(['donations' => $rs]);
 	}
@@ -169,7 +169,7 @@ function search($request, $response, $args) {
 				ORDER BY artid DESC LIMIT {$limit} OFFSET {$offset}";
 
 		return $response->withJson([
-			'articles' 	=> DB::ins()->query($SQL)->rows(),
+			'articles' 	=> DB::ins()->query($SQL)->data(),
 			'pages' 	=> ['totItem'=> DB::ins()->query($sql)->val()]
 		]);
 	}
@@ -228,7 +228,7 @@ function book($request, $response, $args) {
 		$sql = "SELECT articleid, title, alias FROM nb_article
 				WHERE userid={$userid} AND category='电子书' AND status<>'删除'
 				ORDER BY articleid DESC";
-		return $response->withJson(DB::ins()->query($sql)->rows());
+		return $response->withJson(DB::ins()->query($sql)->data());
 
 	} else if ($request->isPost()) {
 		$post = $request->getParsedBody();

@@ -1,11 +1,10 @@
 
 
-
 $('#editor').trumbowyg({
 	lang: 'zh_cn',
 	svgPath: '../../libs/Trumbowyg/dist/ui/icons.svg',
 	// autogrow: true,
-	// semantic: false
+	semantic: false,
 	btns: [
 		['viewHTML'],
 		['formatting'],
@@ -29,11 +28,15 @@ function save() {
 
 
 function wrap(tag, className, isGetText) {
+	var select;
 	$('#editor').trumbowyg('saveRange');
-	var range = $('#editor').trumbowyg('getRange');
-	var select = isGetText == true ?
-				 $('#editor').trumbowyg('getRangeText') :
-				 getHtmlAtCaret(range);
+
+	if (isGetText == true) {
+		select = $('#editor').trumbowyg('getRangeText');
+	} else {
+		var range = $('#editor').trumbowyg('getRange');
+		select = getHtmlAtCaret(range);
+	}
 	insertHtmlAtCaret('<'+tag+' class="'+className+'">'+select+'</'+tag+'>');
 }
 
@@ -48,6 +51,19 @@ function setUserInput() {
 function clearHTML() {
 	$('#editor').trumbowyg('saveRange');
 	var select = $('#editor').trumbowyg('getRangeText');
-	insertHtmlAtCaret(select);
+	insertHtmlAtCaret(select + '<br>');
 }
 
+
+
+var __onresize = true;
+window.onresize = function(){
+	if (__onresize)	{
+		__onresize = false;
+		setTimeout(function(){
+			var h= R.id('editor-body').offsetHeight - 35;
+			R('#editor').style.height = h + 'px';
+			__onresize = true;
+		}, 100);
+	}
+}
