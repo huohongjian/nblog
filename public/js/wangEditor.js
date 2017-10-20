@@ -32,9 +32,9 @@ editor.txt.html(R.id('editor-source').value.replace(/(\n)+/g, ''));
 }();
 
 function setSource(html) {
-	var reg = /(<\/div>|<\/pre>|<\/p>|<\/h[1-6]>|<br>)/gi,
-		REG = /(<\/div>|<\pre>|<\/p>|<h[1-6])/gi;
-	R.id('editor-source').value	= html.replace(reg, '$1\n').replace(REG, '\n$1');
+	var reg = /(<\/div>|<\/pre>|<\/p>)/gi,
+		REG = /(<\/h[1-6]>|<br>)/gi;
+	R.id('editor-source').value	= html.replace(reg, '$1\n\n').replace(REG, '$1\n');
 }
 
 
