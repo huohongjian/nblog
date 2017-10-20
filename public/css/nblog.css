@@ -155,6 +155,7 @@ main.book{height:100%;}
 	-webkit-box-shadow: 0 0 40px #CCC;
 	-moz-box-shadow: 0 0 40px #CCC;
 	border-right: 1px solid #BBB;
+	background: url(/images/o_bg.gif);
 }
 
 .book .right ul.menu-bar {position:fixed; top: 0; right:20px; width:20px; overflow:hidden; color:#990000;}

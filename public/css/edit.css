@@ -92,7 +92,6 @@ main.edit [name=editForm] img { max-width:200px; height: 150px;}
 }
 
 /* 修正 Trumbowyg */
-.trumbowyg-textarea {display:none !important;}
 .trumbowyg-box {
 	margin:0 auto !important;
 	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}

@@ -61,7 +61,7 @@ window.onresize = function(){
 	if (__onresize)	{
 		__onresize = false;
 		setTimeout(function(){
-			var h= R.id('editor-body').offsetHeight - 35;
+			var h= R.id('editor-body').offsetHeight - 38;
 			R('#editor').style.height = h + 'px';
 			__onresize = true;
 		}, 100);

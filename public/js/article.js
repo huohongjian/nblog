@@ -1,3 +1,13 @@
+var ArticleTOC = new AutocJS({
+     article: '#article-section',
+     title: '目 录',
+//     hasChapterCodeInDirectory: false,
+});
+
+
+
+
+
 function addToBook() {
 	R.get('../book', function(data) {
 		var html, I = data.length;
