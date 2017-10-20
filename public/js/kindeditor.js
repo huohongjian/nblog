@@ -294,26 +294,6 @@ function panelHelp() {
 }
 
 
-function preview() {
-	var id = R('[name=articleid]').value;
-	if (id.length<10) {
-		panelMsg('请保存文章后，再浏览！');
-	} else {
-		window.location.href = '../../article/'+id;
-	}
-}
-
-
-
-
-function save() {
-	R.post('', R.FD('form[name=editForm]').app({content: editor.html()}).fd, function(data){
-		if (data.status == 200) {
-			R('[name=articleid]').value = data.articleid;
-		}
-		panelMsg(data.msg);
-	},'JSON');
-}
 
 R.ALL('form[name=editForm] input').move();
 R('input[name="title"]').focus();

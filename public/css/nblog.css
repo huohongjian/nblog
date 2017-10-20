@@ -170,9 +170,95 @@ main.book{height:100%;}
 
 
 
+/* for layout-edit.html */
+main.edit > .left {
+	padding-right: 0;
+}
+
+main.edit > .left > h3 {
+	text-align:center;
+	background:#990000;
+	color:#FFFFFF;
+	margin:0;
+	padding:10px;
+}
+
+main.edit [name=editForm] {margin:0; overflow:auto;}
+main.edit [name=editForm] > p {
+	margin: 8px 0;
+	flex-flow:row wrap; display:-webkit-box; display:-moz-box; display:-ms-flexbox; display:-webkit-flex; display:flex;
+}
+main.edit label {display: inline-block;}
+main.edit [name=editForm] > p > input,
+main.edit [name=editForm] > p > textarea {flex:1 1 auto; width:1px;}
+main.edit [name=editForm] [name=status] {width: 80px;}
+main.edit [name=editForm] [name=caption] {height: 100px;}
+main.edit [name=editForm] img { max-width:200px; height: 150px;}
+
+
+
+#editor-head {
+	border:1px solid #CCCCCC;
+	border-bottom: 0;
+	background:#ECF0F1;
+	padding:0;
+}
+
+#editor-content {
+	height: 100%;
+	border:1px solid #CCCCCC;
+	border-right: 0;
+}
+
+#editor-source {
+	height: 100%;
+	margin: 0;
+	border: 0;
+	resize: none;
+	overflow-y:scroll;
+	border:1px solid #CCCCCC;
+}
+
+
+
+
+/* 修正 wangEditor */
+.w-e-toolbar {
+	border-top:1px solid #CCCCCC;
+}
+.w-e-text code {
+    display: block !important;
+    background-color: inherit !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.w-e-toolbar, .w-e-menu-panel, .w-e-toolbar *, .w-e-menu-panel * {
+    padding: 0;
+    margin: 0;
+}
+
+/* 修正 Trumbowyg */
+.trumbowyg-box {
+	margin:0 auto !important;
+	box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
+.trumbowyg-button-pane {height_:36px; border-bottom: 0 !important;}
+.trumbowyg-button-pane button{
+	width_:32px;
+	height:32px !important;
+	color:#575757;
+}
+.trumbowyg-editor, .trumbowyg-textarea {
+	padding: 20px 6% !important;
+}
+
+
+
+
+
 
 /* 下拉菜单 */
-ul.dropdown{list-style:none; margin:0; padding:0;}  
+ul.dropdown{list-style:none; margin:0; padding:4px;}  
 ul.dropdown li{margin:3px 0; display:inline-block; cursor:pointer; position:relative; z-index:10002;}  
 ul.dropdown li a{ text-decoration:none; color:#000; display:block;padding:0px 10px;}  
 ul.dropdown li a:hover{ color:#FFF; background:#333}  
@@ -185,16 +271,3 @@ ul.dropdown li div,
 ul.dropdown li pre {margin:0; padding:0; width:100%; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
 
 
-
-/* 修正 wangEditor */
-.w-e-text code {
-    display: block !important;
-    background-color: inherit !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-.w-e-toolbar, .w-e-menu-panel, .w-e-toolbar *, .w-e-menu-panel * {
-    padding: 0;
-    margin: 0;
-}

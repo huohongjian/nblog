@@ -1,0 +1,40 @@
+{% extends "user/layout-edit.html" %}
+
+
+
+{% block toHead %}
+<link rel="stylesheet" href="../css/wangEditor.css"/>
+<style>
+	#editor {
+
+	}
+
+</style>
+{% endblock %}
+
+
+
+{% block EditorHead %}
+
+		<div id="editor-title"></div>
+
+{% endblock %}
+
+
+{% block Editor %}
+{% autoescape false %}
+
+	<div class="flex" style="height:100%;">
+		<div id="editor-content" class="a-1-1 c-1-2">{{article.content}}</div>
+		<textarea id="editor-source" class="a-1-1 c-1-2 border-box"></textarea>
+	</div>
+{% endautoescape %}
+{% endblock %}
+
+
+
+
+{% block toBody1 %}
+<script type="text/javascript" src="../../libs/wangEditor/release/wangEditor.js"></script>
+<script type="text/javascript" src="../../js/wangEditor.js"></script>
+{% endblock %}

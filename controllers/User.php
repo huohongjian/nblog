@@ -49,11 +49,18 @@ function index($request, $response, $args) {
 
 
 function edit($request, $response, $args) {
+	$querys = $request->getUri()->getQuery();
 	$roleid = Session::get('roleid') ?? 6;
 	$userid = Session::get('userid');
 
 	if ($request->isGet()) {
 		$id = $args['articleid'];
+		$editor = $request->getUri()->getQuery();
+		if ($editor!='wangeditor' && $editor!='kindeditor') {
+			$editor = 'trumbowyg';
+		}
+		
+		
 
 		if (strlen($id)<13) {
 			$article = array();
@@ -66,7 +73,7 @@ function edit($request, $response, $args) {
 		}
 		$cats = DB::ins()->select('nb_user', ['userid'=>$userid],
 				'', 'categories')->val();
-		return $this->container->get('view')->render($response, 'user/bsdeditor.html', [
+		return $this->container->get('view')->render($response, 'user/'.$editor.'.html', [
 			'categories' => explode(',', $cats),
 			'article' => $article,
 			'maxnum'  => 13,
@@ -105,6 +112,18 @@ function edit($request, $response, $args) {
 
 
 }
+
+
+
+
+function wangeditor($request, $response, $args) {
+	return $this->container->get('view')->render($response, 'user/wangEditor.html', []);
+}
+
+function trumbowyg($request, $response, $args) {
+	return $this->container->get('view')->render($response, 'user/trumbowyg.html', []);
+}
+
 
 
    

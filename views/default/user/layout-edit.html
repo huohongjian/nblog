@@ -19,7 +19,7 @@
 					</select>
 				</label>
 				<select name="category" class="margin-left-auto" data-val="{{article.category}}">
-					<option value="其他">--请选择类别--</option>
+					<option value="其他">--请选类别--</option>
 					{% for category in categories %}
 					<option value="{{category}}">{{category}}</option>
 					{% endfor %}
@@ -47,17 +47,22 @@
 				<input type="text" name="thumb" value="{{article.thumb}}" data-maxnum="{{maxnum}}" data-baseurl="{{baseURL}}" title="尺寸200x150" onchange="setImage()" />
 			</p>
 			<div class="text-center">
-				<img id="thumbimg" src="{% if article.thumb %}{{baseURL}}{{article.thumb}}{% else %}../images/noimage.jpg{% endif %}"/>
+				<img id="thumbimg" src="{% if article.thumb %}{{baseURL}}{{article.thumb}}{% else %}../../images/noimage.jpg{% endif %}"/>
 			</div>
 			<input type="text" name="articleid" value="{{article.articleid}}" class="hide" />
-		
+			<p>
+				<label>编辑器切换：</label>
+				<ul>
+					<li><a href="javascript:switchEditor()">Trumbowyg编辑器</a></li>
+					<li><a href="javascript:switchEditor('?wangeditor')">WangEditor编辑器</a></li>
+					<li><a href="javascript:switchEditor('?kindeditor')">KindEditor编辑器</a></li>
+				</ul>
+			</p>
 		
 			<p>
-				<a href="https://www.kancloud.cn/wangfupeng/wangeditor3/332599" target="_blank">wangEditor3使用手册</a><br>
-				<a href="https://www.kancloud.cn/wangfupeng/wangeditor2/113975" target="_blank">wangEditor2使用手册</a><br>
+				<a href="https://www.kancloud.cn/wangfupeng/wangeditor3/332599" target="_blank">wangEditor3使用手册</a>
 				<a href="https://www.kancloud.cn/wangfupeng/wangeditor/81159" target="_blank">上传图片</a>
 				<a href="http://www.jq22.com/yanshi345" target="_blank">修改网页</a>
-				<a href="http://www.jb51.net/article/57650.htm" target="_blank">插入</a>
 			</p>		
 		
 		</form>
@@ -67,10 +72,13 @@
 	<div class="right vflex a-1-1 c-4-5">
 
 		<div id="editor-head" class="vflex0">
-
+			<ul class="hor float-right p5">
+				<li><a href="../../">首页</a></li>
+				<li><a href="../../user">主页</a></li>
+			</ul>
 			<ul class="dropdown">
 				<li><a href="javascript:save()">保存</a></li>
-				<li><a href="javascript:preview()">预览</a></li>
+				<li><a href="javascript:previewArticle()">预览</a></li>
 				<li><a href="javascript:void(0)">标题▾</a>
 					<ul>
 						<li><a href="javascript:wrap('h2', 'title', true)"><h2 class="title">章节主标题</h2></a></li>
@@ -105,12 +113,18 @@
 				<li><a href="javascript:clearHTML()">清理</a></li>
 				<li><a href="#">帮助</a></li>
 			</ul>
+			{% block EditorHead %}{% endblock %}
 		</div>
 
-		<div class="vflex1">
-			<div id="editor" style="height:90%;">欢迎使用 <b>trumbowyg</b>编辑器</div>
+		<div id="editor-body" class="vflex1" style="overflow:auto;">
+			{% autoescape false %}{% block Editor %}{% endblock %}{% endautoescape %}
 		</div>
 	</div>
 </main>
 {% endblock %}
 {% block Footer %}{% endblock %}
+
+{% block toBody %}
+<script type="text/javascript" src="../../js/edit.js"></script>
+{% block toBody1 %}{% endblock %}
+{% endblock %}

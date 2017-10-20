@@ -64,9 +64,6 @@ $app->any('/article/{articleid}',	'Index:article');
 $app->any('/category[/{key}]',		'Index:category');
 $app->any('/search',				'Index:search');
 
-$app->any('/editor',				'Index:editor');
-$app->any('/trumbowyg',				'Index:trumbowyg');
-$app->any('/tinymce',				'Index:tinymce');
 
 
 $app->group('/user', function() use ($app) {
@@ -111,24 +108,6 @@ $app->group('/admin', function() use ($app) {
 	$response = $next($request, $response);
 	return $response;
 });
-
-
-
-
-// $app->group('/utils', function () use ($app) {
-//     $app->get('/date', function ($request, $response) {
-//         return $response->getBody()->write(date('Y-m-d H:i:s'));
-//     });
-//     $app->get('/time', function ($request, $response) {
-//         return $response->getBody()->write(time());
-//     });
-// })->add(function ($request, $response, $next) {
-//     $response->getBody()->write('It is now ');
-//     $response = $next($request, $response);
-//     $response->getBody()->write('. Enjoy!');
-
-//     return $response;
-// });
 
 
 
