@@ -13,7 +13,8 @@
 	<div class="left vflex a-1-1 c-1-5">
 		<h3 class="vflex0">添加 / 修改文章</h3>
 		<form name="editForm" class="vflex1">
-			
+			<input type="text" id="baseURL" value="{{baseURL}}" hidden="true">
+			<input type="text" name="articleid" value="{{article.articleid}}" hidden="true">
 			<p>
 				<label>
 					状态：
@@ -54,7 +55,7 @@
 			<div class="text-center p10">
 				<img id="thumbimg" src="{% if article.thumb %}{{baseURL}}{{article.thumb}}{% else %}../../images/noimage.png{% endif %}"/>
 			</div>
-			<input type="text" name="articleid" value="{{article.articleid}}" class="hide" />
+			
 			<p>
 				<label>编辑器切换：</label>
 				<ul>
@@ -106,7 +107,93 @@
 							<li><a href="javascript:wrap('span', 'filename', true)"><span class="filename">文件名</span></a></li>
 						</ul>
 					</li>
-					<li><a href="javascript:clearHTML()">清理</a></li>
+					<li><a href="javascript:void(0)">选区▾</a>
+						<ul>
+							<li><a href="javascript:clearHTML()">清除HTML</a></li>
+							<li><a href="javascript:pToBr()">&lt;p&gt; to &lt;br&gt;</a></li>
+							<li><a href="javascript:margeBr()">合并&lt;br&gt;</a></li>
+							
+						</ul>
+					</li>
+					<li><a href="javascript:void(0)">注释▾</a>
+						<ul>
+							<li>
+								<a href="javascript:insertCallout(1)">
+									<img src="../../imagelib/callouts/1.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(2)">
+									<img src="../../imagelib/callouts/2.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(3)">
+									<img src="../../imagelib/callouts/3.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(4)">
+									<img src="../../imagelib/callouts/4.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(5)">
+									<img src="../../imagelib/callouts/5.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(6)">
+									<img src="../../imagelib/callouts/6.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(7)">
+									<img src="../../imagelib/callouts/7.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(8)">
+									<img src="../../imagelib/callouts/8.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(9)">
+									<img src="../../imagelib/callouts/9.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(10)">
+									<img src="../../imagelib/callouts/10.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(11)">
+									<img src="../../imagelib/callouts/11.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(12)">
+									<img src="../../imagelib/callouts/12.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(13)">
+									<img src="../../imagelib/callouts/13.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(14)">
+									<img src="../../imagelib/callouts/14.png">
+								</a>
+							</li>
+							<li>
+								<a href="javascript:insertCallout(15)">
+									<img src="../../imagelib/callouts/15.png">
+								</a>
+							</li>
+						</ul>
+					</li>
 					<li><a href="javascript:help()">帮助</a></li>
 				</ul>
 

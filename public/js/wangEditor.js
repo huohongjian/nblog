@@ -12,10 +12,6 @@ editor.create();
 
 editor.txt.html(R.id('editor-source').value.replace(/(\n)+/g, ''));
 
-//if(editor.txt.html()!='') {
-//	setSource(editor.txt.html());
-//}
-
 !function(){
 	var refresh = true;
 	R.id('editor-source').addEventListener('keyup', function() {
@@ -68,5 +64,20 @@ function clearHTML() {
 	var select = editor.selection.getSelectionText();
 	editor.cmd.do('insertHTML', select + '<br>');
 }
+function pToBr() {
+	var range = editor.selection.getRange();
+		select = getHtmlAtCaret(range);
+	editor.cmd.do('insertHTML', select.replace(/<p>|<\/p>/gi, '<br>'));
+}
+function margeBr() {
+	var range = editor.selection.getRange();
+		select = getHtmlAtCaret(range);
+	editor.cmd.do('insertHTML', select.replace(/(<br>)+/gi, '<br>'));
+}
 
+
+function insertCallout(i) {
+	var img = '<span><img src="'+R.id('baseURL').value+'/imagelib/callouts/'+i+'.png" alt="'+i+'" border="0"></span>'
+	editor.cmd.do('insertHTML', img);
+}
 

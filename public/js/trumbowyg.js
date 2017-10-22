@@ -23,6 +23,7 @@ $('#editor').trumbowyg({
 function save() {
 	var html = $('#editor').trumbowyg('html');
 	saveArticle(html);  // The function is in the file named "js/edit.js"
+	R.id('editor').focus();
 }
 
 
@@ -38,6 +39,7 @@ function wrap(tag, className, isGetText) {
 		select = getHtmlAtCaret(range);
 	}
 	insertHtmlAtCaret('<'+tag+' class="'+className+'">'+select+'</'+tag+'>');
+	R.id('editor').focus();
 }
 
 
@@ -45,6 +47,7 @@ function setUserInput() {
 	$('#editor').trumbowyg('saveRange');
 	var select = $('#editor').trumbowyg('getRangeText');
 	insertHtmlAtCaret('<strong class="userinput"><code>'+select+'</code></strong>');
+	R.id('editor').focus();
 }
 
 
@@ -52,6 +55,29 @@ function clearHTML() {
 	$('#editor').trumbowyg('saveRange');
 	var select = $('#editor').trumbowyg('getRangeText');
 	insertHtmlAtCaret(select + '<br>');
+	R.id('editor').focus();
+}
+function pToBr() {
+	$('#editor').trumbowyg('saveRange');
+	var range = $('#editor').trumbowyg('getRange');
+		select = getHtmlAtCaret(range);
+	insertHtmlAtCaret(select.replace(/<p>|<\/p>/gi, '<br>'));
+	R.id('editor').focus();
+}
+function margeBr() {
+	$('#editor').trumbowyg('saveRange');
+	var range = $('#editor').trumbowyg('getRange');
+		select = getHtmlAtCaret(range);
+	insertHtmlAtCaret(select.replace(/(<br>)+/gi, '<br>'));
+	R.id('editor').focus();
+}
+
+
+
+function insertCallout(i) {
+	var img = '<span><img src="'+R.id('baseURL').value+'/imagelib/callouts/'+i+'.png" alt="'+i+'" border="0"></span>'
+	insertHtmlAtCaret(img);
+	R.id('editor').focus();
 }
 
 
