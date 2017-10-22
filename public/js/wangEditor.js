@@ -10,7 +10,8 @@ editor.customConfig.onchange = function(html){setSource(editor.txt.html())};
 editor.create();
 
 
-editor.txt.html(R.id('editor-source').value.replace(/(\n)+/g, ''));
+editor.txt.html(R.id('editor-source').value);
+
 
 !function(){
 	var refresh = true;
@@ -19,7 +20,7 @@ editor.txt.html(R.id('editor-source').value.replace(/(\n)+/g, ''));
 			var self = this;
 			refresh = false;
 			setTimeout(function() {
-				editor.txt.html(self.value.replace(/(\n)+/g, ''));
+				editor.txt.html(self.value);
 				refresh = true;
 				self.focus();
 			}, 1000);
@@ -28,9 +29,8 @@ editor.txt.html(R.id('editor-source').value.replace(/(\n)+/g, ''));
 }();
 
 function setSource(html) {
-	var reg = /(<\/div>|<\/pre>|<\/p>)/gi,
-		REG = /(<\/h[1-6]>|<br>)/gi;
-	R.id('editor-source').value	= html.replace(reg, '$1\n\n').replace(REG, '$1\n');
+	var reg = /(<\/div>|<\/pre>|<\/p>|<\/h[1-6]>|<br>)/gi;
+	R.id('editor-source').value	= html.replace(reg, '$1\n');
 }
 
 
@@ -65,14 +65,24 @@ function clearHTML() {
 	editor.cmd.do('insertHTML', select + '<br>');
 }
 function pToBr() {
-	var range = editor.selection.getRange();
+	var range = editor.selection.getRange(),
 		select = getHtmlAtCaret(range);
 	editor.cmd.do('insertHTML', select.replace(/<p>|<\/p>/gi, '<br>'));
 }
 function margeBr() {
-	var range = editor.selection.getRange();
+	var range = editor.selection.getRange(),
 		select = getHtmlAtCaret(range);
 	editor.cmd.do('insertHTML', select.replace(/(<br>)+/gi, '<br>'));
+}
+function preToProgramlisting() {
+	var range = editor.selection.getRange(),
+		select = getHtmlAtCaret(range);
+	editor.cmd.do('insertHTML', select.replace(/<pre>/gi, '<pre class="programlisting">'));
+}
+function preToScreen() {
+	var range = editor.selection.getRange(),
+		select = getHtmlAtCaret(range);
+	editor.cmd.do('insertHTML', select.replace(/<pre>/gi, '<pre class="screen">'));
 }
 
 

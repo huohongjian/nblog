@@ -71,6 +71,20 @@ function margeBr() {
 	insertHtmlAtCaret(select.replace(/(<br>)+/gi, '<br>'));
 	R.id('editor').focus();
 }
+function preToProgramlisting() {
+	$('#editor').trumbowyg('saveRange');
+	var range = $('#editor').trumbowyg('getRange');
+		select = getHtmlAtCaret(range);
+	insertHtmlAtCaret(select.replace(/<pre>/gi, '<pre class="programlisting">'));
+	R.id('editor').focus();
+}
+function preToScreen() {
+	$('#editor').trumbowyg('saveRange');
+	var range = $('#editor').trumbowyg('getRange');
+		select = getHtmlAtCaret(range);
+	insertHtmlAtCaret(select.replace(/<pre>/gi, '<pre class="screen">'));
+	R.id('editor').focus();
+}
 
 
 
