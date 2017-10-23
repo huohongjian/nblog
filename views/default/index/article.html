@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 
 {% block toHead %}
-<link rel="stylesheet" href="../libs/autocjs/dist/autoc.min.css?v=1.3.0"/>
+<link rel="stylesheet" type="text/css" href="../libs/autocjs/dist/autoc.min.css?v=1.3.0"/>
+<!-- <link rel="stylesheet" type="text/css" href="../own/Catalog.css"/> -->
 {% endblock %}
 
 {% block inMain %} {% autoescape false %}
@@ -34,7 +35,6 @@
 {% endautoescape %} {% endblock %}
 
 {% block toBody %}
-<script type="text/javascript" src="../libs/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="../libs/autocjs/dist/autoc.min.js?v=1.3.0"></script>
+<script type="text/javascript" src="../own/Catalog.js"></script>
 <script type="text/javascript" src="../js/article.js"></script>
 {% endblock %}

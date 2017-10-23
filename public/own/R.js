@@ -50,7 +50,7 @@
 	}
 	_.ce = function(t,j){var k,l,e=D.createElement(t);
 		if(j){for(k in j){if(j[k]){
-			if(k=='att'){
+			if(k=='attribute'||k=='att'){
 				for(l in j[k]){if(j[k][l])e.setAttribute(l,j[k][l])}
 			}else if(k=='style'){
 				for(l in j[k]){if(j[k][l])e[k][l]=j[k][l]}

@@ -1,0 +1,52 @@
+.catalog {
+    font-size:12px;
+    position: fixed;
+    cursor: pointer;
+    top: 120px;
+    right: 0;
+    width: auto;
+    height:auto;
+}
+.catalog a,.catalog a:link,.catalog a:visited,.catalog a:hover,
+.catalog a:active {color:#575757; text-decoration:none;}
+
+.catalog-bar {
+	float:left;
+	width:25px; 
+	border:1px solid #e5e5e5;
+	border-right:none;
+	text-align:center;
+	background:#ffffff;
+	font-weight: bold;
+	font-size: 17px;
+	padding:10px 0;
+	color:#575757;
+}
+
+.catalog-content:hover,
+.catalog-bar:hover ~ .catalog-content {
+	display: block;
+}
+
+.catalog-content {
+	display: none;
+	float:left;
+	overflow-y:auto; 
+	overflow-x:hidden;
+	width:200px;
+	min-height:200px;
+	max-height:460px;
+	border:1px solid #e5e5e5;
+	border-right:none; 
+	background:#ffffff;
+    padding:5px;
+}
+
+.catalog-content a {
+	padding:2px;
+	display: block;
+	text-overflow:ellipsis;display:block;overflow:hidden;white-space:nowrap;
+}
+
+
+

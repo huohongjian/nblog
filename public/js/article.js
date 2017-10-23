@@ -1,9 +1,5 @@
-var ArticleTOC = new AutocJS({
-     article: '#article-section',
-     title: '目 录',
-//     hasChapterCodeInDirectory: false,
-});
 
+new Catalog('#article-section');
 
 
 
