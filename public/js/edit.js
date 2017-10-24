@@ -26,6 +26,12 @@ function setImage() {
 	R.id('thumbimg').src = src;
 }
 
+function toChapterTitle() {
+	R.ALL('h1,h2,h3,h4,h5,h6', R.id('editor')).each(function(a){
+		a.className = 'title';
+	});
+}
+
 
 
 
