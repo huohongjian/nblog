@@ -1,6 +1,6 @@
 <?php
 
-class Index {
+class IndexController {
 
 protected $container;
 
@@ -9,13 +9,11 @@ function __construct(Interop\Container\ContainerInterface $container) {
 }
 
 function index($request, $response, $args) {
-	$fields = 'thumb, content';
-	$sql = "SELECT thumb, content FROM nb_article
-			WHERE columns='首页栏目' AND status<>'删除'
-			ORDER BY articleid";
 	$this->container->get('view')->render($response, 'index/index.html', [
 		'categories'=> DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all(),
-		'columns'	=> DB::ins()->query($sql)->all()
+		'homeNav'	=> Article::getOne('system-home-nav')['content'],
+		'homeLeft'  => Article::getOne('system-home-left')['content'],
+		'homeRT'	=> Article::getOne('system-home-rt')['content'],
 	]);
 	return $response;
 }
@@ -127,7 +125,8 @@ function donation($request, $response, $args) {
 		$items 	= DB::ins()->select('nb_donation', [], '', 'count(*)')->val();
 		return $this->container->get('view')->render($response, 'index/donation.html', [
 			'pages'	=> ['perItem'=>$limit, 'totItem'=>$items],
-			'donas'	=> DB::ins()->select('nb_donation', [], '', 'count(*) AS count, sum(amount)')->one()
+			'donas'	=> DB::ins()->select('nb_donation', [], '', 'count(*) AS count, sum(amount)')->one(),
+			'homeNav'=> DB::ins()->select('nb_article',['articleid'=>'system-home-nav'],'','content')->val(),
 		]);
 
 	} else if ($request->isPost()) {
@@ -148,7 +147,8 @@ function search($request, $response, $args) {
 	if ($request->isGet()) {
 		return $this->container->get('view')->render($response, 'index/search.html', [
 			'pages' 	=> ['perItem'=>$limit],
-			'categories'=> DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all()
+			'categories'=> DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all(),
+			'homeNav'	=> DB::ins()->select('nb_article',['articleid'=>'system-home-nav'],'','content')->val()
 		]);
 
 	} else if ($request->isPost()) {
@@ -201,6 +201,9 @@ function article($request, $response, $args) {
 		} else {
 			$templet = 'index/article.html';
 		}
+
+		
+		$article['homeNav'] = DB::ins()->select('nb_article',['articleid'=>'system-home-nav'],'','content')->val();
 		return $this->container->get('view')->render($response, $templet, $article);
 
 	} else if ($request->isPost()) {

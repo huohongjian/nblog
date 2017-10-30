@@ -1,6 +1,6 @@
 <?php
 
-class Admin {
+class AdminController {
 
 protected $container;
 
@@ -152,6 +152,22 @@ function donations($request, $response, $args) {
 		} else {
 			return $response->getBody()->write('error');
 		}
+
+	}
+
+}
+
+function homecontent($request, $response, $args) {
+
+	if ($request->isGet()) {
+		$sql = "SELECT a.articleid, a.title, a.status, a.category, a.newtime, b.name AS username
+				FROM nb_article AS a
+				LEFT JOIN nb_user AS b ON a.userid=b.userid
+				WHERE a.category='system-home'
+				ORDER BY a.articleid";
+		return $this->container->get('view')->render($response, 'admin/homecontent.html', [
+			'articles'=>DB::ins()->query($sql)->all()
+		]);
 
 	}
 

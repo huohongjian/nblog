@@ -1,0 +1,52 @@
+{% extends "admin/layout.html" %}
+
+{% block toHead1 %}
+<style type="text/css">
+	#editcontent{width:90%; height:300px; margin:10px;}
+</style>
+{% endblock %}
+
+
+
+{% block inRight %}
+<h3>首页内容管理</h3>
+
+<table class="homepage-columns ml50">
+	<thead>
+		<tr>
+			<th>文章ID</th>
+			<th>标题</th>
+			<th>贡献者</th>
+			<th>状态</th>
+			<th>类别</th>
+			<th>更新时间</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody id="listTbody">
+		{% for a in articles %}
+		<tr>
+			<td>{{a.articleid}}</td>
+			<td><a href="../../article/{{a.articleid}}">{{a.title}}</a></td>
+			<td>{{a.username}}</td>
+			<td>{{a.status}}</td>
+			<td>{{a.category}}</td>
+			<td>{{a.newtime}}</td>
+			<td><a href="../../user/edit/{{a.articleid}}?wangeditor">编辑</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+
+
+{% endblock %}
+
+
+{% block toBody %}
+<script type="text/javascript" src="../../../own/Pagination.js"></script>
+<script type="text/javascript">
+	R.id('section-2').checked = true;
+</script>
+{% endblock %}

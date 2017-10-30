@@ -50,32 +50,32 @@ $container['view'] = function($c) {
 };
 
 
-$app->get('/',  				'Index:index');
-$app->get('/captcha',			'Index:captcha');
-$app->get('/logout',			'Index:logout');
-$app->any('/login',				'Index:login');
-$app->any('/regist',			'Index:regist');
-$app->post('/checkLoginName',	'Index:hasSameUser');
-$app->any('/suggest',			'Index:suggest');
-$app->any('/donation',			'Index:donation');
+$app->get('/',  				'IndexController:index');
+$app->get('/captcha',			'IndexController:captcha');
+$app->get('/logout',			'IndexController:logout');
+$app->any('/login',				'IndexController:login');
+$app->any('/regist',			'IndexController:regist');
+$app->post('/checkLoginName',	'IndexController:hasSameUser');
+$app->any('/suggest',			'IndexController:suggest');
+$app->any('/donation',			'IndexController:donation');
 
-$app->any('/book[/{articleid}]',	'Index:book');
-$app->any('/article/{articleid}',	'Index:article');
-$app->any('/category[/{key}]',		'Index:category');
-$app->any('/search',				'Index:search');
+$app->any('/book[/{articleid}]',	'IndexController:book');
+$app->any('/article/{articleid}',	'IndexController:article');
+$app->any('/category[/{key}]',		'IndexController:category');
+$app->any('/search',				'IndexController:search');
 
 
 
 $app->group('/user', function() use ($app) {
-	$app->any('',						User::class.':index');
-	$app->any('/edit/[{articleid}]', 	User::class.':edit');
+	$app->any('',						UserController::class.':index');
+	$app->any('/edit/[{articleid}]', 	UserController::class.':edit');
 
 	$app->group('/manage', function() use ($app) {
-		$app->get('/',					UserManage::class.':index');
-		$app->any('/userinfo',			UserManage::class.':userinfo');
-		$app->any('/template',			UserManage::class.':template');
-		$app->any('/articles',			UserManage::class.':articles');
-		$app->any('/category',			UserManage::class.':category');
+		$app->get('/',					UserManageController::class.':index');
+		$app->any('/userinfo',			UserManageController::class.':userinfo');
+		$app->any('/template',			UserManageController::class.':template');
+		$app->any('/articles',			UserManageController::class.':articles');
+		$app->any('/category',			UserManageController::class.':category');
 	});
 })->add(function($request, $response, $next) {
 	if (empty(Session::get('login'))) {
@@ -88,13 +88,15 @@ $app->group('/user', function() use ($app) {
 
 
 $app->group('/admin', function() use ($app) {
-	$app->get('/', 				Admin::class.':index');
-	$app->get('/install',  		Admin::class.':install');
-	$app->get('/users', 		Admin::class.':users');
-	$app->any('/articles', 		Admin::class.':articles');
-	$app->any('/categories', 	Admin::class.':categories');
-	$app->any('/donations', 	Admin::class.':donations');
-	$app->any('/homepage',		Admin::class.':homepage');
+	$app->get('/', 				AdminController::class.':index');
+	$app->get('/install',  		AdminController::class.':install');
+	$app->get('/users', 		AdminController::class.':users');
+	$app->any('/articles', 		AdminController::class.':articles');
+	$app->any('/categories', 	AdminController::class.':categories');
+	$app->any('/donations', 	AdminController::class.':donations');
+	$app->any('/homepage',		AdminController::class.':homepage');
+
+	$app->any('/homecontent',	AdminController::class.':homecontent');
 
 })->add(function($request, $response, $next) {
 	if (empty(Session::get('roleid')) or Session::get('roleid')>2) {

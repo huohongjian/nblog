@@ -38,16 +38,13 @@
 
 
 
-{% block Nav %}<nav class="a decoration-none">{% block inNav %}
-<ul class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80 g-m-120">
-	<li><a href="{{baseURL}}/">首页</a></li>
-	<li><a href="{{baseURL}}/search">文档</a></li>
-	<li><a href="{{baseURL}}/article/chinafreebsd-resouce">本站源</a></li>
-	<li><a href="{{baseURL}}/article/chinafreebsd-memorabilia">大事记</a></li>
-	<li><a href="{{baseURL}}/article/chinafreebsd-about">关于</a></li>
-	<li><a href="{{baseURL}}/donation">捐赠</a></li>
-</ul>
-{% endblock %}</nav>{% endblock %}
+{% block Nav %}
+<nav class="a decoration-none b-p-0 c-p-10 d-p-30 e-p-50 f-p-80 g-p-120">
+{% block inNav %}
+	{% autoescape false %}{{homeNav}}{% endautoescape %}
+{% endblock %}
+</nav>
+{% endblock %}
 
 
 

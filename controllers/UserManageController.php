@@ -1,6 +1,6 @@
 <?php
 
-class UserManage {
+class UserManageController {
 
 protected $container;
 
