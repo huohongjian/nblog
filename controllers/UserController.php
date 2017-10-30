@@ -19,7 +19,8 @@ function index($request, $response, $args) {
 		return $this->container->get('view')->render($response, 'user/index.html', [
 			'userphoto' => $user['photo'],
 			'categories'=> explode(',', $user['categories']),
-			'pages'		=> ['perItem'=>$limit]
+			'pages'		=> ['perItem'=>$limit],
+			'homeNav'	=> Article::getOne('system-home-nav')['content'],
 		]);
 
 	} else if ($request->isPost()) {
