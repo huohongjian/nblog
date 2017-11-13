@@ -22,6 +22,7 @@ class Session {
 	
 
 	static function set(array $params) {
+		self::gc();
 		$SID  = session_id();
 		$json = pg_escape_string(json_encode($params));
 	    $sql  = "SELECT nb_session_upsert('$SID', '$json')";
@@ -39,6 +40,7 @@ class Session {
 
 
 	static function clear() {
+		self::gc();
 		$SID  = session_id();
 		$time = date("Y-m-d H:i:s", time() - self::$life);
 		$sql  = "DELETE FROM nb_session WHERE sessionid='$SID' OR logintime<'{$time}'";

@@ -107,8 +107,9 @@ function suggest($request, $response, $args) {
 	if ($request->isGet()) {
 		$sql = 'SELECT * FROM nb_suggest ORDER BY suggestid DESC';
 		return $this->container->get('view')->render($response, 'index/suggest.html', [
-			'suggests' => DB::ins()->query($sql)->all(),
-			'categories'=>DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all()
+			'homeNav'	=> Article::getOne('system-home-nav')['content'],
+			'suggests'	=> DB::ins()->query($sql)->all(),
+			'categories'=> DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all()
 		]);
 	} else if ($request->isPost()) {
 		$post = $request->getParsedBody();
@@ -124,9 +125,9 @@ function donation($request, $response, $args) {
 	if ($request->isGet()) {
 		$items 	= DB::ins()->select('nb_donation', [], '', 'count(*)')->val();
 		return $this->container->get('view')->render($response, 'index/donation.html', [
-			'pages'	=> ['perItem'=>$limit, 'totItem'=>$items],
-			'donas'	=> DB::ins()->select('nb_donation', [], '', 'count(*) AS count, sum(amount)')->one(),
-			'homeNav'=> DB::ins()->select('nb_article',['articleid'=>'system-home-nav'],'','content')->val(),
+			'homeNav'	=> Article::getOne('system-home-nav')['content'],
+			'pages'		=> ['perItem'=>$limit, 'totItem'=>$items],
+			'donas'		=> DB::ins()->select('nb_donation', [], '', 'count(*) AS count, sum(amount)')->one(),
 		]);
 
 	} else if ($request->isPost()) {
@@ -146,9 +147,9 @@ function search($request, $response, $args) {
 
 	if ($request->isGet()) {
 		return $this->container->get('view')->render($response, 'index/search.html', [
+			'homeNav'	=> Article::getOne('system-home-nav')['content'],
 			'pages' 	=> ['perItem'=>$limit],
 			'categories'=> DB::ins()->select('nb_category',[],'ORDER BY categoryid','name')->all(),
-			'homeNav'	=> DB::ins()->select('nb_article',['articleid'=>'system-home-nav'],'','content')->val()
 		]);
 
 	} else if ($request->isPost()) {
@@ -202,8 +203,7 @@ function article($request, $response, $args) {
 			$templet = 'index/article.html';
 		}
 
-		
-		$article['homeNav'] = DB::ins()->select('nb_article',['articleid'=>'system-home-nav'],'','content')->val();
+		$article['homeNav'] = Article::getOne('system-home-nav')['content'];
 		return $this->container->get('view')->render($response, $templet, $article);
 
 	} else if ($request->isPost()) {
