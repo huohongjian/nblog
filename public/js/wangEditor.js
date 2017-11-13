@@ -29,7 +29,7 @@ editor.txt.html(R.id('editor-source').value);
 }();
 
 function setSource(html) {
-	var reg = /(<\/div>|<\/pre>|<\/p>|<\/h[1-6]>|<br>|<\/ul>|<\/li>)/gi;
+	var reg = /(<div>|<\/div>|<pre>|<\/pre>|<p>|<\/p>|<ul>|<\/ul>|<\/h[1-6]>|<br>|<\/li>)\n?/gi;
 	R.id('editor-source').value	= html.replace(reg, '$1\n');
 }
 
