@@ -41,8 +41,8 @@ $container['view'] = function($c) {
 	// $scheme = 'https';
 	// $baseUrl = $scheme."://".$host.$port.$path;
 
-	$url = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-	$baseUrl = strstr($url, '/index.php', true);
+//	$url = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+//	$baseUrl = strstr($url, '/index.php', true);
 	$baseUrl = '';
 
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);

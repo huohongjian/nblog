@@ -200,6 +200,8 @@ class DB {
 	}
 
 	static function where(array $where, $exEmpty=true) {
+		$s = '';
+
 		if ($exEmpty) {
 			foreach ($where as $k => $v) {
 				if (!empty($v)) {
@@ -211,7 +213,7 @@ class DB {
 				$s .= ' AND '.self::clear($k).'='.self::escape($v);
 			}
 		}
-		if (empty($s)) {
+		if ($s=='') {
 			return '';
 		} else {
 			return ' WHERE '. substr($s, 4);
@@ -229,6 +231,10 @@ class DB {
 	}
 
 	static function struck(array $data, $exEmpty=false) {
+		$fields = '';
+		$values = '';
+		$upsets = '';
+
 		if ($exEmpty) {
 			foreach ($data as $k => $v) {
 				if (!empty($v)) {
