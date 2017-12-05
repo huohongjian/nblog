@@ -80,7 +80,10 @@ function login($request, $response, $args) {
 						'login'  => $user['login'],
 						'name'	 => $user['name']
 					]);
-					return $response->withStatus(302)->withHeader('Location', '/user');
+					$query = $request->getUri()->getQuery();
+					parse_str($query, $output);
+					$launch = isset($output['launch']) ? $output['launch'] : '../user'; 
+					return $response->withStatus(302)->withHeader('Location', $launch);
 				} else {
 					$message = '登录密码不正确!';
 				}

@@ -1,0 +1,25 @@
+{% extends "forums/layout.html" %}
+
+
+{% block inMiddle1 %}
+
+	{% for a in threads %}
+	<section class="threads">
+		<img src="{{a.userphoto}}">
+		<h3><a href="#">{{a.title}}</a></h3>
+		<ul class="hor">
+			<li><a href="/forums?category={{a.category}}">{{a.category}}</a></li>
+			<li><a href="/forums/user/{{a.username}}">{{a.username}}</a></li>
+			<li>{{a.addtime}}</li>
+			<li>浏览：{{a.counter}}</li>
+			<li>回贴数：{{a.replynum}}</li>
+			<li>点赞：{{a.agree}}</li>
+		</ul>
+	</section>
+{% endfor %}
+
+{% endblock %}
+
+
+
+

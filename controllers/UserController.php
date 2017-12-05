@@ -49,7 +49,7 @@ function index($request, $response, $args) {
 
 
 
-function edit($request, $response, $args) {
+function editArticle($request, $response, $args) {
 	$querys = $request->getUri()->getQuery();
 	$roleid = Session::get('roleid') ?? 6;
 	$userid = Session::get('userid');
@@ -94,7 +94,7 @@ function edit($request, $response, $args) {
 				'articleid' => $articleid
 			]);
 		} else {
-			$post['newtime'] = date("Y-m-d h:i:s");
+			$post['newtime'] = date("Y-m-d H:i:s");
 			$r = DB::ins()->update('nb_article', $post, ['articleid'=>$post['articleid']])
 					->affectedRows();
 			if ($r>0) {
@@ -106,13 +106,50 @@ function edit($request, $response, $args) {
 			}
 		}
 	}
-
-
-
-
 }
 
 
+function editThread($request, $response, $args) {
+	$roleid = Session::get('roleid') ?? 6;
+	$userid = Session::get('userid');
+
+	if ($request->isGet()) {
+		$this->container->get('view')->render($response, 'forums/thread.html', [
+			'categories'=> Category::getAll('name'), 
+	
+		]);
+
+	} else if ($request->isPost()) {
+		$status 	= 400;
+		$threadid	= 'new';
+		$msg		= '您尚未登录!';
+
+		if ($userid>0) {
+			$post = $request->getParsedBody();
+			if (strlen($post['threadid']<13)) {
+				$post['userid'] = $userid;
+				$threadid		= Thread::insert($post);
+				$msg 			= '帖子发布成功!';
+				$status			= 200;
+			} else {
+				if ($userid==$post['userid'] || $roleid<3) {
+					$threadid 	= Thread::update($post);
+					$msg 		= '帖子更新成功!';
+					$status		= 200;
+				} else {
+					$msg = '您无权更新帖子!';
+				}
+			}
+		}
+		return $response->withJson([
+			'status'	=> $status,
+			'threadid'	=> $threadid,
+			'msg'		=> $msg
+		]);
+	}
+	return $response;
+
+}
 
    
 }

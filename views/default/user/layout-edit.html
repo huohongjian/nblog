@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block toHead %}
-	<link rel="stylesheet" href="../../css/edit.css"/>
+	<link rel="stylesheet" href="../../../css/edit.css"/>
 	{% block toHead1 %}{% endblock %}
 {% endblock %}
 
@@ -53,7 +53,7 @@
 				<input type="text" name="thumb" value="{{article.thumb}}" data-maxnum="{{maxnum}}" data-baseurl="{{baseURL}}" title="尺寸200x150" onchange="setImage()" />
 			</p>
 			<div class="text-center p10">
-				<img id="thumbimg" src="{% if article.thumb %}{{baseURL}}{{article.thumb}}{% else %}../../images/noimage.png{% endif %}"/>
+				<img id="thumbimg" src="{% if article.thumb %}{{baseURL}}{{article.thumb}}{% else %}../../../images/noimage.png{% endif %}"/>
 			</div>
 			
 			<p>
@@ -122,77 +122,77 @@
 						<ul>
 							<li>
 								<a href="javascript:insertCallout(1)">
-									<img src="../../imagelib/callouts/1.png">
+									<img src="../../../imagelib/callouts/1.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(2)">
-									<img src="../../imagelib/callouts/2.png">
+									<img src="../../../imagelib/callouts/2.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(3)">
-									<img src="../../imagelib/callouts/3.png">
+									<img src="../../../imagelib/callouts/3.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(4)">
-									<img src="../../imagelib/callouts/4.png">
+									<img src="../../../imagelib/callouts/4.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(5)">
-									<img src="../../imagelib/callouts/5.png">
+									<img src="../../../imagelib/callouts/5.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(6)">
-									<img src="../../imagelib/callouts/6.png">
+									<img src="../../../imagelib/callouts/6.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(7)">
-									<img src="../../imagelib/callouts/7.png">
+									<img src="../../../imagelib/callouts/7.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(8)">
-									<img src="../../imagelib/callouts/8.png">
+									<img src="../../../imagelib/callouts/8.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(9)">
-									<img src="../../imagelib/callouts/9.png">
+									<img src="../../../imagelib/callouts/9.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(10)">
-									<img src="../../imagelib/callouts/10.png">
+									<img src="../../../imagelib/callouts/10.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(11)">
-									<img src="../../imagelib/callouts/11.png">
+									<img src="../../../imagelib/callouts/11.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(12)">
-									<img src="../../imagelib/callouts/12.png">
+									<img src="../../../imagelib/callouts/12.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(13)">
-									<img src="../../imagelib/callouts/13.png">
+									<img src="../../../imagelib/callouts/13.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(14)">
-									<img src="../../imagelib/callouts/14.png">
+									<img src="../../../imagelib/callouts/14.png">
 								</a>
 							</li>
 							<li>
 								<a href="javascript:insertCallout(15)">
-									<img src="../../imagelib/callouts/15.png">
+									<img src="../../../imagelib/callouts/15.png">
 								</a>
 							</li>
 						</ul>
@@ -201,8 +201,8 @@
 				</ul>
 
 				<ul class="hor">
-					<li><a href="../../">首页</a></li>
-					<li><a href="../../user">主页</a></li>
+					<li><a href="../../../">首页</a></li>
+					<li><a href="../../../user">主页</a></li>
 					<li><a href="javascript:addArticle()">添加</a></li>
 				</ul>
 			</div>
@@ -221,6 +221,6 @@
 {% block Footer %}{% endblock %}
 
 {% block toBody %}
-<script type="text/javascript" src="../../js/edit.js"></script>
+<script type="text/javascript" src="../../../js/edit.js"></script>
 {% block toBody1 %}{% endblock %}
 {% endblock %}

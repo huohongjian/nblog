@@ -1,17 +1,22 @@
 <?php
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+
 require_once('../vendor/autoload.php');
 
 
 $configuration = [
 	'settings' => [
-		'displayErrorDetails' => true,
+	'displayErrorDetails' => true,
 	],
 ];
 
 $c = new \Slim\Container($configuration);
 $app = new \Slim\App($c);
+
+
+
+
 //$app = new \Slim\App();
 $container = $app->getContainer();
 
@@ -21,24 +26,39 @@ $container['view'] = function($c) {
 		'cache' => false
 	]);
 	// Instantiate and add Slim specific extension
-	$basePath = rtrim(str_ireplace('index.php', '', $c->request->getUri()->getBasePath()), '/');
+	$basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
 	$view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
 
+
+	// $request = $c->request;
+	// $uri 	 = $request->getUri();
+	// $scheme  = $uri->getScheme();
+	// $host 	 = $uri->getHost();
+	// $path 	 = $uri->getBasePath();
+	// $port 	 = $uri->getPort() ;
+	// if ($port) $port = ':'.$port;
+
+	// $scheme = 'https';
+	// $baseUrl = $scheme."://".$host.$port.$path;
+
+//	$url = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+//	$baseUrl = strstr($url, '/index.php', true);
 	$baseUrl = '';
+
 	$view->getEnvironment()->addGlobal('baseURL', $baseUrl);
 	$view->getEnvironment()->addGlobal('USER',   Session::get());
 	return $view;
 };
 
 
-$app->get('/',  					'IndexController:index');
-$app->get('/captcha',				'IndexController:captcha');
-$app->get('/logout',				'IndexController:logout');
-$app->any('/login',					'IndexController:login');
-$app->any('/regist',				'IndexController:regist');
-$app->post('/checkLoginName',		'IndexController:hasSameUser');
-$app->any('/suggest',				'IndexController:suggest');
-$app->any('/donation',				'IndexController:donation');
+$app->get('/',  				'IndexController:index');
+$app->get('/captcha',			'IndexController:captcha');
+$app->get('/logout',			'IndexController:logout');
+$app->any('/login',				'IndexController:login');
+$app->any('/regist',			'IndexController:regist');
+$app->post('/checkLoginName',	'IndexController:hasSameUser');
+$app->any('/suggest',			'IndexController:suggest');
+$app->any('/donation',			'IndexController:donation');
 
 $app->any('/book[/{articleid}]',	'IndexController:book');
 $app->any('/article/{articleid}',	'IndexController:article');
@@ -46,16 +66,11 @@ $app->any('/category[/{key}]',		'IndexController:category');
 $app->any('/search',				'IndexController:search');
 
 $app->any('/forums',				'ForumsController:index');
-$app->any('/thread/{threadid}',		'ForumsController:thread');
 
 
 $app->group('/user', function() use ($app) {
-	$app->any('',							UserController::class.':index');
-
-	$app->group('/edit', function() use ($app) {
-		$app->any('/article/[{articleid}]', UserController::class.':editArticle');
-		$app->any('/thread/[{threadid}]',	UserController::class.':editThread');
-	});
+	$app->any('',						UserController::class.':index');
+	$app->any('/edit/[{articleid}]', 	UserController::class.':edit');
 
 	$app->group('/manage', function() use ($app) {
 		$app->get('/',					UserManageController::class.':index');
@@ -100,13 +115,12 @@ $app->group('/admin', function() use ($app) {
 
 
 $app->group('/forums', function() use ($app) {
-	$app->any('/thread',	ForumsController::class.':thread');
+	$app->any('/post',		ForumsController::class.':post');
 	$app->any('/reply',		ForumsController::class.':reply');
 
 })->add(function($request, $response, $next) {
 	if (empty(Session::get('login'))) {
-		$launch = $request->getUri()->getPath();
-		return $response->withStatus(302)->withHeader('Location', "/login?launch=$launch");
+		return $response->withStatus(302)->withHeader('Location', '/login');
 	}
 	$response = $next($request, $response);
 	return $response;

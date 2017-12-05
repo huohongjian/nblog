@@ -12,6 +12,7 @@ Panel = function(params) {
 	this.bottom;
 	this.textAlign = 'center';
 	this.background = '#fff';
+	this.zIndex	= 9999;
 	
 	this.container = 'body';
 	this.title = '信息';
@@ -68,6 +69,7 @@ Panel.prototype = {
 				left: p.left + 'px',
 				width: p.width + 'px',
 				height: p.height + 'px',
+				zIndex: p.zIndex,
 				display: p.display,
 				background: p.background,
 			},
@@ -78,6 +80,7 @@ Panel.prototype = {
 				</header>\
 				<div class="_panel_content_" style="height:' + (p.height-h) + 'px;">' + p.html + '</div>',
 		});
+
 		p.R(p.container).appendChild(p.panel);
 		p.R('header li:nth-child(1)', p.panel).addEventListener('click', function(e){p.toggle()});
 		p.R('header li:nth-child(2)', p.panel).addEventListener('click', function(e){p.destory()});

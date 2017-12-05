@@ -21,14 +21,14 @@ header.a a:link, header.a a:visited, header.a a:hover, header.a a:active{
 }
 
 
-header.a figure {display:table; margin:0;}
+header.a figure {display:table; margin:auto;}
 header.a figure img {width:60px; margin:8px 8px 2px;}
 header.a figcaption {display:table-cell; vertical-align:middle; font-size: 28px;}
 
 header.a ul {margin:4px;}
 header.a li {margin-right:8px;}
 header.a form{margin:0;}
-header.a [name=key] {height:12px; width:90px; font-size:12px; margin:4px;}
+header.a [name=key] {height:12px; width:75px; font-size:12px; margin:4px;}
 
 
 nav.a {
@@ -171,3 +171,13 @@ main.book{height:100%;}
 
 
 
+header.forums a:link, header.forums a:visited, header.forums a:active {font-weight:normal;	font-size:small;}
+header.forums a:hover {font-weight:bolder;}
+header.forums li {margin-right:2px;}
+main.forums .forums-post-form input[name=title] {width: calc(100% - 300px);}
+main.forums .w-e-toolbar {background-color:#F1F1F1; border: 1px solid #CCCCCC;}
+main.forums .w-e-toolbar i {font-size: small;}
+main.forums .w-e-toolbar i {font-size: small;}
+main.forums .w-e-text-container {height: calc(100vh - 260px)!important; border: 1px solid #CCCCCC; border-top: 0;}
+main.forums .threads {border-bottom: 1px solid #CCCCCC;}
+main.forums .threads > img {width:60px; height:60px; float:left; margin:10px;}

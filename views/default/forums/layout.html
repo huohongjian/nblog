@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+
+{% block Header %}
+<header class="a flex forums">
+	<div class="a-1-1 c-1-4 d-1-5 e-1-6 f-1-7 text-middle">
+		<figure>
+			<a href="{{baseUrl}}/" title="首页">
+				<img src="{{baseUrl}}/images/logo1.png" style="width:25px;">
+			</a>
+			<figcaption>
+				<a href="{{baseUrl}}/forums" title="全部"><h4>Forums</h4></a>
+			</figcaption>
+		</figure>
+	</div>
+	<div class="a-1-1 c-2-4 d-3-5 e-4-6 f-5-7 text-middle">
+		<ul class="hor">
+			{% for a in categories %}
+			<li><a href="{{baseUrl}}/forums?category={{a.name}}">{{a.name}}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="a-1-1 c-1-4 d-1-5 e-1-6 f-1-7 text-middle">
+		<form>
+			<input name="key" class="inline-block" placeholder="搜索"> 
+			{% if USER and USER.login %}
+			<a href="#" style="font-weight:bolder; margin-right:3px;">{{USER.login}}</a>
+			{% endif %}
+			<a href="{{baseUrl}}/user/edit/thread/new">发贴</a>
+		</form>
+	</div>
+</header>
+{% endblock %}
+
+
+{% block Nav %}{% endblock %}
+
+
+{% block Main %}
+<main class="a flex forums">
+	<div class="a-1-1 c-1-4 d-1-5 e-1-6 f-1-7">
+		{% block inLeft1 %}{% endblock %}
+	</div>
+	<div class="a-1-1 c-2-4 d-3-5 e-4-6 f-5-7">
+		{% block inMiddle1 %}{% endblock %}
+	</div>
+	<div class="a-1-1 c-1-4 d-1-5 e-1-6 f-1-7">
+		{% block inRight1 %}{% endblock %}
+	</div>
+</main>
+{% endblock %}

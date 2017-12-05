@@ -1,7 +1,7 @@
 
 var E = window.wangEditor;
 var editor = new E('#editor-title', '#editor-content');
-
+editor.customConfig.zIndex = 9;
 editor.customConfig.debug = true;
 editor.customConfig.menus = ['head', 'bold', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo'];
 

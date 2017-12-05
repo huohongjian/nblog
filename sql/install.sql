@@ -297,6 +297,8 @@ CREATE TABLE IF NOT EXISTS nb_user (
 	password 	character varying(32) NOT NULL default '',
 	roleid 		integer NOT NULL default 5,
 	score 		integer NOT NULL default 0,
+	threadnum	integer NOT NULL default 0,
+	replynum	integer NOT NULL default 0,
 	categories	text NOT NULL default '',
 	jointime 	timestamp(0) without time zone NOT NULL DEFAULT now(),
 	telephone 	character varying(16),

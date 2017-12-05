@@ -230,7 +230,7 @@ function homepage($request, $response, $args) {
 function install($request, $response, $args) {
 
 	echo '请与管理员联系...';
-	return false;
+//	return false;
 
 
 

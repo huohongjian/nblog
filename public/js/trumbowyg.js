@@ -2,7 +2,7 @@
 
 $('#editor').trumbowyg({
 	lang: 'zh_cn',
-	svgPath: '../../libs/Trumbowyg/dist/ui/icons.svg',
+	svgPath: '../../../libs/Trumbowyg/dist/ui/icons.svg',
 	// autogrow: true,
 	semantic: false,
 	btns: [
