@@ -1,5 +1,5 @@
 <ul class="login-bar p0">
-	{% if USER.login %}
+	{% if USER and USER.login %}
 	<li><a href="{{baseURL}}/user"><i class="iconfont icon-seeuser"></i> {{USER.login}}</a></li>
 	<li><a href="{{baseURL}}/user/edit/article/new">添加</a></li>
 	<li><a href="{{baseURL}}/user/manage/">管理</a></li>

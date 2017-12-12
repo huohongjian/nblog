@@ -17,9 +17,10 @@ $container = $app->getContainer();
 
 
 $container['view'] = function($c) {
-	$view = new \Slim\Views\Twig('../views/default', [
+	$view = new \Slim\Views\Twig('../views/default', array(
+		'autoescape' => false,
 		'cache' => false
-	]);
+	));
 	// Instantiate and add Slim specific extension
 	$basePath = rtrim(str_ireplace('index.php', '', $c->request->getUri()->getBasePath()), '/');
 	$view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
@@ -45,9 +46,11 @@ $app->any('/article/{articleid}',	'IndexController:article');
 $app->any('/category[/{key}]',		'IndexController:category');
 $app->any('/search',				'IndexController:search');
 
-$app->any('/forums',				'ForumsController:index');
-$app->any('/thread/{threadid}',		'ForumsController:thread');
-
+$app->group('/forums', function() use ($app) {
+	$app->any('',						'ForumsController:index');
+	$app->any('/thread/{threadid}',		'ForumsController:thread');
+	$app->any('/user/{userid}',			'ForumsController:user');
+});
 
 $app->group('/user', function() use ($app) {
 	$app->any('',							UserController::class.':index');
@@ -99,7 +102,7 @@ $app->group('/admin', function() use ($app) {
 });
 
 
-$app->group('/forums', function() use ($app) {
+$app->group('/forums1', function() use ($app) {
 	$app->any('/thread',	ForumsController::class.':thread');
 	$app->any('/reply',		ForumsController::class.':reply');
 

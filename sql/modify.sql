@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS nb_thread (
 	content		text NOT NULL default '',
 	userid		integer NOT NULL default 0,
 	counter		integer NOT NULL default 0,
-	agree		integer NOT NULL default 0,
 	replynum	integer NOT NULL default 0,
 	addtime		timestamp(0) without time zone NOT NULL default now(),
 	CONSTRAINT nb_thread_pkey PRIMARY KEY(thid)
@@ -30,7 +29,6 @@ CREATE TABLE IF NOT EXISTS nb_reply (
 	threadid	varchar(32) NOT NULL default '',
 	content		text NOT NULL default '',
 	userid		integer NOT NULL default 0,
-	agree		integer NOT NULL default 0,
 	addtime		timestamp(0) without time zone NOT NULL default now(),
 	CONSTRAINT nb_reply_pkey PRIMARY KEY(replyid)
 );

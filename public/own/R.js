@@ -134,7 +134,7 @@
 				m=k+'='+v;
 				if(h.indexOf('?')>0){
 					n=h.match(new RegExp("(/?|&)("+ k +"=[^&]*)(&|$)"));
-					return n==null ? h+'?'+m : h.replace(n[2],m);
+					return n==null ? h+'&'+m : h.replace(n[2],m);
 				}else{
 					return h+'?'+m;
 				}

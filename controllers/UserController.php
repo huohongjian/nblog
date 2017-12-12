@@ -114,7 +114,7 @@ function editThread($request, $response, $args) {
 	$userid = Session::get('userid');
 
 	if ($request->isGet()) {
-		$this->container->get('view')->render($response, 'forums/thread.html', [
+		$this->container->get('view')->render($response, 'user/threadeditor.html', [
 			'categories'=> Category::getAll('name'), 
 	
 		]);

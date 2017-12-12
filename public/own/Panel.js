@@ -1,92 +1,88 @@
 /** version 1.0.0
- ** date: 2017-03-22
+ ** date: 2017-12-10
  ** author: HuoHongJian
  */	
-Panel = function(params) {
-	this.id;
-	this.left;
-	this.top;
-	this.width = 300;
-	this.height = 200;
-	this.right;
-	this.bottom;
-	this.textAlign = 'center';
-	this.background = '#fff';
-	this.zIndex	= 9999;
-	
-	this.container = 'body';
-	this.title = '信息';
-	this.titleHeight = 39;
-	this.html = '<p>this is a panel.</p>';
-	this.movable = true;
-	this.display = 'block';
-	this.style   = '';
-
-	for(var k in params){if(params[k]!==undefined)this[k]=params[k]}
-	this.index = Panel.LEN++;
-	if(this.index===0)this.writeCSS(this);
-	this.createPanel(this);
+Panel = function(cfg) {
+	var t=this;
+	t.width = 300;
+	t.height = 200;
+	t.title = '信息';
+	t.titleHeight = 38;
+	t.display = 'block';
+	t.zIndex = 9;
+	t.movable = true;
+	t.textAlign = 'center';
+	for(var k in cfg) {
+		t[k] = cfg[k];	
+	}
 }
 Panel.LEN = 0;
 Panel.prototype = {
 	constructor: Panel,
 	toggle: function(display){
-		var p=this;p.display=display||(p.display=='block'?'none':'block');
-		p.panel.style.display=p.display;
+		var t=this;t.display=display||(t.display=='block'?'none':'block');
+		t.panel.style.display=t.display;return t;
 	},
-	show: function(t){var p=this;setTimeout(function(){p.toggle('block');if(p.onshow)p.onshow()},t||0)},
-	hide: function(t){var p=this;setTimeout(function(){p.toggle('none'); if(p.onhide)p.onhide()},t||0)},
-	twinkle: function(t){this.show();if(t>0)this.hide(t)},
-	destory: function(){var p=this;p.panel.parentNode.removeChild(p.panel);p.panel=undefined;if(p.ondestory)p.ondestory()},
-	setHtml: function(html){this.R('._panel_content_', this.panel).innerHTML=html},
-	setHTML: function(html){this.setHtml(html)},
+	show: function(time){var t=this;setTimeout(function(){t.toggle('block');if(t.onshow)t.onshow()},time||0);return t},
+	hide: function(time){var t=this;setTimeout(function(){t.toggle('none'); if(t.onhide)t.onhide()},time||0);return t},
+	twinkle: function(time){this.show();if(time>0)this.hide(time);return this},
+	destory: function(){var t=this;t.panel.parentNode.removeChild(t.panel);t.panel=undefined;if(t.ondestory)t.ondestory();return t},
+	setHtml: function(html){this.R('._panel_content_', this.panel).innerHTML=html;return this},
 
-	writeCSS: function(p){
-		var cur1 = p.movable && p.titleHeight!=0 ? 'move' : 'default',
-			cur2 = p.movable && p.titleHeight==0 ? 'move' : 'default',
-			h = Math.min(p.titleHeight, 1);
-		p.R('head').appendChild(p.C('style', {type:'text/css', textContent:'\
-			.panel {border:1px solid #ddd; position:absolute;}\
-			.panel > header {cursor:' + 'cur1; padding:0 10px; cursor:move; border-bottom:' + h + 'px solid #ddd; overflow:hidden;}\
+	writeCSS: function(){
+		this.R('head').appendChild(this.C('style', {type:'text/css', textContent:'\
+			.panel {width:300px; height:200px; background:#fff; position:fixed; border:1px solid #ddd;}\
+			.panel > header {height:38px; line-height:38px; cursor:move; padding:0 10px; border-bottom:1px solid #ddd; overflow:hidden;}\
 			.panel > header ul {float:right; margin:8px;}\
-			.panel > header li {cursor:pointer; margin-left:10px; display:inline-block; list-style-type:none;}\
-			.panel > div._panel_content_ {cursor:' + 'cur2' + '; display:table; width:100%; text-align:' + p.textAlign + ';}\
-			.panel > div._panel_content_ > m,\
-			.panel > div._panel_content_ > .middle {display:table-cell; vertical-align:middle;}' + p.style + '\
+			.panel > header li {cursor:pointer; margin-left:15px; display:inline-block; list-style-type:none;}\
+			.panel > ._panel_content_ {display:table; width:100%;}\
+			.panel > ._panel_content_ > m,\
+			.panel > ._panel_content_ > .middle {display:table-cell; vertical-align:middle;}\
 		'}));
 	},
 
-	createPanel: function(p){
-		var h = p.titleHeight;
-		if (p.left === undefined) p.left = (document.documentElement.clientWidth  - p.width)  / 2;
-		if (p.top  === undefined) p.top  = (document.documentElement.clientHeight - p.height) / 2;
+	create: function(){
+		var t=this;
+		t.index = Panel.LEN++;
+		if(t.index===0)t.writeCSS();
 
-		p.panel = p.C('div', {
-			id: p.id,
+		var E=document.documentElement,
+			h=t.titleHeight;
+		if(t.right===undefined){
+			if(t.left===undefined) t.left=(E.clientWidth  - t.width)  / 2;
+		}else{
+			t.left=E.clientWidth-t.width-t.right;
+		}
+		if (t.bottom===undefined){
+			if(t.top===undefined) t.top=(E.clientHeight - t.height) / 2;
+		} else {
+			t.top=E.clientHeight-t.height-t.bottom;
+		}
+
+		var html = '<div class="_panel_content_" style="text-align:' + t.textAlign + '">' + t.html + '</div>';
+		if(t.titleHeight>0){
+			html = '<header><strong>' + t.title + '</strong><ul><li>▬</li><li>✖</li></ul></header>' + html;
+		}
+		t.panel = t.C('div', {
+			id: t.id,
 			className: 'panel',
-			style: {
-				top: p.top + 'px',
-				left: p.left + 'px',
-				width: p.width + 'px',
-				height: p.height + 'px',
-				zIndex: p.zIndex,
-				display: p.display,
-				background: p.background,
+			innerHTML: html,
+			style:{
+				top: t.top + 'px',
+				left: t.left + 'px',
+				width: t.width + 'px',
+				height: t.height + 'px',
+				zIndex: t.zIndex,
+				display: t.display,
 			},
-			innerHTML: '\
-				<header style="height:' + h + 'px; line-height:' + h + 'px;">\
-					<strong>' + p.title + '</strong>\
-					<ul><li>▬</li><li>✖</li></ul>\
-				</header>\
-				<div class="_panel_content_" style="height:' + (p.height-h) + 'px;">' + p.html + '</div>',
 		});
 
-		p.R(p.container).appendChild(p.panel);
-		p.R('header li:nth-child(1)', p.panel).addEventListener('click', function(e){p.toggle()});
-		p.R('header li:nth-child(2)', p.panel).addEventListener('click', function(e){p.destory()});
-
-		if(p.onload) p.onload();
-		if(p.movable) p.addMouseEvent(p.titleHeight==0 ? p.panel : R('header', p.panel), p.panel);
+		t.R('header li:nth-child(1)', t.panel).addEventListener('click', function(e){t.toggle()});
+		t.R('header li:nth-child(2)', t.panel).addEventListener('click', function(e){t.destory()});
+		if(t.movable) t.addMouseEvent(t.titleHeight==0 ? t.panel : R('header', t.panel), t.panel);
+		t.R(t.container||'body').appendChild(t.panel);
+		if(t.onload) t.onload();
+		return t;
 	},
 
 	addMouseEvent: function(pos, dom){
@@ -94,7 +90,7 @@ Panel.prototype = {
 		pos.addEventListener('mousedown',  mousedown, false);
 		pos.addEventListener('touchstart', mousedown, false);
 
-		var p=this, x, y, X, Y, l=p.left, t=p.top;
+		var t=this, x, y, X, Y, l=t.left, t=t.top;
 		function mousedown(e){
 			e = e||window.event;
 			if(e.targetTouches)e=e.targetTouches[0];
@@ -104,7 +100,7 @@ Panel.prototype = {
 			document.addEventListener('touchmove', mousemove, false);
 			document.addEventListener('mouseup',   mouseup, false);
 			document.addEventListener('touchend',  mouseup, false);
-			if(p.onmousedown) p.onmousedown(x, y);
+			if(t.onmousedown) t.onmousedown(x, y);
 		}
 		function mousemove(e){
 			e = e||window.event;
@@ -115,16 +111,16 @@ Panel.prototype = {
 				t = y + b;
 			dom.style.left = l + "px";
 			dom.style.top  = t + "px";
-			if(p.onmousemove) p.onmousemove(l, t);
+			if(t.onmousemove) t.onmousemove(l, t);
 		}
 		function mouseup(e){
-			p.left = x = l;
-			p.top  = y = t;
+			t.left = x = l;
+			t.top  = y = t;
 			document.removeEventListener('mousemove', mousemove);
 			document.removeEventListener('touchmove', mousemove);
 			document.removeEventListener('mouseup',   mouseup);
 			document.removeEventListener('touchend',  mouseup);
-			if(p.onmouseup) p.onmouseup(x, y);
+			if(t.onmouseup) t.onmouseup(x, y);
 		}
 	},
 
@@ -133,34 +129,16 @@ Panel.prototype = {
 		if(k=='attribute'||k=='att'){for(l in j[k]){if(j[k][l])e.setAttribute(l,j[k][l])}
 		}else if(k=='style'){for(l in j[k]){if(j[k][l])e[k][l]=j[k][l]}}else{e[k]=j[k]}}}}return e;
 	},
-	
 }
 
-
-//创建一个实例应用
-function panelMsg(msg) {
-	if (window.__panelMsg && window.__panelMsg.panel) {
-		__panelMsg.setHTML('<p><br><br>' + msg + '</p>');
-	} else {
-		window.__panelMsg = new Panel({
-			html: '<p><br><br>' + msg + '</p>',
-		});
-	}
-	__panelMsg.twinkle(2000);
+var panel = {
+	pools: [],
+	create: function(cfg) {
+		var i = cfg && cfg.id || 0;
+		if(!this.pools[i] || !this.pools[i].panel){
+			this.pools[i] = (new Panel(cfg)).create();
+		}
+		return this.pools[i];
+	},
 }
 
-
-function panel(innerHTML, twinkleTime, params) {
-	if (window.__panel__ && window.__panel__.panel) {
-		__panel__.setHTML(innerHTML);
-	} else {
-		params = params || {};
-		params.html = innerHTML;
-		window.__panel__ = new Panel(params);
-	}
-	if (twinkleTime) {
-		__panel__.twinkle(twinkleTime);
-	} else {
-		__panel__.show();
-	}
-}

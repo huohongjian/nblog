@@ -3,31 +3,23 @@
 
 {% block Header %}
 <header class="a flex forums">
-	<div class="a-1-1 c-1-4 d-1-5 e-1-6 f-1-7 text-middle">
-		<figure>
-			<a href="{{baseUrl}}/" title="首页">
-				<img src="{{baseUrl}}/images/logo1.png" style="width:25px;">
+	<div class="a-1-1 c-1-3 d-1-4 e-1-5 f-1-6 text-middle">
+		<figure class="flex">
+			<a href="/" title="首页">
+				<img src="/images/logo1.png">
 			</a>
-			<figcaption>
-				<a href="{{baseUrl}}/forums" title="全部"><h4>Forums</h4></a>
+			<figcaption class="text-middle">
+				<a href="/forums" title="全部"><strong>Forums</strong></a>
 			</figcaption>
 		</figure>
 	</div>
-	<div class="a-1-1 c-2-4 d-3-5 e-4-6 f-5-7 text-middle">
-		<ul class="hor">
+	<div class="a-1-1 c-2-3 d-3-4 e-4-5 f-5-6 text-middle">
+		<ul class="hor p0">
+			<li><a href="{{baseUrl}}/forums">全部</a></li>
 			{% for a in categories %}
 			<li><a href="{{baseUrl}}/forums?category={{a.name}}">{{a.name}}</a></li>
 			{% endfor %}
 		</ul>
-	</div>
-	<div class="a-1-1 c-1-4 d-1-5 e-1-6 f-1-7 text-middle">
-		<form>
-			<input name="key" class="inline-block" placeholder="搜索"> 
-			{% if USER and USER.login %}
-			<a href="#" style="font-weight:bolder; margin-right:3px;">{{USER.login}}</a>
-			{% endif %}
-			<a href="{{baseUrl}}/user/edit/thread/new">发贴</a>
-		</form>
 	</div>
 </header>
 {% endblock %}
@@ -36,16 +28,20 @@
 {% block Nav %}{% endblock %}
 
 
-{% block Main %}
-<main class="a flex forums">
-	<div class="a-1-1 c-1-4 d-1-5 e-1-6 f-1-7">
-		{% block inLeft1 %}{% endblock %}
-	</div>
-	<div class="a-1-1 c-2-4 d-3-5 e-4-6 f-5-7">
-		{% block inMiddle1 %}{% endblock %}
-	</div>
-	<div class="a-1-1 c-1-4 d-1-5 e-1-6 f-1-7">
-		{% block inRight1 %}{% endblock %}
-	</div>
-</main>
+{% block inLeft %}
+<a href="{{baseUrl}}/user/edit/thread/new">发贴</a>
+
+{% block inLeft1 %}{% endblock %}
+
+
+<section>
+	<h3>统计信息</h3>
+	<ul class="p0 li-none">
+		<li>帖子数量：100</li>
+		<li>回帖数量：1000</li>
+		<li>注册用户：66</li>
+	</ul>
+</section>
 {% endblock %}
+
+

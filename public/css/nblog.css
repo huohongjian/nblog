@@ -12,22 +12,18 @@ header.a, .panel > header {
 	background-image:-webkit-linear-gradient(to bottom, #550000, #770000);
 	background-image:linear-gradient(to bottom, #550000, #770000);
 }
-.panel > header {color:#ffffff;}
+.panel {border-color:#550000!important;}
+.panel > header {color:#fff;}
 
 
 
 header.a a:link, header.a a:visited, header.a a:hover, header.a a:active{
-	color:#fff; font-weight:bolder; text-decoration:none; background: inherit;
+	color:#FFFFFF; text-decoration:none; background: inherit;
 }
-
-
-header.a figure {display:table; margin:auto;}
-header.a figure img {width:60px; margin:8px 8px 2px;}
-header.a figcaption {display:table-cell; vertical-align:middle; font-size: 28px;}
-
-header.a ul {margin:4px;}
-header.a li {margin-right:8px;}
-header.a form{margin:0;}
+header.a figure {margin:0 40px;}
+header.a figure img {width:50px; height:50px; margin:8px 8px 2px;}
+header.a ul {margin:6px;}
+header.a form{margin:2px;}
 header.a [name=key] {height:12px; width:75px; font-size:12px; margin:4px;}
 
 
@@ -169,15 +165,45 @@ main.book{height:100%;}
 
 
 
-
-
-header.forums a:link, header.forums a:visited, header.forums a:active {font-weight:normal;	font-size:small;}
-header.forums a:hover {font-weight:bolder;}
+header.forums figure {margin:auto;}
+header.forums figure img {width:30px; height:30px;}
+header.forums li a:hover {font-weight:bolder;}
 header.forums li {margin-right:2px;}
+main.forums {}
 main.forums .forums-post-form input[name=title] {width: calc(100% - 300px);}
 main.forums .w-e-toolbar {background-color:#F1F1F1; border: 1px solid #CCCCCC;}
 main.forums .w-e-toolbar i {font-size: small;}
-main.forums .w-e-toolbar i {font-size: small;}
 main.forums .w-e-text-container {height: calc(100vh - 260px)!important; border: 1px solid #CCCCCC; border-top: 0;}
-main.forums .threads {border-bottom: 1px solid #CCCCCC;}
-main.forums .threads > img {width:60px; height:60px; float:left; margin:10px;}
+.threads > div {border-bottom: 1px solid #CCCCCC;}
+.threads img {max-width:60px; max-height:60px; margin:10px;}
+.threads li {font-size:small;}
+
+#reply-editor .w-e-text-container {height: 260px!important;}
+
+
+.hilite {
+	min-height:6px; border-radius:3px; padding:5px 10px;
+	background-image:-webkit-linear-gradient(to bottom, #E67D7F, #D7383A);
+	background-image:linear-gradient(to bottom, #E67D7F, #D7383A);
+}
+
+table.replies{width:100%; border-collapse:collapse;border-spacing:0;}
+table.replies tr td {border-bottom: 1px solid #D7383A; vertical-align:top;}
+table.replies tr td:first-child{width:100px;}
+table.replies tr td:nth-child(2) > div {min-height:70px;}
+table.replies tr td:nth-child(2) > ul {width:220px; background_:gray; font-size:small; margin:5px; float:right; }
+
+.userblock {
+	margin:5px;
+	position:relative;
+	border:1px solid #CCC;
+	width:90px;
+	border-radius:5px;
+	text-align:center;
+	background-color:#FCF1F0;
+}
+.userblock img {width:60px; height:60px; margin-top:10px;}
+.arrow {position: absolute; top: 10px; right: -10px; display: block; width: 0px; height: 0px; line-height: 0px; border: 10px solid transparent; border-left-color:#CCC; -moz-border-left-colors:#CCC; border-right: none;}
+.arrow span { position: absolute; top: -10px; left: -11px; display: block; width: 0px; height: 0px; line-height: 0px; border: 10px solid transparent; border-left-color: rgb(252,241,240); -moz-border-left-colors: rgb(252,241,240); border-right: none;}
+
+

@@ -33,9 +33,9 @@ Pagination.prototype = {
 			this.R('head').appendChild(this.C('style', {
 				type: 'text/css',
 				innerHTML: '\
-					.pagination {margin:0; padding:0; display:inline;}\
-					.pagination li {margin:0 6px; display:inline; list-style-type:none; cursor:pointer;}\
-					.pagination .active {font-weight:900; color:#990000;}',
+					ul.pagination {margin:0; padding:0; display:inline;}\
+					ul.pagination li {margin:0 6px; display:inline; list-style-type:none; cursor:pointer;}\
+					ul.pagination .active {font-weight:900; color:#990000;}',
 			}));
 		}
 
@@ -43,7 +43,6 @@ Pagination.prototype = {
 			id: this.id, 
 			className: 'pagination',
 		});
-		this.R(this.container).appendChild(this.ul);
 
 		this.ul.appendChild(this.C('LI', {innerHTML:'<<'}));
 		this.ul.appendChild(this.C('LI', {innerHTML:'...'}));
@@ -84,6 +83,7 @@ Pagination.prototype = {
 				self.setCurPage(self.curPage);
 			}
 		});
+		this.R(this.container).appendChild(this.ul);
 	},
 
 	set: function(params) {

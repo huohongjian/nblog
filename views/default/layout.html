@@ -20,15 +20,16 @@
 {% block inBody %}
 
 {% block Header %}<header class="a flex">{% block inHeader %}
-<div class="b-m-0 c-m-10 d-m-30 e-m-50 f-m-80 g-m-120">
-	<figure>
-		<img src="/images/logo1.png">
-		<figcaption><a href="/">China FreeBSD</a></figcaption>
+<div class="a-m-0 c-m-10 d-m-30 e-m-50 f-m-80 g-m-120">
+	<figure class="flex">
+		<a href="/"><img src="/images/logo1.png"></a>
+		<figcaption class="text-middle">
+			<h2><a href="/">China FreeBSD</a></h2>
+		</figcaption>
 	</figure >
 </div>
-
 <div class="margin-left-auto flex">
-	<form action="/search">
+	<form action="/search" >
 		<input type="text" name="key" placeholder="标题搜索"/>
 	</form>
 	{% include "public/login-bar.html" %}

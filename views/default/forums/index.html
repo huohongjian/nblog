@@ -1,25 +1,61 @@
 {% extends "forums/layout.html" %}
 
 
-{% block inMiddle1 %}
 
+{% block inLeft1 %}
+
+{% endblock %}
+
+{% block inRight %}
+
+<div class="hilite flex a-pointer a-none">
+	<ul class="hor p0">
+		<li>&gt;&gt; 全部 (n)</li>
+		<li>•</li>
+		<li>最新贴<li>
+		<li>热门贴</li>
+		<li>未回复贴</li>
+		<li>•</li>
+		<li><a href="/user/edit/thread/new">发贴</a></li>
+	</ul>
+</div>
+
+<div class="threads a-none a-color a-inherit li-hor">
 	{% for a in threads %}
-	<section class="threads">
+	<div class="flex">
 		<img src="{{a.userphoto}}">
-		<h3><a href="#">{{a.title}}</a></h3>
-		<ul class="hor">
-			<li><a href="/forums?category={{a.category}}">{{a.category}}</a></li>
-			<li><a href="/forums/user/{{a.username}}">{{a.username}}</a></li>
-			<li>{{a.addtime}}</li>
-			<li>浏览：{{a.counter}}</li>
-			<li>回贴数：{{a.replynum}}</li>
-			<li>点赞：{{a.agree}}</li>
-		</ul>
-	</section>
-{% endfor %}
+		<section>
+			<h4><a href="/forums/thread/{{a.threadid}}">{{a.title}}</a></h4>
+			<ul class="p0 m0">
+				<li><a href="/forums?category={{a.category}}">{{a.category}}</a></li>
+				<li><a href="/forums?userid={{a.userid}}">{{a.username}}</a></li>
+				<li>{{a.addtime}}</li>
+				<li>浏览：{{a.counter}}</li>
+				<li>回贴：{% if a.replynum==0 %}<strong class="red">{{a.replynum}}</strong>{% else %}{{a.replynum}}{% endif %}</li>
+			</ul>
+		</section>
+	</div>
+	{% endfor %}
+</div>
+
+<div id="pagination" class="mt10" data-curpage="{{pages.curPage}}" data-totitem="{{pages.totItem}}" data-peritem="{{pages.perItem}}"></div>
 
 {% endblock %}
 
 
+{% block toBody %}
+<script type="text/javascript" src="/own/Pagination.js"></script>
+<script type="text/javascript">
+	var oPage = R.id('pagination');
+	var pagination = new Pagination({
+		container: oPage,
+		curPage: oPage.dataset.curpage,
+		totItem: oPage.dataset.totitem,
+		perItem: oPage.dataset.peritem,
+		onclick: function(i){
+			location = R.URL().set('page',i);
+		},
+	});
 
-
+</script>
+{% endblock %}
