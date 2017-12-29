@@ -1,14 +1,15 @@
 .catalog {
     font-size:12px;
     position: fixed;
-    cursor: pointer;
     top: 120px;
     right: 0;
     width: auto;
     height:auto;
+	background:#ffffff;
+	z-index:9999;
 }
 .catalog a,.catalog a:link,.catalog a:visited,.catalog a:hover,
-.catalog a:active {color:#575757; text-decoration:none;}
+.catalog a:active {color:#575757; text-decoration:none; cursor: pointer;}
 
 .catalog-bar {
 	float:left;
@@ -16,12 +17,22 @@
 	border:1px solid #e5e5e5;
 	border-right:none;
 	text-align:center;
-	background:#ffffff;
 	font-weight: bold;
 	font-size: 17px;
 	padding:10px 0;
 	color:#575757;
 }
+
+.catalog-top {
+	position:absolute;
+	top:62px;
+	width:25px;
+	font-size:20px;
+	text-align:center;
+	border:1px solid #e5e5e5;
+	cursor:pointer;
+}
+
 
 .catalog-content:hover,
 .catalog-bar:hover ~ .catalog-content {

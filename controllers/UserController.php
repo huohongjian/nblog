@@ -114,9 +114,15 @@ function editThread($request, $response, $args) {
 	$userid = Session::get('userid');
 
 	if ($request->isGet()) {
+		$threadid = $args['threadid'];
+		if (strlen($threadid)<13) {
+			$thread = array('threadid'=>'new');
+		} else {
+			$thread = Thread::getOne($threadid);
+		}
 		$this->container->get('view')->render($response, 'user/threadeditor.html', [
 			'categories'=> Category::getAll('name'), 
-	
+			'thread'	=> $thread,
 		]);
 
 	} else if ($request->isPost()) {
@@ -126,7 +132,7 @@ function editThread($request, $response, $args) {
 
 		if ($userid>0) {
 			$post = $request->getParsedBody();
-			if (strlen($post['threadid']<13)) {
+			if (strlen($post['threadid'])<13) {
 				$post['userid'] = $userid;
 				$threadid		= Thread::insert($post);
 				$msg 			= '帖子发布成功!';

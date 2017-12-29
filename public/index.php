@@ -69,7 +69,8 @@ $app->group('/user', function() use ($app) {
 	});
 })->add(function($request, $response, $next) {
 	if (empty(Session::get('login'))) {
-		return $response->withStatus(302)->withHeader('Location', '/login');
+		$launch = $request->getUri()->getPath();
+		return $response->withStatus(302)->withHeader('Location', "/login?launch=$launch");
 	}
 	$response = $next($request, $response);
 	return $response;

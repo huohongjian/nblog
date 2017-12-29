@@ -10,13 +10,15 @@ function getAll() {
 
 }
 
-function getByThreadid($id) {
+function getByThreadid($id, $offset=0, $limit=10) {
 	$sql = "SELECT a.*, b.name AS username, b.photo AS userphoto
 			FROM nb_reply AS a
 		   	LEFT JOIN nb_user AS b
 			ON a.userid=b.userid
 			WHERE threadid=$1
-			ORDER BY replyid DESC";
+			ORDER BY replyid DESC
+			OFFSET $offset
+			LIMIT $limit";
 	return DB::ins()->query2($sql, [$id])->all();
 }
 

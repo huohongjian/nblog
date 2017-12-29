@@ -1,5 +1,6 @@
 
-new Catalog('#article-section');
+var catalog = new Catalog({selector: '#article-body'});
+
 
 
 

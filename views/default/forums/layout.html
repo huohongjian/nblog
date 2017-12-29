@@ -25,23 +25,29 @@
 {% endblock %}
 
 
-{% block Nav %}{% endblock %}
+{% block Nav %}
 
 
-{% block inLeft %}
-<a href="{{baseUrl}}/user/edit/thread/new">发贴</a>
-
-{% block inLeft1 %}{% endblock %}
 
 
-<section>
-	<h3>统计信息</h3>
-	<ul class="p0 li-none">
-		<li>帖子数量：100</li>
-		<li>回帖数量：1000</li>
-		<li>注册用户：66</li>
-	</ul>
-</section>
+<!--div class="pr20">
+<a class="btn block w-100 box" href="{{baseUrl}}/user/edit/thread/new">发新贴</a>
+<div class="border r5 pl10 pr10 mt10">
+	<p>本论坛遵循开放、自由、互助、分享的原则，讨论FreeBSD相关技术。</p>
+	<p>参与本论坛讨论的用户必须遵守中华人民共和国法律法规，不得发布任何违反法律法规的言论。</p>
+	<p>用户发布的言论，只代表个人意见和观点，与本论坛无关。</p>
+</div>
+<form class="input-group">
+	<input name="key" placeholder="关键字">
+	<button>搜索</button>
+</form>
+</div-->
 {% endblock %}
 
 
+{% block inMain %}
+
+<div class="w-90 ma mt10 forums">
+	{% block inMain1 %}{% endblock %}
+</div>
+{% endblock %}

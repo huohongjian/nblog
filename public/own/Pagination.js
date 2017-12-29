@@ -1,123 +1,113 @@
 /* author: HuoHongJian
-**   date: 2017-09-28
+**   date: 2017-12-25
 **   func: a navigation bar thougth page parameter
 */
 function Pagination(params){
 	this.id;
 	this.ul;
 	this.container = 'body';
-	this.curPage = 1;	//当前页数
-	this.perPage = 9;	//显示页码个数
-	this.totPage = 9;	//总页数
 	this.perItem = 10;	//每页记录数
 	this.totItem = -1;	//总记录数
-	this.start   = 1; 	//开始页码
+
+	this.perPage = 9;	//每页页码数
+	this.totPage = 1;	//总页码
+	this.curPage = 1;	//当前页码
+
 	this.run(params);
 }
 Pagination.Length = 0;
 Pagination.prototype = {
 	constructor: Pagination,
-
 	hide: function(){this.ul.style.display='none';},
 	show: function(){this.ul.style.display='inline';},
-	reset: function(params) {
-		this.set(params);
-		this.setLi(this.start);
-		this.setCurPage(this.curPage);
+	go: function(page){
+		var t = this;
+		t.curPage = Math.min(Math.max(page||1, 1), t.totPage);
+		t.start = Math.max(t.curPage - Math.ceil(t.perPage / 2), 1);
+		t.createLis();
+	},
+	skip: function(step){
+		this.start = Math.min(Math.max(this.start + step||0, 1), this.totPage);
+		this.createLis();
 	},
 
 	run: function(params) {
-		this.set(params);
-
+		var t = this;
+		for(var k in params) {
+			t[k] = isNaN(params[k]) ? params[k] : parseInt(params[k]);
+		}
+		if(t.totItem>0){
+			t.totPage = Math.ceil(t.totItem / t.perItem);
+		}
+		t.start = (Math.ceil(t.curPage/t.perPage)-1) * t.perPage + 1;
 		if (++Pagination.Length==1) {
-			this.R('head').appendChild(this.C('style', {
+			t.R('head').appendChild(t.C('style', {
 				type: 'text/css',
 				innerHTML: '\
-					ul.pagination {margin:0; padding:0; display:inline;}\
-					ul.pagination li {margin:0 6px; display:inline; list-style-type:none; cursor:pointer;}\
-					ul.pagination .active {font-weight:900; color:#990000;}',
+					ul.pagination {margin:0; padding:0; display:inline; border:1px solid #ccc; border-radius:3px;}\
+					ul.pagination li {padding:0 6px; display:inline; list-style-type:none; cursor:pointer;}\
+					ul.pagination li:not(:last-child){border-right:1px solid #ccc;}\
+					ul.pagination li:hover{color:#fff; background-color:#053864;}\
+					ul.pagination li:first-child{border-top-left-radius:3px;border-bottom-left-radius:3px;}\
+				   	ul.pagination li:last-child{border-top-right-radius:3px;border-bottom-right-radius:3px;}\
+					ul.pagination li.active {background-color:#08599E; font-weight:700; color:#fff;}',
 			}));
 		}
-
-		this.ul = this.C('ul', {
-			id: this.id, 
-			className: 'pagination',
-		});
-
-		this.ul.appendChild(this.C('LI', {innerHTML:'<<'}));
-		this.ul.appendChild(this.C('LI', {innerHTML:'...'}));
-		for (var i=0; i<this.perPage; i++) {
-			this.ul.appendChild(this.C('LI', {innerHTML: this.start + i}));
-		}
-		this.ul.appendChild(this.C('LI', {innerHTML:'...'}));
-		this.ul.appendChild(this.C('LI', {innerHTML:'>>'}));
-
-		this.setLi(this.start);
-		this.setCurPage(this.curPage);
-		
-		
-		var self = this;
-		self.ul.addEventListener('click', function(e){
+		t.ul = t.C('ul', {id: t.id, className: 'pagination'});
+		t.ul.addEventListener('click', function(e){
 			var o = (e || window.e).target;
 			if (o.tagName == 'LI') {
 				var i = o.innerText;
 				if (i=='<<') {
-					self.start = 1;
-					self.setLi(1);
+					t.skip(-t.totPage);
 				} else if (i=='>>') {
-					self.start = Math.max(self.totPage-self.perPage+1, 1);
-					self.setLi(self.start);
+					t.skip(t.totPage);
 				} else if (i=='...') {
 					if (o.previousSibling.innerText=='<<') {
-						self.start = Math.max(self.start-self.perPage, 1);
+						t.skip(-t.perPage);
 					} else {
-						var end = Math.min(self.start + self.perPage * 2, self.totPage);
-						self.start = Math.max(end - self.perPage+1, 1);
+						t.skip(t.perPage);
 					}
-					self.setLi(self.start);
 				} else {
-					i = parseInt(i);
-					self.curPage = i;
-					if (self.onclick) self.onclick(i); 
+					for(var j=0; j<t.ul.children.length; j++){
+						var li = t.ul.children[j];
+						if(li.innerText == i){
+							li.setAttribute('class', 'active');
+						}else{
+							li.removeAttribute('class');
+						}
+					}
+					t.curPage = parseInt(i);
+					if (t.onclick) t.onclick(t.curPage); 
 				}
-				self.setCurPage(self.curPage);
 			}
 		});
-		this.R(this.container).appendChild(this.ul);
+		t.createLis();
+		t.R(t.container).appendChild(t.ul);
 	},
+	
+	createLis: function(){
+		var t = this;
+		t.end   = Math.min(t.start + t.perPage - 1, t.totPage);
+		t.start = Math.max(t.end - t.perPage + 1, 1);
+		t.ul.innerHTML = '';
 
-	set: function(params) {
-		for(var k in params) {
-			this[k] = isNaN(params[k]) ? params[k] : parseInt(params[k]);
+		if(t.start>1){	
+			t.ul.appendChild(t.C('LI', {innerHTML:'<<'}));
+			t.ul.appendChild(t.C('LI', {innerHTML:'...'}));
 		}
-		if(this.totItem>=0){
-			this.totPage = Math.ceil(this.totItem / this.perItem);
+		for (var i=t.start; i<=t.end; i++) {
+			if(i==t.curPage){
+				t.ul.appendChild(t.C('LI', {innerHTML: i, className: 'active'}));
+			}else{
+				t.ul.appendChild(t.C('LI', {innerHTML: i}));
+			}
+		}
+		if(t.end<t.totPage){
+			t.ul.appendChild(t.C('LI', {innerHTML:'...'}));
+			t.ul.appendChild(t.C('LI', {innerHTML:'>>'}));
 		}
 	},
-
-	setLi: function(start) {
-		var end = Math.min(start+this.perPage-1, this.totPage);
-
-		var lis = this.ul.children;
-		lis[0].style.display = 
-		lis[1].style.display = start<=1 ? 'none' : 'inline';
-
-		for (var i=0; i<this.perPage; i++) {
-			lis[i+2].style.display = start + i>end ? 'none' : 'inline';
-			lis[i+2].innerHTML = start + i;
-		}
-		lis[this.perPage+2].style.display = 
-		lis[this.perPage+3].style.display = end>=this.totPage ? 'none' : 'inline';
-	},
-
-	setCurPage: function(curpage) {
-		var i, lis = this.ul.children;
-		for(i=2; i<lis.length-2; i++) {
-			lis[i].className = lis[i].innerText == curpage ? 'active' : '';
-		}
-		this.curPage = curpage;
-	},
-
 	R: function(q,o){return (window&&q&&q.nodeType)?q:(o||document).querySelector(q)},
 	C: function(t,j){var k,e=document.createElement(t);if(j){for(k in j){if(j[k]){e[k]=j[k]}}}return e},
 }

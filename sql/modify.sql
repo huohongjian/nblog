@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS nb_thread (
 CREATE INDEX nb_thread_threadid 	ON nb_thread (threadid);
 CREATE INDEX nb_thread_category		ON nb_thread (category, thid);
 CREATE INDEX nb_thread_userid		ON nb_thread (userid, thid);
+CREATE INDEX nb_thread_replynum		ON nb_thread (replynum, thid);
 
 
 

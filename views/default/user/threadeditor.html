@@ -1,26 +1,28 @@
 {% extends "forums/layout.html" %}
 
 
-{% block inLeft %}
-发贴注意事项：
-{% endblock %}
-
-
-{% block inRight %}
+{% block inMain1 %}
 <form class="forums-post-form" name="editForm">
 	<select name="category">
 		<option value="其他">--请选择版块--</option>
 		{% for a in categories %}
-		<option value="{{a.name}}">{{a.name}}</option>
+		<option value="{{a.name}}" {% if thread.category==a.name %}selected{% endif %}>{{a.name}}</option>
 		{% endfor %}
 	</select>
-	<input name="title" placeholder="请输入标题">
-	<input type="text" name="threadid" hidden="true">
+	<input name="title" value="{{thread.title}}" placeholder="请输入标题">
+	<input name="threadid" value="{{thread.threadid}}" hidden="true">
+	<input name="userid" value="{{thread.userid}}" hidden="true">
 </form>
 
-<div id="thread-editor-toolbar"></div>
-<div id="thread-editor-content"></div>
-<input type="button" onclick="saveThread()" value="提交">
+<div id="thread-editor-content">
+{{thread.content}}
+</div>
+<p>
+	<input type="button" onclick="saveThread()" value="提交">
+</p>
+	<div id="thread-content" class="hide">
+		{{thread.content}}
+	</div>
 {% endblock %}
 
 
@@ -32,18 +34,20 @@
 var editor = new window.wangEditor('#thread-editor-content');
 editor.customConfig.zIndex = 0;
 editor.create();
+//editor.txt.html(R.id('thread-content').innerHTML);
+
 
 function saveThread() {
 	var html = editor.txt.html();
 
 	if (R('[name=title]').value=='') {
-		panel('<br><br><br>帖子标题不得为空!', 1500);
+		panel.create().setHtml('<br><br><br>帖子标题不得为空!').twinkle(1500);
 	} else {
 		R.post('', R.FD('form[name=editForm]').app({content: html}).fd, function(data){
 			if (data.status == 200) {
 				R('[name=threadid]').value = data.threadid;
 			}
-			panel('<br><br><br>' + data.msg, 1500);
+			panel.create().setHtml('<br><br><br>' + data.msg).twinkle(1500);
 		},'JSON');
 	}
 }

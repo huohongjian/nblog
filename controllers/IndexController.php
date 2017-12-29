@@ -82,7 +82,7 @@ function login($request, $response, $args) {
 					]);
 					$query = $request->getUri()->getQuery();
 					parse_str($query, $output);
-					$launch = isset($output['launch']) ? $output['launch'] : '../user'; 
+					$launch = $output['launch'] ?? '../user'; 
 					return $response->withStatus(302)->withHeader('Location', $launch);
 				} else {
 					$message = '登录密码不正确!';
@@ -95,6 +95,7 @@ function login($request, $response, $args) {
 		}
 	}
 	return $this->container->get('view')->render($response, 'index/login.html', [
+		'homeNav'	   => Article::getOne('system-home-nav')['content'],
 		'errorMessage' => $message
 	]);
 }
@@ -157,7 +158,8 @@ function search($request, $response, $args) {
 
 	} else if ($request->isPost()) {
 		$post  = $request->getParsedBody();
-		$offset= ((int)$post['page'] - 1) * $limit;
+		$page  = (int)$post['page'];
+		$offset= ($page - 1) * $limit;
 
 		$where = DB::where([
 			'category'  =>$post['category'],
@@ -174,7 +176,7 @@ function search($request, $response, $args) {
 
 		return $response->withJson([
 			'articles' 	=> DB::ins()->query($SQL)->data(),
-			'pages' 	=> ['totItem'=> DB::ins()->query($sql)->val()]
+			'pages' 	=> ['curPage'=>$page, 'totItem'=> DB::ins()->query($sql)->val()]
 		]);
 	}
 }

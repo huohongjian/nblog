@@ -83,7 +83,7 @@ function saveArticle(content) {
 			if (data.status == 200) {
 				R('[name=articleid]').value = data.articleid;
 			}
-			panel('<br><br><br>' + data.msg, 1500);
+			panel.create().setHtml('<br><br><br>' + data.msg).twinkle(1500);
 		},'JSON');
 	}
 }

@@ -2,20 +2,21 @@
 
 class Thread {
 
-function get($where=[], $offset=0, $limit=10) {
+function get($where=[], $order='a.thid DESC', $offset=0, $limit=10) {
 	$WHERE = str_replace('userid', 'a.userid', DB::where($where));
 	$sql = "SELECT a.*, b.name AS username, b.photo as userphoto
 			FROM nb_thread AS a
 			LEFT JOIN nb_user AS b ON a.userid=b.userid
-			$WHERE ORDER BY a.thid DESC
+			$WHERE
+			ORDER BY $order
 			OFFSET $offset LIMIT $limit";
 	return DB::ins()->query($sql)->all();
 }
 
 function num($where=[]) {
 	$WHERE = DB::where($where);
-	$sql = "SELECT count(*) FROM nb_thread $WHERE";
-	return DB::ins()->query($sql)->val();
+	$sql = "SELECT count(*) AS count, sum(replynum) AS replysum FROM nb_thread $WHERE";
+	return DB::ins()->query($sql)->one();
 }
 
 
@@ -29,27 +30,6 @@ function getOne($threadid) {
 			WHERE threadid=$1";
 	return DB::ins()->query2($sql, [$threadid])->one();
 }
-
-function getAll() {
-	$sql = "SELECT a.*, b.name AS username, b.photo AS userphoto
-	   		FROM nb_thread AS a 
-	   		LEFT JOIN nb_user AS b
-			ON a.userid=b.userid
-			ORDER BY a.thid DESC";
-	return DB::ins()->query($sql)->all();
-}
-
-
-function getByUserid($id) {
-	$sql = "SELECT a.*, b.name AS username, b.photo as userphoto
-			FROM nb_thread AS a
-			LEFT JOIN nb_user AS b
-			ON a.userid=b.userid
-			WHERE a.userid=$1
-			ORDER BY a.thid DESC";
-	return DB::ins()->query2($sql, [$id])->all();
-}
-
 
 function insert($ps) {
 	$sql = "UPDATE nb_user SET threadnum=threadnum+1 WHERE userid=$1";

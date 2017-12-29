@@ -1,11 +1,11 @@
 {% extends "forums/layout.html" %}
 
 
-{% block inRight %}
-<article>
+{% block inMain1 %}
+<div class="border br5 p10">
 	<header>
 		<h3>{{thread.title}}</h3>
-		<ul class="hor small btl p10">
+		<ul class="hor small bdt m0 p10">
 			<li><a href="/forums?category={{thread.category}}">{{thread.category}}</a></li>
 			<li><a href="/forums/user/{{thread.username}}">{{thread.username}}</a></li>
 			<li>{{thread.addtime}}</li>
@@ -17,51 +17,56 @@
 			</li>
 		</ul>
 	</header>
-	
-	{{thread.content}}
-	
-	<section class="p0">
-		<h4 class="hilite"><a href="javascript:renderEditor()">回帖</a></h4>
+	<div class="p10">	
+		{{thread.content}}
+	</div>
+</div>
 
-		<table class="replies">
-		<tbody>
+
+<div class="mt10 p10">
+	<div class="hilite">
+		<a class="btn small" href="javascript:renderEditor()">回贴</a>
+
+		<span id="pagination" class="float-right" data-curpage="{{pages.curPage}}" data-peritem="{{pages.perItem}}" data-totitem="{{thread.replynum}}"></span>
+	</div>
+
+	<table class="replies">
+	<tbody>
 		{% for a in replies %}
 		<tr>
 			<td>
 				<div class="userblock">
 					<img src="{{a.userphoto}}">
-					<h5>{{a.username}}</h5>
+					<h5 class="mt0">{{a.username}}</h5>
 					<span class="arrow"><span></span></span>
 				</div>
 			</td>
 
 			<td>
+				<ul class="hor">
+					<li>{{a.addtime}}</li>
+					{% if USER and USER.roleid and (USER.roleid<3 or USER.userid==a.userid) %}
+					<li><a href="javascript:editReply({{a.replyid}})">编辑</a></li>
+					{% endif %}
+				</ul>
 				<div id="{{a.replyid}}">
 					{{a.content}}
 				</div>
-				<ul class="hor">
-					<li>#{{loop.index}}</li>
-					<li>{{a.addtime}}</li>
-					{% if USER and (USER.roleid<3 or USER.userid==a.userid) %}
-					<li><a href="javascript:editReply({{a.replyid}})">编辑</a></li>
-					<li><a href="javascript:deleteReply({{a.replyid}})">删除</a></li>
-					{% endif %}
-				<ul>
 			</td>
 		</tr>
 		{% endfor %}
-		</tbody>
-		</table>
-	</section>
-
-</article>
+	</tbody>
+	</table>
+</div>
 
 
 
 <form id="replyForm">
 	<input type="text" name="threadid" value="{{thread.threadid}}" hidden="true">
 	<input type="text" name="replyid" value="-1" hidden="true">
+	<input type="text" id="isLogin" value="{{USER.userid}}" hidden="true">
 </form>
+
 {% endblock %}
 
 
@@ -69,26 +74,41 @@
 
 
 {% block toBody %}
+<script type="text/javascript" src="../../../own/Pagination.js"></script>
 <script type="text/javascript" src="../../../libs/wangEditor-3.0.15/wangEditor.min.js"></script>
 <script type="text/javascript">
+
+var oPage = R.id('pagination');
+var pagination = new Pagination({
+	container: oPage,
+	perPage: 3,
+	curPage: oPage.dataset.curpage,
+	totItem: oPage.dataset.totitem,
+	perItem: oPage.dataset.peritem,
+	onclick: function(i){window.location.href=R.URL().set('page',i);},
+});
 
 var editor;
 
 function renderEditor(content){
-	panel.create({
-		title: '回贴',
-		width: 700,
-		height: 365,
-		bottom: 20,
-		textAlign: 'left',
-		html: '<div id="reply-editor"></div><button onclick="saveReply()">提交</button>',
-		onload: function(){
-			editor = new window.wangEditor('#reply-editor');
-			editor.customConfig.zIndex = 0;
-			editor.create();
-		}
-	}).show();
-	editor.txt.html(content);
+	if(R.id('isLogin').value==''){
+		location.href='/login?launch=/forums/thread/'+R('[name=threadid]').value;
+	} else {
+		panel.create({
+			title: '回贴',
+			width: 700,
+			height: 365,
+			bottom: 20,
+			textAlign: 'left',
+			html: '<div id="reply-editor"></div><button onclick="saveReply()">提交</button>',
+			onload: function(){
+				editor = new window.wangEditor('#reply-editor');
+				editor.customConfig.zIndex = 0;
+				editor.create();
+			}
+		}).show();
+		editor.txt.html(content);
+	}
 }
 
 function editReply(replyid){
@@ -109,13 +129,6 @@ function saveReply() {
 	},'JSON');
 
 }
-
-
-function update() {
-
-
-}
-
 
 
 </script>

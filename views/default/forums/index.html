@@ -1,44 +1,70 @@
 {% extends "forums/layout.html" %}
 
 
+{% block inMain1 %}
 
-{% block inLeft1 %}
+<div class="flex w-100 pb10 small">
+	<ul class="hor small m0 p3">
+		<li>主题数：{{nums.count}}</li>
+		<li>回贴数：{{nums.replysum}}</li>
+		<li>用户数：{{usernum}}</li>
+	</ul>
+	<form class="w200 m0 mr10 input-group">
+		<input type="text" name="key" placeholder="关键字">
+		<button>搜索</button>
+	</form>
+	<a href="/user/edit/thread/new" class="btn"><span class="inline-block mt2">发新贴</span></a>
+</div>
 
-{% endblock %}
+<div class="flex w-100 li-none border br5 threads">
+<section class="a-1-3">
+	<h4>最新主题</h4>
+	<ul class="m0 p0">
+		{% for a in threads %}
+		<li>
+			<a href="/forums/thread/{{a.threadid}}">{{a.title}}</a>
+			<span>{{a.replynum}}</span>
+			<span>{{a.addtime}}</span>
+		</li>
+		{% endfor %}
+	</ul>
+</section>
 
-{% block inRight %}
+<section class="a-1-3">
+	<h4>热门主题</h4>
+	<ul class="m0 p0">
+		{% for a in hotThreads %}
+		<li>
+			<a href="/forums/thread/{{a.threadid}}">{{a.title}}</a>
+			<span>{{a.replynum}}</span>
+			<span>{{a.addtime}}</span>
+		</li>
+		{% endfor %}
+	</ul>
+</section>
+<section class="a-1-3">
+	<h4>求贴主题</h4>
+	<ul class="m0 p0">
+		{% for a in forReply %}
+		<li>
+			<a href="/forums/thread/{{a.threadid}}">{{a.title}}</a>
+			<span>{{a.replynum}}</span>
+			<span>{{a.addtime}}</span>
+		</li>
+		{% endfor %}
+	</ul>
+</section>
+</div>
 
-<div class="hilite flex a-pointer a-none">
-	<ul class="hor p0">
-		<li>&gt;&gt; 全部 (n)</li>
-		<li>•</li>
-		<li>最新贴<li>
-		<li>热门贴</li>
-		<li>未回复贴</li>
-		<li>•</li>
-		<li><a href="/user/edit/thread/new">发贴</a></li>
+<div>
+	<h3>主题分类</h3>
+	<ul class="hor">
+		<li><a href="{{baseUrl}}/forums">全部</a></li>
+		{% for a in categories %}
+		<li><a href="{{baseUrl}}/forums?category={{a.name}}">{{a.name}}</a></li>
+		{% endfor %}
 	</ul>
 </div>
-
-<div class="threads a-none a-color a-inherit li-hor">
-	{% for a in threads %}
-	<div class="flex">
-		<img src="{{a.userphoto}}">
-		<section>
-			<h4><a href="/forums/thread/{{a.threadid}}">{{a.title}}</a></h4>
-			<ul class="p0 m0">
-				<li><a href="/forums?category={{a.category}}">{{a.category}}</a></li>
-				<li><a href="/forums?userid={{a.userid}}">{{a.username}}</a></li>
-				<li>{{a.addtime}}</li>
-				<li>浏览：{{a.counter}}</li>
-				<li>回贴：{% if a.replynum==0 %}<strong class="red">{{a.replynum}}</strong>{% else %}{{a.replynum}}{% endif %}</li>
-			</ul>
-		</section>
-	</div>
-	{% endfor %}
-</div>
-
-<div id="pagination" class="mt10" data-curpage="{{pages.curPage}}" data-totitem="{{pages.totItem}}" data-peritem="{{pages.perItem}}"></div>
 
 {% endblock %}
 

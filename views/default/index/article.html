@@ -1,16 +1,10 @@
 {% extends "layout.html" %}
+{% block inMain %}
 
-{% block toHead %}
-<link rel="stylesheet" type="text/css" href="../libs/autocjs/dist/autoc.min.css?v=1.3.0"/>
-<!-- <link rel="stylesheet" type="text/css" href="../own/Catalog.css"/> -->
-{% endblock %}
-
-{% block inMain %} {% autoescape false %}
-
-<article class="detail mt30 b-p-5 c-p-20 d-p-50 e-p-80 f-p-120">
+<article class="b-p-5 c-p-20 d-p-50 e-p-80 f-p-120 detail">
 	<header>
 		<h2 id="title">{{title}}</h2>
-		<ul class="hor border-tl p0 pt20">
+		<ul>
 			<li><span>贡献者：{{username}}</span></li>
 			<li><span>阅读：{{counter}}</span></li>
 			<li><span>类别：{{category}}</span></li>
@@ -25,14 +19,9 @@
 			{% endif %}
 		</ul>
 	</header>
-
-	<section id="article-section">
-		{{content}}
-	</section>
+	<div id="article-body">{{content}}</div>
 </article>
-
-
-{% endautoescape %} {% endblock %}
+{% endblock %}
 
 {% block toBody %}
 <script type="text/javascript" src="../own/Catalog.js"></script>
