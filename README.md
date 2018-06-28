@@ -30,7 +30,7 @@
 
 		and run `cap_mkdb /etc/login.conf'.
 		Then add 'postgresql_class="postgres"' to /etc/rc.conf.
-3. 
+3. 配置
 
 	安装完成后，会新建一个用户pgsql，家目录为/usr/local/pgsql
 	切换到pgsql用户：su root && su pgsql。
