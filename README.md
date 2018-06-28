@@ -30,12 +30,14 @@
 
 		and run `cap_mkdb /etc/login.conf'.
 		Then add 'postgresql_class="postgres"' to /etc/rc.conf.
+
 3. 配置
-* 安装完成后，会新建一个用户pgsql，家目录为/usr/local/pgsql
-* 切换到pgsql用户：su root && su pgsql。
-* 创建文件夹: mkdir /usr/local/pgsql/data
-* 初始化数据库：initdb --encoding=UTF8 -D /usr/local/pgsql/data/
-* 生成三个数据库：postgres  template0  template1
+   * 安装完成后，会新建一个用户pgsql，家目录为/usr/local/pgsql
+   * 切换到pgsql用户：su root && su pgsql。
+   * 创建文件夹: mkdir /usr/local/pgsql/data
+   * 初始化数据库：initdb --encoding=UTF8 -D /usr/local/pgsql/data/
+   * 生成三个数据库：postgres  template0  template1
+
 
 4. 启动
 ```
@@ -69,8 +71,11 @@ composer config -g repo.packagist composer https://packagist.phpcomposer.com
 2. cd nblog
 3. 安装依赖 composer install
 4. 设置数据库用户密码
-    psql -U pgsql -d postgres
-    postgres=# \password pgsql
+```
+psql -U pgsql -d postgres
+postgres=# \password pgsql
+```
+    
 5. 创建数据库
     CREATE DATABASE nblog OWNER pgsql;
 6. 安装数据
