@@ -68,14 +68,14 @@ Then add 'postgresql_class="postgres"' to /etc/rc.conf.
 
 ### 五、安装nblog
 
-1. 下载程序 `git clone git://github.com/huohongjian/nblog`
-2. 进入目录 `cd nblog`
-3. 安装依赖 `composer install`
+1. 下载程序 ` git clone git://github.com/huohongjian/nblog `
+2. 进入目录 ` cd nblog `
+3. 安装依赖 ` composer install `
 4. 设置数据库用户密码
 ```
     psql -U pgsql -d postgres 
     postgres=# \password pgsql
 ```
-5. 创建数据库 `CREATE DATABASE nblog OWNER pgsql;`
-6. 安装初始数据 `http://localhost/admin/install`
+5. 创建数据库 ` CREATE DATABASE nblog OWNER pgsql; `
+6. 安装元数据 ` http://localhost/admin/install `
 
