@@ -31,18 +31,18 @@
 		and run `cap_mkdb /etc/login.conf'.
 		Then add 'postgresql_class="postgres"' to /etc/rc.conf.
 3. 配置
+* 安装完成后，会新建一个用户pgsql，家目录为/usr/local/pgsql
+* 切换到pgsql用户：su root && su pgsql。
+* 创建文件夹: mkdir /usr/local/pgsql/data
+* 初始化数据库：initdb --encoding=UTF8 -D /usr/local/pgsql/data/
+* 生成三个数据库：postgres  template0  template1
 
-	安装完成后，会新建一个用户pgsql，家目录为/usr/local/pgsql
-	切换到pgsql用户：su root && su pgsql。
-	创建文件夹: mkdir /usr/local/pgsql/data
-	初始化数据库：initdb --encoding=UTF8 -D /usr/local/pgsql/data/
-	生成三个数据库：postgres  template0  template1
+4. 启动
+1. /usr/local/etc/rc.d/postgresql start 或
+2.    pg_ctl -D /usr/local/pgsql/data/ -l logfile start
 
-4. 启动 /usr/local/etc/rc.d/postgresql start 或
-    pg_ctl -D /usr/local/pgsql/data/ -l logfile start
-
-    To run PostgreSQL at startup, add
-    'postgresql_enable="YES"' to /etc/rc.conf
+	To run PostgreSQL at startup, add
+    	'postgresql_enable="YES"' to /etc/rc.conf
 
 
 ### 安装配置composer
