@@ -27,9 +27,10 @@
 		        :lang=zh_CN.UTF-8:
 		        :setenv=LC_COLLATE=C:
 		        :tc=default:
-
+```
 and run 'cap_mkdb /etc/login.conf'.
 Then add 'postgresql_class="postgres"' to /etc/rc.conf.
+```
 
 3. 安装完成后，会新建一个用户pgsql，家目录为/usr/local/pgsql
    * 切换到pgsql用户：su root && su pgsql。
@@ -41,7 +42,9 @@ Then add 'postgresql_class="postgres"' to /etc/rc.conf.
 ```
 /usr/local/etc/rc.d/postgresql start 或
 pg_ctl -D /usr/local/pgsql/data/ -l logfile start
-
+```
+或者设置为随系统自动启动：
+```
 To run PostgreSQL at startup, add
 'postgresql_enable="YES"' to /etc/rc.conf
 ```
@@ -69,13 +72,13 @@ composer config -g repo.packagist composer https://packagist.phpcomposer.com
 2. cd nblog
 3. 安装依赖 composer install
 4. 设置数据库用户密码
-`    psql -U pgsql -d postgres `
-`    postgres=# \password pgsql `
+```
+  psql -U pgsql -d postgres 
+  postgres=# \password pgsql
+ ```
     
 5. 创建数据库
-
-    CREATE DATABASE nblog OWNER pgsql;
+    > CREATE DATABASE nblog OWNER pgsql;
 6. 安装数据
-
-    http://localhost/admin/install
+   > http://localhost/admin/install
 
