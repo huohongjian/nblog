@@ -52,15 +52,13 @@ Then add 'postgresql_class="postgres"' to /etc/rc.conf.
 
 1. 安装
 ```
-pkg install php71-openssl
-```
-```
-curl -sS https://getcomposer.org/installer | php
-注意： 如果上述方法由于某些原因失败了，你还可以通过 php >下载安装器：
-php -r "readfile('https://getcomposer.org/installer');" | php
-```
-```
-mv composer.phar /usr/local/bin/composer
+    pkg install php71-openssl
+
+    curl -sS https://getcomposer.org/installer | php
+    注意： 如果上述方法由于某些原因失败了，你还可以通过 php >下载安装器：
+    php -r "readfile('https://getcomposer.org/installer');" | php
+
+    mv composer.phar /usr/local/bin/composer
 ```
 
 2. 设置中国源
